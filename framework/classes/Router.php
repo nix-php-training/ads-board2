@@ -15,7 +15,7 @@ class Router
     {
 
         // getting page name
-        $this->_route = isset($this->_url) ? Tools::cutExtension($this->_url, true) : 'Home';
+        $this->_route = isset($this->_url) ? Tools::cutExtension($this->_url) : 'Home';
 
         return $this->_route;
     }
