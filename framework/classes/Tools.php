@@ -61,4 +61,4 @@ class Tools
             'get' => $_GET
         );
     }
-} 
+}

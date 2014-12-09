@@ -8,14 +8,15 @@ class View
 
     public function render()
     {
+        $data = $this->_data;
+
         ob_start();
 
         if (!@include(VWS . $this->_tpl))
             include VWS . 'errors/404.php';
 
-        $data = $this->_data;
-
         $content = ob_get_clean();
+
 
         include $this->_layout;
 

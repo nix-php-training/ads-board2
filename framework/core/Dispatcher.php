@@ -4,8 +4,11 @@ include CLS . 'Router.php';
 include CLS . 'Requests.php';
 include CLS . 'Tools.php';
 include CLS . 'ChromePhp.php';
+include CLS . 'ViewHelper.php';
 
 include DB . 'Database.php';
+
+include MDL . 'UserModel.php';
 
 include 'Controller.php';
 include 'Model.php';
@@ -34,10 +37,12 @@ class Dispatcher
     private function setup()
     {
         // controller name
-        $ctrlName = $this->_route . 'Controller';
+        $ctrlName = ucfirst($this->_route) . 'Controller';
 
         // path to current controller
         $path = CTRL . Tools::normalizeUrl($ctrlName);
+
+        ChromePhp::log($ctrlName);
 
         // HomeController -- for if file does not exist
         $home = 'HomeController';
@@ -51,5 +56,4 @@ class Dispatcher
 
         $this->_controller = new $ctrlName ($this->_route);
     }
-
-} 
+}
