@@ -1,5 +1,6 @@
 <?php
 
-class LoginController {
+class LoginController extends Controller
+{
 
 } 
