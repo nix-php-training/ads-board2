@@ -3,15 +3,17 @@
 class Database
 {
     protected $pdo = null;
-    private $host = 'localhost';
-    private $user = 'root';
-    private $password = '';
-    private $db = 'test';
-    private $charset = 'utf8';
 
     public function __construct()
     {
-        $dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
+        $confs = Config::get('dbconf');
+        $host = $confs['host'];
+        $user = $confs['user'];
+        $password = $confs['password'];
+        $db = $confs['db'];
+        $charset = $confs['charset'];
+
+        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
         $opt = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -19,7 +21,7 @@ class Database
         );
 
         try {
-            $this->pdo = new PDO($dsn, $this->user, $this->password, $opt);
+            $this->pdo = new PDO($dsn, $user, $password, $opt);
         } catch (PDOException $e) {
             die('Bad connection: ' . $e->getMessage());
         }
