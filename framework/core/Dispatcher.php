@@ -7,6 +7,8 @@ include CLS . 'ChromePhp.php';
 include CLS . 'ViewHelper.php';
 
 include DB . 'Database.php';
+include ADB . 'UserConnection.php';
+
 
 include MDL . 'UserModel.php';
 

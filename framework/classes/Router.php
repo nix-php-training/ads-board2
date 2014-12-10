@@ -8,7 +8,7 @@ class Router
     public function __construct()
     {
         $request = Requests::request();
-        $this->_url = $request['action'];
+        $this->_url = isset($request['action']) ? $request['action'] : 'Home';
     }
 
     public function getUrl()
