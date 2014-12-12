@@ -9,9 +9,8 @@ class Registry
         self::$data[$key] = $value;
     }
 
-
     /**
-     * If function has parameter returns value of key or null.
+     * If function has parameter returns null or value by key.
      * If parameter is null or doesn't exist returns whole registry
      * @param null $key
      * @return null

@@ -5,9 +5,6 @@
  */
 class Config
 {
-    /**
-     * @var
-     */
     private static $conf;
 
     /**
@@ -52,6 +49,7 @@ class Config
     }
 
     /**
+     * Create one config array from all files in directory which is passed like parameter
      * @param $path
      * @return array
      */

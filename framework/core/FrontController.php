@@ -28,6 +28,7 @@ class FrontController
         $controller = $dispatcher->getController();
         $controller->action();
 
-        ChromePhp::log(Registry::get('2'));
+        ChromePhp::log(Registry::get('test1'));
+        ChromePhp::log(Registry::get('test2'));
     }
 } 
