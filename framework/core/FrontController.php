@@ -27,5 +27,7 @@ class FrontController
         $dispatcher = new Dispatcher();
         $controller = $dispatcher->getController();
         $controller->action();
+
+        ChromePhp::log(Registry::get('2'));
     }
 } 

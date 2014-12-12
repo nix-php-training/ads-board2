@@ -9,12 +9,22 @@ class Registry
         self::$data[$key] = $value;
     }
 
-    public static function get($key)
+
+    /**
+     * If function has parameter returns value of key or null.
+     * If parameter is null or doesn't exist returns all registry
+     * @param null $key
+     * @return null
+     */
+    public static function get($key = null)
     {
-        if (self::has($key)) {
-            return self::$data[$key];
+        if (!is_null($key)) {
+            if (self::has($key))
+                return self::$data[$key];
+            else
+                return null;
         } else {
-            return null;
+            return self::$data;
         }
     }
 

@@ -42,7 +42,13 @@ class Config
             self::$conf = array_replace_recursive($confDefault, $confUser);
         }
 
-        Registry::set('reg', Config::get('registry'));
+//        Registry::set('reg', Config::get('registry'));
+
+        $reg = self::get('registry');
+        if (!is_null($reg))
+            foreach ($reg as $k => $v) {
+                Registry::set($k, $v);
+            }
     }
 
     /**
