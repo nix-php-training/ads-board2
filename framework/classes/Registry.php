@@ -12,7 +12,7 @@ class Registry
 
     /**
      * If function has parameter returns value of key or null.
-     * If parameter is null or doesn't exist returns all registry
+     * If parameter is null or doesn't exist returns whole registry
      * @param null $key
      * @return null
      */
