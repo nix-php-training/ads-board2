@@ -1,28 +1,63 @@
 <?php
 
+/**
+ * Class Config
+ */
 class Config
 {
+    /**
+     * @var
+     */
     private static $conf;
 
-    public static function init($confName = null)
+    /**
+     * @param null $key
+     * @param null $subkey
+     * @return bool
+     */
+    public static function get($key = null, $subkey = null)
     {
-        self::$conf = require DEFCONF . 'default.php';
+        if (is_null($key) && is_null($subkey))
+            return self::$conf;
+        if (array_key_exists($key, self::$conf) && is_null($subkey))
+            return self::$conf[$key];
+        if (array_key_exists($subkey, self::$conf[$key]) && !is_null($key) && !is_null($subkey))
+            return self::$conf[$key][$subkey];
+        return false;
+    }
 
-        if (!is_null($confName)) {
-            $dev = require ACONF . $confName . '/conf.php';
 
-            self::$conf = array_merge(self::$conf, $dev);
+    /**
+     * @param null $dir
+     * @return array
+     */
+    public static function init($dir = null)
+    {
+        $confDefault = Config::assembleConfig(DEFCONF);
+        self::$conf = $confDefault;
+
+        if (isset($dir)) {
+            $pathConfig = ACONF . $dir . '/';
+            $confUser = Config::assembleConfig($pathConfig);
+            self::$conf = array_replace_recursive($confDefault, $confUser);
         }
 
+        Registry::set('reg', Config::get('registry'));
     }
 
-    public static function get($key = null)
+    /**
+     * @param $path
+     * @return array
+     */
+    public function assembleConfig($path)
     {
-        if (array_key_exists($key, self::$conf))
-            return self::$conf[$key];
-        return self::$conf;
-
+        $filesList = glob($path . '*.php');
+        $config = array();
+        foreach ($filesList as $file) {
+            $confTemp = require_once $file;
+            $config = array_merge($config, $confTemp);
+        }
+        return $config;
     }
 
-
-} 
+}

@@ -28,8 +28,6 @@ class Dispatcher
         // path to current controller
         $path = CTRL . Tools::normalizeUrl($ctrlName);
 
-        ChromePhp::log($ctrlName);
-
         // HomeController -- for if file does not exist
         $home = 'HomeController';
         $homePath = CTRL . Tools::normalizeUrl($home);

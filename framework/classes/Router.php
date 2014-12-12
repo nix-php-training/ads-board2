@@ -13,8 +13,6 @@ class Router
 
     public function getUrl()
     {
-
-        ChromePhp::log($this->_url);
         // getting page name
         $this->_route = isset($this->_url) ? Tools::cutExtension($this->_url) : 'Home';
 

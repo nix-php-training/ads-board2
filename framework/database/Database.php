@@ -6,7 +6,7 @@ class Database
 
     public function __construct()
     {
-        $confs = Config::get('dbconf');
+        $confs = Config::get('db');
         $host = $confs['host'];
         $user = $confs['user'];
         $password = $confs['password'];

@@ -6,6 +6,7 @@ include CLS . 'Tools.php';
 include CLS . 'ChromePhp.php';
 include CLS . 'ViewHelper.php';
 include CLS . 'Config.php';
+include CLS . 'Registry.php';
 
 include DB . 'Database.php';
 include ADB . 'UserConnection.php';
@@ -23,9 +24,6 @@ class FrontController
 
     public static function run()
     {
-
-//        ChromePhp::log(Config::get('dbconf'));
-
         $dispatcher = new Dispatcher();
         $controller = $dispatcher->getController();
         $controller->action();

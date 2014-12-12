@@ -10,11 +10,7 @@ class RegisterController extends Controller
 
             $code = $this->registerAction($data);
 
-            $tmp = ViewHelper::generateMessageData($code);
-
-            ChromePhp::log($tmp);
-
-            $this->view($this->_name, $tmp);
+            $this->view($this->_name, ViewHelper::generateMessageData($code));
         } else {
             parent::action();
         }

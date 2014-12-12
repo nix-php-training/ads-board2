@@ -1,11 +1,12 @@
 <?php
 
 return array(
-    'dbconf' => array(
+    // database configuration
+    'db' => array (
         'host' => 'localhost',
         'user' => 'root',
         'password' => 'root',
         'db' => 'test',
-        'charset' => 'utf8'
+        'charset' => 'utf8',
     )
 );
