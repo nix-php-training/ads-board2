@@ -46,7 +46,7 @@ class Config
         $confDefault = Config::assembleConfig(self::$path . 'default/');
         self::$conf = $confDefault;
 
-        if (isset($dir)) {
+        if (isset($dir) && !is_null($dir)) {
             $pathConfig = self::$path . $dir . '/';
             $confUser = Config::assembleConfig($pathConfig);
             self::$conf = array_replace_recursive($confDefault, $confUser);
