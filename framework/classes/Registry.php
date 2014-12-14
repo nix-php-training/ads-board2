@@ -2,6 +2,10 @@
 
 /**
  * Class Registry
+ *
+ * Operates with registry of application.
+ * The register contains the global values.
+ * It's used instead of the superglobal arrays.
  */
 class Registry
 {
@@ -31,6 +35,7 @@ class Registry
     }
 
     /**
+     * Checking if element is locked
      *
      * @param $key
      * @return bool
@@ -60,6 +65,8 @@ class Registry
     }
 
     /**
+     * Checking if element exist
+     *
      * @param $key
      * @return bool
      */
@@ -90,6 +97,8 @@ class Registry
     }
 
     /**
+     * Unlock element
+     *
      * @param $key
      */
     public static function unlock($key)

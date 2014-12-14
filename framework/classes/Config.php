@@ -2,6 +2,9 @@
 
 /**
  * Class Config
+ *
+ * Collects all configs from files.
+ * Generates one array of configs.
  */
 class Config
 {
@@ -33,6 +36,7 @@ class Config
 
     /**
      * Initialize config array
+     *
      * ACONF is path to folder with configs by user
      * DEFCONF is path to folder with configs by default
      * Please, declare those paths before call function init
@@ -50,8 +54,6 @@ class Config
             $confUser = Config::assembleConfig($pathConfig);
             self::$conf = array_replace_recursive($confDefault, $confUser);
         }
-
-//        Registry::set('reg', Config::get('registry'));
 
         $reg = self::get('registry');
         if (!is_null($reg))
