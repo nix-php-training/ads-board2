@@ -1,6 +1,5 @@
 <?php
 define('ACONF', ROOT . '/application/config/');
-define('DCONF', ROOT . '/application/config/default/');
 
 /**
  * Class Config
@@ -14,6 +13,8 @@ class Config
      * @var array Array of configs
      */
     private static $conf;
+
+    private static $path = ACONF;
 
     /**
      * Get config by key or key with subkey
@@ -37,20 +38,16 @@ class Config
     /**
      * Initialize config array
      *
-     * ACONF is path to folder with configs by user
-     * DCONF is path to folder with configs by default
-     * Please, declare those paths before call function init
-     *
      * @param null $dir
      * @return array
      */
     public static function init($dir = null)
     {
-        $confDefault = Config::assembleConfig(DCONF);
+        $confDefault = Config::assembleConfig(self::$path . 'default/');
         self::$conf = $confDefault;
 
         if (isset($dir)) {
-            $pathConfig = ACONF . $dir . '/';
+            $pathConfig = self::$path . $dir . '/';
             $confUser = Config::assembleConfig($pathConfig);
             self::$conf = array_replace_recursive($confDefault, $confUser);
         }
@@ -77,6 +74,18 @@ class Config
             $config = array_merge($config, $confTemp);
         }
         return $config;
+    }
+
+    /**
+     * Sets path to user config directory.
+     * '/' on the end of line is required.
+     *
+     * @param $path
+     */
+    public static function setPath($path)
+    {
+        if (is_dir($path))
+            self::$path = $path;
     }
 
 }
