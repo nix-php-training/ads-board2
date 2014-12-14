@@ -1,5 +1,10 @@
 <?php
 
+define('ROOT', $_SERVER['DOCUMENT_ROOT']);
+
+define('CLS', ROOT . '/framework/classes/');
+define('DB', ROOT . '/framework/database/');
+
 include CLS . 'Router.php';
 include CLS . 'Requests.php';
 include CLS . 'Tools.php';

@@ -1,9 +1,5 @@
 <?php
 
-define('ROOT', $_SERVER['DOCUMENT_ROOT']);
-
-define('CLS', ROOT . '/framework/classes/');
-define('DB', ROOT . '/framework/database/');
 
 
 define('CTRL', ROOT . '/application/controllers/');
