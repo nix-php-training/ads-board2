@@ -25,6 +25,10 @@ class Config
 
 
     /**
+     * Initialize config array
+     * ACONF is path to folder with configs by user
+     * DEFCONF is path to folder with configs by default
+     * Please, declare those paths before call function init
      * @param null $dir
      * @return array
      */
