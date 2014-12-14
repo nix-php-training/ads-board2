@@ -7,17 +7,20 @@ class Registry
 {
     /**
      * Array of registry's elements
+     *
      * @var
      */
     private static $data;
     /**
      * Array of locked elements
+     *
      * @var array
      */
     private static $lock = array();
 
     /**
      * Create new or change exist element of registry
+     *
      * @param $key
      * @param $value
      */
@@ -40,6 +43,7 @@ class Registry
     /**
      * If function has parameter returns null or value by key.
      * If parameter is null or doesn't exist returns whole registry
+     *
      * @param null $key
      * @return null
      */
@@ -66,6 +70,7 @@ class Registry
 
     /**
      * Remove element if it's not locked
+     *
      * @param $key
      */
     public static function delete($key)
@@ -76,6 +81,7 @@ class Registry
 
     /**
      * Lock element from changing or deleting
+     *
      * @param $key
      */
     public static function lock($key)

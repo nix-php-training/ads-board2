@@ -5,9 +5,16 @@
  */
 class Config
 {
+    /**
+     * Array of configs
+     *
+     * @var
+     */
     private static $conf;
 
     /**
+     * Get config by key or key with subkey
+     *
      * @param null $key
      * @param null $subkey
      * @return bool
@@ -29,6 +36,7 @@ class Config
      * ACONF is path to folder with configs by user
      * DEFCONF is path to folder with configs by default
      * Please, declare those paths before call function init
+     *
      * @param null $dir
      * @return array
      */
@@ -54,6 +62,7 @@ class Config
 
     /**
      * Create one config array from all files in directory which is passed like parameter
+     *
      * @param $path
      * @return array
      */
