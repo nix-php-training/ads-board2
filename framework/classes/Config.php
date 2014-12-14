@@ -80,6 +80,10 @@ class Config
      * Sets path to user config directory.
      * '/' on the end of line is required.
      *
+     * Attention! Do it carefully.
+     * If you redefine config folder
+     * it will have to contains folder 'default' for default configs.
+     *
      * @param $path
      */
     public static function setPath($path)
