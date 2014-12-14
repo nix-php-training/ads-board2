@@ -1,12 +1,40 @@
 <?php
 
+/**
+ * Class Registry
+ */
 class Registry
 {
-    protected static $data;
+    /**
+     * Array of registry's elements
+     * @var
+     */
+    private static $data;
+    /**
+     * Array of locked elements
+     * @var array
+     */
+    private static $lock = array();
 
+    /**
+     * Create new or change exist element of registry
+     * @param $key
+     * @param $value
+     */
     public static function set($key, $value)
     {
-        self::$data[$key] = $value;
+        if (!self::hasLock($key))
+            self::$data[$key] = $value;
+    }
+
+    /**
+     *
+     * @param $key
+     * @return bool
+     */
+    public static function hasLock($key)
+    {
+        return isset(self::$lock[$key]);
     }
 
     /**
@@ -27,15 +55,41 @@ class Registry
         }
     }
 
-    public static function delete($key)
-    {
-        if (self::has($key)) {
-            unset(self::$data[$key]);
-        }
-    }
-
+    /**
+     * @param $key
+     * @return bool
+     */
     public static function has($key)
     {
         return isset(self::$data[$key]);
+    }
+
+    /**
+     * Remove element if it's not locked
+     * @param $key
+     */
+    public static function delete($key)
+    {
+        if (self::has($key) && self::hasLock($key))
+            unset(self::$data[$key]);
+    }
+
+    /**
+     * Lock element from changing or deleting
+     * @param $key
+     */
+    public static function lock($key)
+    {
+        self::$lock[$key] = true;
+    }
+
+    /**
+     * @param $key
+     */
+    public static function unlock($key)
+    {
+        if (self::hasLock($key)) {
+            unset(self::$lock[$key]);
+        }
     }
 }
