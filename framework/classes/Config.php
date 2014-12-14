@@ -53,7 +53,7 @@ class Config
      * @param $path
      * @return array
      */
-    public function assembleConfig($path)
+    public static function assembleConfig($path)
     {
         $filesList = glob($path . '*.php');
         $config = array();
