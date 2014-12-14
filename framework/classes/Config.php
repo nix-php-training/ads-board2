@@ -1,4 +1,6 @@
 <?php
+define('ACONF', ROOT . '/application/config/');
+define('DEFCONF', ROOT . '/application/config/default/');
 
 /**
  * Class Config
@@ -9,9 +11,7 @@
 class Config
 {
     /**
-     * Array of configs
-     *
-     * @var
+     * @var array Array of configs
      */
     private static $conf;
 
