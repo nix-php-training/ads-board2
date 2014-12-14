@@ -1,6 +1,6 @@
 <?php
 define('ACONF', ROOT . '/application/config/');
-define('DEFCONF', ROOT . '/application/config/default/');
+define('DCONF', ROOT . '/application/config/default/');
 
 /**
  * Class Config
@@ -38,7 +38,7 @@ class Config
      * Initialize config array
      *
      * ACONF is path to folder with configs by user
-     * DEFCONF is path to folder with configs by default
+     * DCONF is path to folder with configs by default
      * Please, declare those paths before call function init
      *
      * @param null $dir
@@ -46,7 +46,7 @@ class Config
      */
     public static function init($dir = null)
     {
-        $confDefault = Config::assembleConfig(DEFCONF);
+        $confDefault = Config::assembleConfig(DCONF);
         self::$conf = $confDefault;
 
         if (isset($dir)) {
