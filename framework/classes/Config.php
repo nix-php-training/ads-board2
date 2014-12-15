@@ -1,5 +1,5 @@
 <?php
-define('ACONF', ROOT . '/application/config/');
+define('ACONF', $_SERVER['DOCUMENT_ROOT'] . '/application/config/');
 
 /**
  * Class Config
