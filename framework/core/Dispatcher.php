@@ -6,7 +6,6 @@ class Dispatcher
     {
         $controllerName = 'home';
         $actionName = 'index';
-
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
         if (!empty($routes[1])) {
@@ -25,6 +24,7 @@ class Dispatcher
         $modelPath = ROOT_PATH . "/application/models/" . $modelFile;
         if (file_exists($modelPath)) {
             include $modelPath;
+            Registry::set('model', $modelName);
         }
 
 
@@ -32,6 +32,7 @@ class Dispatcher
         $controllerPath = ROOT_PATH . "/application/controllers/" . $controllerFile;
         if (file_exists($controllerPath)) {
             include $controllerPath;
+            Registry::set('controller', $controllerName);
         } else {
             Dispatcher::ErrorPage404();
         }
@@ -40,6 +41,7 @@ class Dispatcher
         $action = $actionName;
 
         if (method_exists($controller, $action)) {
+            Registry::set('action', $actionName);
             $controller->$action();
         } else {
             Dispatcher::ErrorPage404();
