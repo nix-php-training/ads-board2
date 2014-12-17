@@ -5,6 +5,6 @@ class HomeController extends Controller
 
     function IndexAction()
     {
-        $this->view->generate('home.phtml', 'layout.phtml');
+        $this->view($this->_name);
     }
 }

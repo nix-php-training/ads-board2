@@ -2,18 +2,26 @@
 
 class Dispatcher
 {
-    static function start()
+    private static $pureControllerName;
+    private static $pureActionName;
+
+    public static function start()
     {
         $controllerName = 'home';
         $actionName = 'index';
+        self::$pureActionName = $actionName;
+        self::$pureControllerName = $controllerName;
+
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
         if (!empty($routes[1])) {
             $controllerName = $routes[1];
+            self::$pureControllerName = $controllerName;
         }
 
         if (!empty($routes[2])) {
             $actionName = $routes[2];
+            self::$pureActionName = $actionName;
         }
 
         $modelName = ucfirst(strtolower($controllerName)) . 'Model';
@@ -34,22 +42,22 @@ class Dispatcher
             include $controllerPath;
             Registry::set('controller', $controllerName);
         } else {
-            Dispatcher::ErrorPage404();
+            self::ErrorPage404();
         }
 
-        $controller = new $controllerName;
+        $controller = new $controllerName(self::$pureActionName);
         $action = $actionName;
 
         if (method_exists($controller, $action)) {
             Registry::set('action', $actionName);
             $controller->$action();
         } else {
-            Dispatcher::ErrorPage404();
+            self::ErrorPage404();
         }
 
     }
 
-    function ErrorPage404()
+    private static function ErrorPage404()
     {
         $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
         header('HTTP/1.1 404 Not Found');
