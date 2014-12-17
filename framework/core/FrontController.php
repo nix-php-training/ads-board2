@@ -10,3 +10,4 @@ include_once ROOT_PATH . '/framework/core/Dispatcher.php';
 Config::init('dev');
 Dispatcher::start();
 
+//test
