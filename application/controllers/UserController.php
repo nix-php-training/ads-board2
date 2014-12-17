@@ -3,12 +3,12 @@
 class UserController extends Controller
 {
 
-    function LoginAction()
+    function loginAction()
     {
         $this->view($this->_name);
     }
 
-    function RegistrationAction()
+    function registrationAction()
     {
         $this->view($this->_name);
     }

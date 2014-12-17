@@ -3,7 +3,7 @@
 class HomeController extends Controller
 {
 
-    function IndexAction()
+    function indexAction()
     {
         $this->view($this->_name);
     }

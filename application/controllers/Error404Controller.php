@@ -3,9 +3,9 @@
 class Error404Controller extends Controller
 {
 
-    function IndexAction()
+    function indexAction()
     {
-        $this->view('', '404 Page not found');
+        $this->view('', ViewHelper::generateError(404));
     }
 
 }

@@ -26,10 +26,12 @@ class Dispatcher
 
         $modelName = ucfirst(strtolower($controllerName)) . 'Model';
         $controllerName = ucfirst(strtolower($controllerName)) . 'Controller';
-        $actionName = ucfirst(strtolower($actionName)) . 'Action';
+        $actionName = strtolower($actionName) . 'Action';
+
+        ChromePhp::log($actionName);
 
         $modelFile = $modelName . '.php';
-        $modelPath = ROOT_PATH . "/application/models/" . $modelFile;
+        $modelPath = ROOT_PATH . '/application/models/' . $modelFile;
         if (file_exists($modelPath)) {
             include $modelPath;
             Registry::set('model', $modelName);
@@ -37,7 +39,7 @@ class Dispatcher
 
 
         $controllerFile = $controllerName . '.php';
-        $controllerPath = ROOT_PATH . "/application/controllers/" . $controllerFile;
+        $controllerPath = ROOT_PATH . '/application/controllers/' . $controllerFile;
         if (file_exists($controllerPath)) {
             include $controllerPath;
             Registry::set('controller', $controllerName);
@@ -61,7 +63,7 @@ class Dispatcher
     {
         $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
         header('HTTP/1.1 404 Not Found');
-        header("Status: 404 Not Found");
+        header('Status: 404 Not Found');
         header('Location:' . $host . 'error404');
     }
 
