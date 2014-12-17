@@ -1,6 +1,49 @@
 <?php
 
+
 class Dispatcher
+{
+
+    static function start()
+    {
+
+        $router = new Router();
+        $router->initRoutes();
+        $router->getActiveRoute();
+
+        $controllerName = ucfirst($router->getControllerName()) . 'Controller';
+        $actionName = $router->getActionName() . 'action';
+
+
+        // подцепляем файл с классом контроллера
+        $controllerFile = $controllerName . '.php';
+        $controllerPath = "application/controllers/" . $controllerFile;
+        if (file_exists($controllerPath)) {
+            include "application/controllers/" . $controllerFile;
+        } else {
+
+        }
+
+        // создаем контроллер
+        $controller = new $controllerName;
+        $action = $actionName;
+
+        if (method_exists($controller, $action)) {
+            // вызываем действие контроллера
+            $controller->$action();
+        } else {
+            // здесь также разумнее было бы кинуть исключение
+            $router->errorPage();
+        }
+    }
+}
+
+
+
+
+
+
+class DispatcherTest
 {
     static function start()
     {
