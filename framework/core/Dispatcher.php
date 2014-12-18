@@ -32,7 +32,6 @@ class Dispatcher
         $controllerPath = ROOT_PATH . "/application/controllers/" . $controllerFile;
         if (file_exists($controllerPath)) {
             include $controllerPath;
-            Registry::set('controller', $controllerName);
         } else {
             Dispatcher::ErrorPage404();
         }
@@ -41,8 +40,10 @@ class Dispatcher
         $action = $actionName;
 
         if (method_exists($controller, $action)) {
-            Registry::set('action', $actionName);
-            $controller->$action();
+            $controllerNameClean = strtolower(substr($controllerName, 0, -10));
+            $actionNameClean = strtolower(substr($actionName, 0, -6));
+            if ($controller->acl->isAllow($controllerNameClean, $actionNameClean))
+                $controller->$action();
         } else {
             Dispatcher::ErrorPage404();
         }

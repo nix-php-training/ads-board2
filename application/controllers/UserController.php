@@ -5,6 +5,7 @@ class UserController extends Controller
 
     function LoginAction()
     {
+        
         $this->view->generate('login.phtml', 'layout.phtml');
     }
 
