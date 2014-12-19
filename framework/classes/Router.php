@@ -24,6 +24,7 @@ class Router
     public function initRoutes(){
         $routes = Config::get('route');
 
+
         if (isset($routes))
             $this->setRoutes($routes);
 
@@ -31,49 +32,77 @@ class Router
 
     public function getActiveRoute()
     {
+
+
         $this->setControllerName('Home');
         $this->setActionName('index');
+        if (isset($_GET['page'])) {
+            $url = $_GET['page'];
+        } else $url="";
 
-        $url = $_GET['action'];
+        $this->_checkActiveRoute($url);
 
-        if (isset($this->getRoutes()[$url])){
+        var_dump($this);
 
-            $this->setControllerName('Home');
-            $this->setActionName('index');
-        }
+//        if (isset($this->getRoutes()[$url])){
+//
+//            $this->setControllerName('Home');
+//            $this->setActionName('index');
+//        }
+//
+//        if (!empty($routes[1])) {
+//            $this->actionName = $routes[1];
+//        }
 
-        if (!empty($routes[1])) {
-            $this->actionName = $routes[1];
-        }
-
-        return [$this->controllerName, $this->actionName];
+        return [$this->controllerName, $this->actionName, $this->params];
 
     }
 
-//    function errorPage()
-//    {
-//        $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
-//        header('HTTP/1.1 404 Not Found');
-//        header("Status: 404 Not Found");
-//        include '/application/views/error/ErrorView.php';
-//    }
 
     public function _checkActiveRoute($uri)
     {
-        $uri = substr($uri, 1);
+//        $uri = substr($uri, 1);
         if (trim($uri)) {
             $activeRoute = null;
 
-            foreach($this->_routes as $name => $routeSettings) {
+            foreach($this->routes as $name => $routeSettings) {
+
+
                 if (!$routeSettings['template'])
                     continue;
-                if (preg_match('@' . $routeSettings['template'] . '@', $uri, $matches)) {
+                if (preg_match('@' . $routeSettings['template'] . '@
+                ', $uri, $matches)) { //matched and parsed
+                    if ($routeSettings['controller'][0]=="{"){ //if controoler name is dynamic
+                        $this->controllerName= $matches[$routeSettings['controller'][1]];
+                    } else {
+                        $this->controllerName=$routeSettings['controller'];
+                    }
+                    if ($routeSettings['action'][0]=="{"){ //if action name is dynamic
+                        $this->actionName= $matches[$routeSettings['action'][1]];
+                    } else {
+                        $this->actionName=$routeSettings['action'];
+                    }
+
+
+
                     if (isset($routeSettings['params'])) {
+                        $this->params = array();
                         foreach($routeSettings['params'] as $paramName => $param) {
-                            $this->_params[$paramName] = $matches[$param];
+                            if ($param[0]=="{"){//if $param is dynamic
+                                $this->params[$paramName]= $matches[$param[1]];
+                            } else {
+                                $this->params[$paramName]=$param;
+                            }
+
                         }
                     }
                     $activeRoute = $name;
+
+
+
+                    return $activeRoute;
+
+
                 }
             }
         } else {
@@ -83,18 +112,18 @@ class Router
         return $activeRoute;
     }
 
-    /**
-     * dispatch
-     *
-     * @param string $activeRoute active route name
-     */
-    public function _dispatch($activeRoute)
-    {
-        if (isset($this->_routes[$activeRoute])) {
-            $this->_controller = $this->_routes[$activeRoute]['controller'];
-            $this->_action = $this->_routes[$activeRoute]['action'];
-        }
-    }
+//    /**
+//     * dispatch
+//     *
+//     * @param string $activeRoute active route name
+//     */
+//    public function _dispatch($activeRoute)
+//    {
+//        if (isset($this->_routes[$activeRoute])) {
+//            $this->_controller = $this->_routes[$activeRoute]['controller'];
+//            $this->_action = $this->_routes[$activeRoute]['action'];
+//        }
+//    }
 
 
 
