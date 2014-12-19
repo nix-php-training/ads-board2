@@ -23,8 +23,6 @@ class View
 
         $this->_tpl = file_exists(ROOT_PATH . '/application/views/content/' . $tpl) ? $tpl : null;
 
-        ChromePhp::log($this->_tpl);
-
         $this->_data = $data;
         $this->_layout = $layout;
     }

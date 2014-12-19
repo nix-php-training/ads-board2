@@ -28,8 +28,6 @@ class Dispatcher
         $controllerName = ucfirst(strtolower($controllerName)) . 'Controller';
         $actionName = strtolower($actionName) . 'Action';
 
-        ChromePhp::log($actionName);
-
         $modelFile = $modelName . '.php';
         $modelPath = ROOT_PATH . '/application/models/' . $modelFile;
         if (file_exists($modelPath)) {
