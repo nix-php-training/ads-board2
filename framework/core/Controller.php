@@ -2,14 +2,19 @@
 
 class Controller
 {
+    protected $_view;
+    protected $_model;
+    protected $_name;
 
-    public $model;
-    public $view;
-
-    function __construct()
+    public function __construct($name)
     {
-        $this->view = new View();
-        $this->model = new Model();
+        $this->_name = $name;
+        $this->_view = new View();
     }
 
+    public function view($tpl, $data = [], $layout = '/application/views/layout/layout.phtml')
+    {
+        $this->_view->assign($tpl, $data, $layout);
+        $this->_view->render();
+    }
 }

@@ -24,6 +24,7 @@ class Config
      */
     public static function get($key = null, $subkey = null)
     {
+
         if (is_null($key) && is_null($subkey)) {
             return self::$conf;
         }
