@@ -3,13 +3,13 @@
 class UserController extends Controller
 {
 
-    function LoginAction()
+    function loginAction()
     {
-        $this->view->generate('login.phtml', 'layout.phtml');
+        $this->view($this->_name);
     }
 
-    function RegistrationAction()
+    function registrationAction()
     {
-        $this->view->generate('registration.phtml', 'layout.phtml');
+        $this->view($this->_name);
     }
 }
