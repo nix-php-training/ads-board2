@@ -1,6 +1,7 @@
 <?php
 
 include_once ROOT_PATH . '/framework/classes/Config.php';
+include_once ROOT_PATH . '/framework/classes/Router.php';
 include_once ROOT_PATH . '/framework/classes/Registry.php';
 include_once ROOT_PATH . '/framework/classes/Database.php';
 include_once ROOT_PATH . '/framework/classes/Tools.php';
