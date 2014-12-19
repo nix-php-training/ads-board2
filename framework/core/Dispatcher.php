@@ -5,7 +5,6 @@ class Dispatcher
     private static $pureControllerName;
     private static $pureActionName;
 
-
     static function start()
     {
 
@@ -14,13 +13,15 @@ class Dispatcher
         $router->getActiveRoute();
 
         self::$pureControllerName = ucfirst($router->getControllerName());
-        self::$pureActionName = strtolower($router->getActionName());
+        self::$pureActionName  = strtolower($router->getActionName());
+
 
         $actionName = self::$pureActionName . 'Action';
         $controllerName = self::$pureControllerName . 'Controller';
 
+
         $controllerFile = $controllerName . '.php';
-        $controllerPath = ROOT_PATH . '/application/controllers/' . $controllerFile;
+        $controllerPath = "application/controllers/" . $controllerFile;
         if (file_exists($controllerPath)) {
             include $controllerPath;
             Registry::set('controller', $controllerName);
@@ -28,18 +29,21 @@ class Dispatcher
             self::ErrorPage404();
         }
 
+
         $controller = new $controllerName(self::$pureActionName);
         $action = $actionName;
 
 
+
         if (method_exists($controller, $action)) {
             Registry::set('action', $actionName);
+
             $controller->$action();
         } else {
+
             self::ErrorPage404();
         }
     }
-
 
     private static function ErrorPage404()
     {
@@ -49,3 +53,6 @@ class Dispatcher
         header('Location:' . $host . 'error/error404');
     }
 }
+
+
+
