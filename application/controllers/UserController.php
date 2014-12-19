@@ -5,8 +5,11 @@ class UserController extends Controller
 
     function LoginAction()
     {
-        
-        $this->view->generate('login.phtml', 'layout.phtml');
+        if (Auth::authentication()){
+            $this->view->generate('home.phtml', 'layout.phtml');
+        }else {
+            $this->view->generate('login.phtml', 'layout.phtml');
+        }
     }
 
     function RegistrationAction()
