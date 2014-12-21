@@ -13,5 +13,10 @@ class Controller
         $this->view = new View();
         $this->model = new Model();
     }
+    public function redirect($host)
+    {
+        header('Location:' . $host);
+    }
+
 
 }

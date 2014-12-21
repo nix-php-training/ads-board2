@@ -1,6 +1,8 @@
 <?php
 
 session_start();
+if (!isset($_SESSION['userRole']))
+    $_SESSION['userRole']='guest';
 include_once ROOT_PATH . '/framework/classes/Config.php';
 include_once ROOT_PATH . '/framework/classes/Registry.php';
 include_once ROOT_PATH . '/framework/classes/Database.php';

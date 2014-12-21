@@ -44,6 +44,7 @@ class Dispatcher
             $actionNameClean = strtolower(substr($actionName, 0, -6));
             if ($controller->acl->isAllow($controllerNameClean, $actionNameClean))
                 $controller->$action();
+            else echo 'Access Deny';
         } else {
             Dispatcher::ErrorPage404();
         }

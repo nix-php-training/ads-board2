@@ -5,8 +5,9 @@ return [
             'index' => ['all'],
         ],
         'user' => [
-            'login'=> ['registered-user', 'admin'],
-            'registration' => ['guest'],
+            'login'=> ['all'],
+            'registration' => ['admin'],
+            'logout' => ['user', 'admin'],
         ],
         'error404' => [
             'index'=> ['all'],
