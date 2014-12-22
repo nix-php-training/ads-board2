@@ -3,8 +3,8 @@
 class HomeController extends Controller
 {
 
-    function IndexAction()
+    function indexAction()
     {
-        $this->view->generate('home.phtml', 'layout.phtml');
+        $this->view($this->_name);
     }
 }
