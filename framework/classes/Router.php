@@ -62,7 +62,13 @@ class Router
 
         $url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "";
 
-        var_dump($url); //die();
+
+        $aliases = Config::get('route','static');
+
+        if($aliases && array_key_exists($url,$aliases))
+        {
+            $url = $aliases[$url];
+        }
 
         $routeName = $this->checkActiveRoute($url);
 
@@ -72,10 +78,6 @@ class Router
             $this->actionName = 'index';
         }
 
-
-
-
-
         return [$this->controllerName, $this->actionName, $this->params];
 
     }
@@ -83,8 +85,6 @@ class Router
     public function checkActiveRoute($uri)
     {
         trim($uri);
-
-        if ($uri != '/') {
 
             $activeRoute = null;
             foreach ($this->routes as $name => $routeSettings) {
@@ -122,11 +122,6 @@ class Router
                 }
 
             }
-        } else
-        {
-            $activeRoute = 'main';
-            return $activeRoute;
-        }
 
     }
 
