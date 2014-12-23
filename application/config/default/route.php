@@ -16,10 +16,10 @@ return [
             'action' => 'index',//static
             'params' => array()
         ),
-        'aliases' => array(
+        'static' => array(
             '/login' => '/user/login',
             '/logout' => '/user/logout',
-            '/registration' => 'user/registration',
+            '/registration' => '/user/registration',
             '/confirmation' => '',
             '/restore-password' => ''
 
