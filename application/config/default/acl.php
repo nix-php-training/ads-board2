@@ -5,12 +5,12 @@ return [
             'index' => ['all'],
         ],
         'user' => [
-            'login'=> ['all'],
+            'login' => ['all'],
             'registration' => ['admin'],
             'logout' => ['user', 'admin'],
         ],
         'error404' => [
-            'index'=> ['all'],
+            'index' => ['all'],
         ],
     ],
 ];

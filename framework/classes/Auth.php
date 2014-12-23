@@ -2,8 +2,11 @@
 
 class Auth
 {
-    static function authentication(){
-        if (empty($_SESSION['userRole']))
+    static function authentication()
+    {
+        session_start();
+        if (empty($_SESSION['userRole'])) {
             $_SESSION['userRole'] = 'guest';
+        }
     }
 } 

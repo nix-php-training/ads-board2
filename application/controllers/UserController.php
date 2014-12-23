@@ -8,23 +8,20 @@ class UserController extends Controller
         if ($_SESSION['userRole']!='guest'){
             $this->redirect('/');
         }
-        if (isset($_POST['email']) && isset($_POST['email'])) {
-            $users = Config::get('users');
-            if (is_array($users)) {
-                foreach ($users as $k) {
-                    if ($k['email'] == $_POST['email'] && $k['password'] == $_POST['password']) {
-                        $_SESSION['userRole'] = $k['role'];
-                        $_SESSION['userName'] = $k['name'];
-                        $this->redirect('/');
-                    }
-                }
+        if (isset($_POST['email']) && isset($_POST['password'])) {
+            $user = $this->model->getEmail($_POST['email']);
+            if ($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']) {
+                $_SESSION['userRole'] = $user['role'];
+                $_SESSION['userName'] = $user['name'];
+                $this->redirect('/');
             }
         } else {
-            $this->view($this->_name);
+        $this->view($this->_name);
         }
     }
 
-    function LogoutAction(){
+    function LogoutAction()
+    {
         session_destroy();
         $this->redirect('/');
     }

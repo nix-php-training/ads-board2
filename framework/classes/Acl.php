@@ -8,6 +8,7 @@ class Acl
     {
         Auth::authentication();
     }
+
     public function isAllow($controller, $action)
     {
         $rules = Config::get('acl');

@@ -2,10 +2,10 @@
 return [
     "db" => [
         'driver' => 'mysql',
+        'host' => 'localhost',
         'dbname' => 'ads-board2',
         'user' => 'root',
         'password' => '123',
-        'host' => 'localhost',
-        'charset' => 'utf-8'
+        'charset' => 'utf8',
     ]
 ];
