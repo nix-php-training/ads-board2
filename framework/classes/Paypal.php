@@ -1,28 +1,17 @@
 <?php
 class Paypal {
-    /**
-     * Последние сообщения об ошибках
-     * @var array
-     */
+    //массив для ошибок при работе с апи пейпала
     protected $errors = array();
 
-    /**
-     * Данные API
-     * Обратите внимание на то, что для песочницы нужно использовать соответствующие данные
-     * @var array
-     */
+    //данные(полномочия) для моей песочницы
     protected $credentials = array(
         'USER' => 'ch.kyrill-facilitator_api1.gmail.com',
         'PWD' => 'HTNT6R6EEH7Z76R6',
         'SIGNATURE' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AE.YSMq7OL6JtrdUhwzcO0-hJ0Az',
     );
 
-    /**
-     * Указываем, куда будет отправляться запрос
-     * Реальные условия - https://api-3t.paypal.com/nvp
-     * Песочница - https://api-3t.sandbox.paypal.com/nvp
-     * @var string
-     */
+    //адресс отправки запроса для песочницы(реальный адресс - https://api-3t.paypal.com/nvp (?))
+
     protected $endPoint = 'https://api-3t.sandbox.paypal.com/nvp';
 
     /**
@@ -31,16 +20,10 @@ class Paypal {
      */
     protected $version = '98.0';
 
-    /**
-     * Сформировываем запрос
-     *
-     * @param string $method Данные о вызываемом методе перевода
-     * @param array $params Дополнительные параметры
-     * @return array / boolean Response array / boolean false on failure
-     */
+    //метод для запроса($$method  - вид платежа на пейпал, в данном случае Експресс Чекаут)
     public function request($method,$params = array()) {
         $this -> errors = array();
-        if( empty($method) ) { // Проверяем, указан ли способ платежа
+        if( empty($method) ) { // Проверяем, указан ли вид платежа
             $this -> errors = array('Не указан метод перевода средств');
             return false;
         }
@@ -72,7 +55,7 @@ class Paypal {
         // Отправляем наш запрос, $response будет содержать ответ от API
         $response = curl_exec($ch);
 
-        // Проверяем, нету ли ошибок в инициализации cURL
+        // Проверяем наличие ошибок в инициализации cURL
         if (curl_errno($ch)) {
             $this -> errors = curl_error($ch);
             curl_close($ch);
