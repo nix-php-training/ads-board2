@@ -5,7 +5,6 @@ class UserController extends Controller
 
     function loginAction()
     {
-        $this->view($this->_name);
         if ($_SESSION['userRole']!='guest'){
             $this->redirect('/');
         }
@@ -21,7 +20,7 @@ class UserController extends Controller
                 }
             }
         } else {
-            $this->view->generate('login.phtml', 'layout.phtml');
+            $this->view($this->_name);
         }
     }
 
