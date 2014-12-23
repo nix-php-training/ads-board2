@@ -24,6 +24,7 @@ class Config
      */
     public static function get($key = null, $subkey = null)
     {
+
         if (is_null($key) && is_null($subkey)) {
             return self::$conf;
         }
@@ -44,8 +45,10 @@ class Config
      */
     public static function init($dir = null)
     {
+
         $confDefault = Config::assembleConfig(self::$path . 'default/');
         self::$conf = $confDefault;
+
         if (isset($dir) && !is_null($dir)) {
             $pathConfig = self::$path . $dir . '/';
             $confUser = Config::assembleConfig($pathConfig);

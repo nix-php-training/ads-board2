@@ -2,21 +2,19 @@
 
 class Controller
 {
+    protected $_view;
+    protected $_model;
+    protected $_name;
 
-    public $model;
-    public $view;
-    public $acl;
-
-    function __construct()
+    public function __construct($name)
     {
-        $this->acl = new Acl();
-        $this->view = new View();
-        $this->model = new Model();
-    }
-    public function redirect($host)
-    {
-        header('Location:' . $host);
+        $this->_name = $name;
+        $this->_view = new View();
     }
 
-
+    public function view($tpl, $data = [], $layout = '/application/views/layout/layout.phtml')
+    {
+        $this->_view->assign($tpl, $data, $layout);
+        $this->_view->render();
+    }
 }

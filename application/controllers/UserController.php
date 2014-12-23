@@ -3,8 +3,9 @@
 class UserController extends Controller
 {
 
-    function LoginAction()
+    function loginAction()
     {
+        $this->view($this->_name);
         if ($_SESSION['userRole']!='guest'){
             $this->redirect('/');
         }
@@ -29,8 +30,8 @@ class UserController extends Controller
         $this->redirect('/');
     }
 
-    function RegistrationAction()
+    function registrationAction()
     {
-        $this->view->generate('registration.phtml', 'layout.phtml');
+        $this->view($this->_name);
     }
 }
