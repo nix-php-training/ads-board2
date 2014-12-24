@@ -1,46 +1,29 @@
 <?php
 class Paypal {
-    /**
-     * Последние сообщения об ошибках
-     * @var array
-     */
+    //массив для ошибок при работе с апи пейпала
     protected $errors = array();
 
-    /**
-     * Данные API
-     * Обратите внимание на то, что для песочницы нужно использовать соответствующие данные
-     * @var array
-     */
+    //данные(полномочия) для моей песочницы
     protected $credentials = array(
-        'USER' => 'seller_1297608781_biz_api1.lionite.com',
-        'PWD' => '1297608792',
-        'SIGNATURE' => 'A3g66.FS3NAf4mkHn3BDQdpo6JD.ACcPc4wMrInvUEqO3Uapovity47p',
+        'USER' => 'ch.kyrill-facilitator_api1.gmail.com',
+        'PWD' => 'HTNT6R6EEH7Z76R6',
+        'SIGNATURE' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AE.YSMq7OL6JtrdUhwzcO0-hJ0Az',
     );
 
-    /**
-     * Указываем, куда будет отправляться запрос
-     * Реальные условия - https://api-3t.paypal.com/nvp
-     * Песочница - https://api-3t.sandbox.paypal.com/nvp
-     * @var string
-     */
+    //адресс отправки запроса для песочницы(реальный адресс - https://api-3t.paypal.com/nvp (?))
+
     protected $endPoint = 'https://api-3t.sandbox.paypal.com/nvp';
 
     /**
      * Версия API
      * @var string
      */
-    protected $version = '74.0';
+    protected $version = '98.0';
 
-    /**
-     * Сформировываем запрос
-     *
-     * @param string $method Данные о вызываемом методе перевода
-     * @param array $params Дополнительные параметры
-     * @return array / boolean Response array / boolean false on failure
-     */
+    //метод для запроса($$method  - вид платежа на пейпал, в данном случае Експресс Чекаут)
     public function request($method,$params = array()) {
         $this -> errors = array();
-        if( empty($method) ) { // Проверяем, указан ли способ платежа
+        if( empty($method) ) { // Проверяем, указан ли вид платежа
             $this -> errors = array('Не указан метод перевода средств');
             return false;
         }
@@ -60,7 +43,7 @@ class Paypal {
             CURLOPT_VERBOSE => 1,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_CAINFO => dirname(__FILE__) . '/cacert.pem', // Файл сертификата
+            CURLOPT_CAINFO => ROOT_PATH . '/cacert.pem', // Файл сертификата
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_POST => 1,
             CURLOPT_POSTFIELDS => $request
@@ -72,10 +55,11 @@ class Paypal {
         // Отправляем наш запрос, $response будет содержать ответ от API
         $response = curl_exec($ch);
 
-        // Проверяем, нету ли ошибок в инициализации cURL
+        // Проверяем наличие ошибок в инициализации cURL
         if (curl_errno($ch)) {
             $this -> errors = curl_error($ch);
             curl_close($ch);
+            var_dump($this->errors);
             return false;
         } else  {
             curl_close($ch);
@@ -85,3 +69,18 @@ class Paypal {
         }
     }
 }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+/*The following cURL command makes an Express Checkout call to the Sandbox with my account data*/
+//curl -s --insecure https://api-3t.sandbox.paypal.com/nvp -d
+//"USER = ch.kyrill-facilitator_api1.gmail.com
+//PWD = HTNT6R6EEH7Z76R6
+//SIGNATURE = AFcWxV21C7fd0v3bYYYRCpSSRl31AE.YSMq7OL6JtrdUhwzcO0-hJ0Az
+//METHOD = SetExpressCheckout
+//VERSION = 98
+//PAYMENTREQUEST_0_AMT = 10
+//PAYMENTREQUEST_0_CURRENCYCODE = USD
+//PAYMENTREQUEST_0_PAYMENTACTION = SALE
+//cancelUrl = http://www.example.com/cancel.html
+//returnUrl = http://www.example.com/success.html"
