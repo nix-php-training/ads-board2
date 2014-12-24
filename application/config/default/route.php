@@ -19,6 +19,7 @@ return [
             'params' => array()
         ),
         'static' => array(
+            '/home' => '/',
             '/login' => '/user/login',
             '/logout' => '/user/logout',
             '/registration' => '/user/registration',
