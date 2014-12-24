@@ -8,6 +8,7 @@ return [
             'login' => ['all'],
             'registration' => ['admin'],
             'logout' => ['user', 'admin'],
+            'paypal' => ['all'],
         ],
         'error404' => [
             'index' => ['all'],
