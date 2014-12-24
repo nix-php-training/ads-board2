@@ -11,8 +11,9 @@ class View
         $data = $this->_data;
 
         ob_start();
-        if (!@include(ROOT_PATH . '/application/views/content/' . $this->_tpl))
+        if (!@include(ROOT_PATH . '/application/views/content/' . $this->_tpl)) {
             include ROOT_PATH . '/application/views/error/error.phtml';
+        }
         $content = ob_get_clean();
         include ROOT_PATH . $this->_layout;
     }

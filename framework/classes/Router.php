@@ -53,8 +53,9 @@ class Router
         $routes = Config::get('route');
 
 
-        if (isset($routes))
+        if (isset($routes)) {
             $this->routes = $routes;
+        }
     }
 
     public function getActiveRoute()

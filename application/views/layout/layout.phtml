@@ -27,8 +27,14 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">Home</a>
-            <a class="navbar-brand" href="/user/login">Login</a>
             <a class="navbar-brand" href="/user/registration">Registration</a>
+            <?php
+            if ($_SESSION['userRole'] == 'guest') {
+                echo '<a class="navbar-brand" href="/user/login">Login</a>';
+            } else {
+                echo '<a class="navbar-brand" href="/user/logout">Logout</a>';
+            }
+            ?>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <!--            <form class="navbar-form navbar-right" role="form">-->
