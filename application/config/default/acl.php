@@ -6,7 +6,7 @@ return [
         ],
         'user' => [
             'login' => ['all'],
-            'registration' => ['admin'],
+            'registration' => ['all'],
             'logout' => ['user', 'admin'],
         ],
         'error404' => [
