@@ -31,7 +31,7 @@ class Config
         if (array_key_exists($key, self::$conf) && is_null($subkey)) {
             return self::$conf[$key];
         }
-        if (array_key_exists($subkey, self::$conf[$key]) && !is_null($key) && !is_null($subkey)) {
+        if (!is_null($key) && !is_null($subkey) && array_key_exists($subkey, self::$conf[$key])) {
             return self::$conf[$key][$subkey];
         }
         return false;

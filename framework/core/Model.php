@@ -1,10 +1,6 @@
 <?php
 
-class Model
+class Model extends Database
 {
 
-    public function get_data()
-    {
-
-    }
 }
