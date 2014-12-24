@@ -24,7 +24,9 @@ class Tools
     public static function normalizeUrl($url, $extension)
     {
         $p = strrpos($url, '.');
-        if ($p > 0) return substr($url, 0, $p) . '.' . $extension;
+        if ($p > 0) {
+            return substr($url, 0, $p) . '.' . $extension;
+        }
         return $url . '.' . $extension;
     }
 
@@ -37,8 +39,9 @@ class Tools
     public static function cutExtension($url)
     {
         $p = strrpos($url, ' . ');
-        if ($p > 0)
+        if ($p > 0) {
             return substr($url, 0, $p);
+        }
         return $url;
     }
 
