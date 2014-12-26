@@ -5,7 +5,25 @@ class UserController extends Controller
 
     function loginAction()
     {
+        if ($_SESSION['userRole']!='guest'){
+            $this->redirect('/');
+        }
+        if (isset($_POST['email']) && isset($_POST['password'])) {
+            $user = $this->model->getEmail($_POST['email']);
+            if ($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']) {
+                $_SESSION['userRole'] = $user['role'];
+                $_SESSION['userName'] = $user['name'];
+                $this->redirect('/');
+            }
+        } else {
         $this->view($this->_name);
+        }
+    }
+
+    function LogoutAction()
+    {
+        session_destroy();
+        $this->redirect('/');
     }
 
     function registrationAction()
@@ -47,8 +65,8 @@ class UserController extends Controller
         $this->view($this->_name);//Отрисовуем страницу с формами для отправки данных на Paypal
 
         $requestParams = array(
-            'RETURNURL' => 'http://www.adsboard2.zone.com/user/success',//user will return to this page when payment success
-            'CANCELURL' => 'http://www.adsboard2.zone/user/cancelled'//user will return to this page when payment cancelled
+            'RETURNURL' => 'http://ads-board2.zone/user/success',//user will return to this page when payment success
+            'CANCELURL' => 'http://ads-board2.zone/user/cancelled'//user will return to this page when payment cancelled
         );
 
         $orderParams = array(
@@ -70,7 +88,7 @@ class UserController extends Controller
 
         if(is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
             $token = $response['TOKEN'];//получаем токен из ответа апи
-            header( 'Location: https://www.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($token) );//отправляем юзверя на пейпал для проведения оплаты
+            header( 'Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token) );//отправляем юзверя на пейпал для проведения оплаты
         }
 
         //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном

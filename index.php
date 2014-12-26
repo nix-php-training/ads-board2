@@ -1,6 +1,7 @@
 <?php
-if (file_exists('gfun.php'))
-    include_once 'gfun.php';//help function
+if (file_exists('gfun.php')) {
+    include_once 'gfun.php';
+}//help function
 
 ini_set('display_errors', 1);
 
