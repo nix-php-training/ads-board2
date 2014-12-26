@@ -24,8 +24,8 @@ return [
             '/logout' => '/user/logout',
             '/registration' => '/user/registration',
             '/confirmation' => '',
-            '/restore-password' => ''
-
+            '/restore-password' => '',
+            '/error404' => '/error/error404',
         )
     ]
 ];

@@ -10,8 +10,9 @@ return [
             'logout' => ['user', 'admin'],
             'paypal' => ['all'],
         ],
-        'error404' => [
+        'error' => [
             'index' => ['all'],
+            'error404' => ['all'],
         ],
     ],
 ];
