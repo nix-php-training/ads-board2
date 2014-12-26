@@ -3,11 +3,11 @@ class Paypal {
     //массив для ошибок при работе с апи пейпала
     protected $errors = array();
 
-    //данные(полномочия) для моей песочницы
+    //данные(полномочия) песочницы
     protected $credentials = array(
-        'USER' => 'ch.kyrill-facilitator_api1.gmail.com',
-        'PWD' => 'HTNT6R6EEH7Z76R6',
-        'SIGNATURE' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AE.YSMq7OL6JtrdUhwzcO0-hJ0Az',
+        'USER' => 'sdk-three_api1.sdk.com',
+        'PWD' => 'QFZCWN5HZM8VBG7Q',
+        'SIGNATURE' => 'A-IzJhZZjhg29XQ2qnhapuwxIDzyAZQ92FRP5dqBzVesOkzbdUONzmOU',
     );
 
     //адресс отправки запроса для песочницы(реальный адресс - https://api-3t.paypal.com/nvp (?))
@@ -18,7 +18,7 @@ class Paypal {
      * Версия API
      * @var string
      */
-    protected $version = '98.0';
+    protected $version = '109.0';
 
     //метод для запроса($$method  - вид платежа на пейпал, в данном случае Експресс Чекаут)
     public function request($method,$params = array()) {
@@ -69,18 +69,3 @@ class Paypal {
         }
     }
 }
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-/*The following cURL command makes an Express Checkout call to the Sandbox with my account data*/
-//curl -s --insecure https://api-3t.sandbox.paypal.com/nvp -d
-//"USER = ch.kyrill-facilitator_api1.gmail.com
-//PWD = HTNT6R6EEH7Z76R6
-//SIGNATURE = AFcWxV21C7fd0v3bYYYRCpSSRl31AE.YSMq7OL6JtrdUhwzcO0-hJ0Az
-//METHOD = SetExpressCheckout
-//VERSION = 98
-//PAYMENTREQUEST_0_AMT = 10
-//PAYMENTREQUEST_0_CURRENCYCODE = USD
-//PAYMENTREQUEST_0_PAYMENTACTION = SALE
-//cancelUrl = http://www.example.com/cancel.html
-//returnUrl = http://www.example.com/success.html"

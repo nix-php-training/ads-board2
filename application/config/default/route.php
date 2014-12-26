@@ -13,10 +13,19 @@ return [
             ),
         ),
         'main' => array(
-            'template' => '^$',
+            'template' => '^\/$',
             'controller' => 'home', //static
             'action' => 'index',//static
             'params' => array()
+        ),
+        'static' => array(
+            '/home' => '/',
+            '/login' => '/user/login',
+            '/logout' => '/user/logout',
+            '/registration' => '/user/registration',
+            '/confirmation' => '',
+            '/restore-password' => ''
+
         )
     ]
 ];
