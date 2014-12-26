@@ -19,12 +19,13 @@ return [
             'params' => array()
         ),
         'static' => array(
+            '/home' => '/',
             '/login' => '/user/login',
             '/logout' => '/user/logout',
             '/registration' => '/user/registration',
             '/confirmation' => '',
-            '/restore-password' => ''
-
+            '/restore-password' => '',
+            '/error404' => '/error/error404',
         )
     ]
 ];

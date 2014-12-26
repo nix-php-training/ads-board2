@@ -6,11 +6,13 @@ return [
         ],
         'user' => [
             'login' => ['all'],
-            'registration' => ['admin'],
+            'registration' => ['all'],
             'logout' => ['user', 'admin'],
+            'paypal' => ['all'],
         ],
-        'error404' => [
+        'error' => [
             'index' => ['all'],
+            'error404' => ['all'],
         ],
     ],
 ];
