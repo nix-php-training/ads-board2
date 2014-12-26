@@ -26,13 +26,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Home</a>
-            <a class="navbar-brand" href="/user/registration">Registration</a>
+            <a class="navbar-brand" href="/home">Home</a>
+            <a class="navbar-brand" href="/registration">Registration</a>
             <?php
             if ($_SESSION['userRole'] == 'guest') {
-                echo '<a class="navbar-brand" href="/user/login">Login</a>';
+                echo '<a class="navbar-brand" href="/login">Login</a>';
             } else {
-                echo '<a class="navbar-brand" href="/user/logout">Logout</a>';
+                echo '<a class="navbar-brand" href="/logout">Logout</a>';
             }
             ?>
         </div>
