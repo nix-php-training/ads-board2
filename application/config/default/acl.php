@@ -9,8 +9,9 @@ return [
             'registration' => ['all'],
             'logout' => ['user', 'admin'],
         ],
-        'error404' => [
+        'error' => [
             'index' => ['all'],
+            'error404' => ['all'],
         ],
     ],
 ];
