@@ -5,7 +5,7 @@ class UserController extends Controller
 
     function loginAction()
     {
-        if ($_SESSION['userRole']!='guest'){
+        if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
@@ -16,7 +16,7 @@ class UserController extends Controller
                 $this->redirect('/');
             }
         } else {
-        $this->view('content/login');
+            $this->view('content/login');
         }
     }
 
@@ -33,8 +33,8 @@ class UserController extends Controller
 
     function ConfirmAction()
     {
-        $this->view($this->_name);//podklu4aem view confirm s privetstviem, formami logina i knopkoi submit
-        if(isset($_POST['email']) and isset($_POST['password']) and isset($_GET['link'])){
+        $this->view('content/confirm');//podklu4aem view confirm s privetstviem, formami logina i knopkoi submit
+        if (isset($_POST['email']) and isset($_POST['password']) and isset($_GET['link'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
             $link = $_GET['link'];
@@ -48,7 +48,7 @@ class UserController extends Controller
             $passwordDb = Registry::get('password');
             $linkDb = Registry::get('link');
 
-            if(($email === $emailDb) and ($password === $passwordDb) and ($link === $linkDb)){
+            if (($email === $emailDb) and ($password === $passwordDb) and ($link === $linkDb)) {
                 /*ZDES Vuzov methoda modeli na izmenenie statusa usera s registred na confirmed i udalenie polya link u polzovatelya*/
                 Registry::delete('email');
                 Registry::delete('password');
@@ -62,7 +62,7 @@ class UserController extends Controller
 
     function PaypalAction()//action for Express Checkout on Paypal
     {
-        $this->view($this->_name);//Отрисовуем страницу с формами для отправки данных на Paypal
+        $this->view('content/paypal');//Отрисовуем страницу с формами для отправки данных на Paypal
 
         $requestParams = array(
             'RETURNURL' => 'http://ads-board2.zone/user/success',//user will return to this page when payment success
@@ -84,20 +84,20 @@ class UserController extends Controller
         );
 
         $paypal = new Paypal();
-        $response = $paypal -> request('SetExpressCheckout',$requestParams + $orderParams + $item);
+        $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
-        if(is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
+        if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
             $token = $response['TOKEN'];//получаем токен из ответа апи
-            header( 'Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token) );//отправляем юзверя на пейпал для проведения оплаты
+            header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
         }
 
         //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном
 
-        if( isset($_GET['token']) && !empty($_GET['token']) ) { // Токен присутствует
+        if (isset($_GET['token']) && !empty($_GET['token'])) { // Токен присутствует
             // Получаем детали оплаты, включая информацию о покупателе.
             // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
             $paypal = new Paypal();
-            $checkoutDetails = $paypal -> request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
+            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
 
             // Завершаем транзакцию
             $requestParams = array(
@@ -105,8 +105,8 @@ class UserController extends Controller
                 'PAYERID' => $_GET['PayerID']
             );
 
-            $response = $paypal -> request('DoExpressCheckoutPayment',$requestParams);
-            if( is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
+            $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
+            if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
                 // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
                 $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
             }
