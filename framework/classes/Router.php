@@ -4,7 +4,7 @@ class Router
 {
     private $actionName;
     private $controllerName;
-    private $params;
+    private $params = array();
     private $routes;
 
 
@@ -73,11 +73,11 @@ class Router
 
         $routeName = $this->checkActiveRoute($url);
 
-        if(!array_key_exists($routeName,$this->routes))
-        {
-            $this->controllerName = 'Home';
-            $this->actionName = 'index';
-        }
+//        if(!array_key_exists($routeName,$this->routes))
+//        {
+//            $this->controllerName = 'Home';
+//            $this->actionName = 'index';
+//        }
 
         return [$this->controllerName, $this->actionName, $this->params];
 
@@ -117,8 +117,8 @@ class Router
                         }
                     }
 
-                    $activeRoute = $name;
-                    return $activeRoute;
+//                    $activeRoute = $name;
+//                    return $activeRoute;
 
                 }
 
