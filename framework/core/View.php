@@ -1,11 +1,17 @@
 <?php
 
+/**
+ * Class View
+ */
 class View
 {
     private $_tpl;
     private $_layout;
     private $_data;
 
+    /**
+     * Render page
+     */
     public function render()
     {
         $data = $this->_data;
@@ -18,6 +24,13 @@ class View
         include ROOT_PATH . $this->_layout;
     }
 
+    /**
+     * Assign content page, data to show on page and layout
+     *
+     * @param $tpl
+     * @param $data
+     * @param $layout
+     */
     public function assign($tpl, $data, $layout)
     {
         $tpl = strtolower(Tools::normalizeUrl($tpl, 'phtml'));
