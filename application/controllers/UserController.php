@@ -16,7 +16,7 @@ class UserController extends Controller
                 $this->redirect('/');
             }
         } else {
-        $this->view($this->_name);
+        $this->view('content/login');
         }
     }
 
@@ -28,7 +28,7 @@ class UserController extends Controller
 
     function registrationAction()
     {
-        $this->view($this->_name);
+        $this->view('content/registration');
     }
 
     function ConfirmAction()

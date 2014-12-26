@@ -11,7 +11,7 @@ class ErrorController extends Controller
      */
     public function indexAction()
     {
-        $this->view('', ViewHelper::generateError(404));
+        $this->view('error/error404');
     }
 
     /**
@@ -19,7 +19,7 @@ class ErrorController extends Controller
      */
     public function error404Action()
     {
-        $this->view('', ViewHelper::generateError(404));
+        $this->view('error/error404');
     }
 
 }
