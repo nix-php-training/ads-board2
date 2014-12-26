@@ -13,8 +13,7 @@ class Dispatcher
         $router->getActiveRoute();
 
         self::$pureControllerName = ucfirst($router->getControllerName());
-        self::$pureActionName  = strtolower($router->getActionName());
-
+        self::$pureActionName = strtolower($router->getActionName());
 
         $actionName = self::$pureActionName . 'Action';
         $controllerName = self::$pureControllerName . 'Controller';
@@ -24,23 +23,28 @@ class Dispatcher
         $controllerPath = "application/controllers/" . $controllerFile;
         if (file_exists($controllerPath)) {
             include $controllerPath;
-            Registry::set('controller', $controllerName);
         } else {
             self::ErrorPage404();
         }
 
+        $modelFile = self::$pureControllerName . '.php';
+        $modelPath = "application/models/" . $modelFile;
+        if (file_exists($modelPath)) {
+            include $modelPath;
+            $model = new self::$pureControllerName();
+            Registry::set('model', $model);
+        }
 
         $controller = new $controllerName(self::$pureActionName);
         $action = $actionName;
 
-
-
         if (method_exists($controller, $action)) {
-            Registry::set('action', $actionName);
-
-            $controller->$action();
+            if ($controller->acl->isAllow(strtolower(self::$pureControllerName), self::$pureActionName)) {
+                $controller->$action();
+            } else {
+                echo 'Access Deny';
+            }
         } else {
-
             self::ErrorPage404();
         }
     }
@@ -49,10 +53,7 @@ class Dispatcher
     {
         $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
         header('HTTP/1.1 404 Not Found');
-        header('Status: 404 Not Found');
-        header('Location:' . $host . 'error/error404');
+        header("Status: 404 Not Found");
+        header('Location:' . $host . 'error404');
     }
 }
-
-
-
