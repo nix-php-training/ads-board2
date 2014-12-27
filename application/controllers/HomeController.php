@@ -4,6 +4,6 @@ class HomeController extends Controller
 {
     function indexAction()
     {
-        $this->redirect('/');
+        $this->view('content/index');
     }
 }
