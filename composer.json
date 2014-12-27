@@ -1,12 +1,13 @@
 {
-  "autoload": {
-    "psr-4": {
-      "": [
-        "framework/classes",
-        "framework/core/"
-      ]
+    "autoload": {
+        "psr-4": {
+            "": [
+                "framework/classes",
+                "framework/core/"
+            ]
+        },
+        "require": {
+            "monolog/monolog": "1.0.*"
+        }
     }
-  "require": {
-    "monolog/monolog": "1.0.*"
-  }
 }
