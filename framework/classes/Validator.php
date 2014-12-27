@@ -48,6 +48,8 @@ class Validator
     }
 
     /**
+     * example $input = ['name'=>'Boris', 'age'=>'25']
+     * $rules = ['name'=>['required', 'min_length(3)'],'age'=>['numeric']];
      * @param array $inputs
      * @param array $rules
      * @return array|bool
@@ -107,76 +109,53 @@ class Validator
         }
     }
 
-    protected function required(
-        $input = null
-    ) {
-
+    protected function required($input = null)
+    {
         return (!is_null($input) && (trim($input) != ''));
     }
 
-    protected
-    function numeric(
-        $input
-    ) {
+    protected function numeric($input)
+    {
         return is_numeric($input);
     }
 
-    protected
-    function email(
-        $input
-    ) {
+    protected function email($input)
+    {
         return (filter_var($input, FILTER_VALIDATE_EMAIL)) == false ? false : true;
     }
 
-    protected
-    function integer(
-        $input
-    ) {
+    protected function integer($input)
+    {
         return is_int($input) || ($input == (string)(int)$input);
     }
 
-    protected
-    function float(
-        $input
-    ) {
+    protected function float($input)
+    {
         return is_float($input) || ($input == (string)(float)$input);
     }
 
-    protected
-    function ip(
-        $input
-    ) {
+    protected function ip($input)
+    {
         return filter_var($input, FILTER_VALIDATE_IP);
     }
 
-    protected
-    function url(
-        $input
-    ) {
+    protected function url($input)
+    {
         return filter_var($input, FILTER_VALIDATE_URL);
     }
 
-    protected
-    function max_length(
-        $input,
-        $length
-    ) {
+    protected function max_length($input, $length)
+    {
         return (strlen($input) <= $length);
     }
 
-    protected
-    function min_length(
-        $input,
-        $length
-    ) {
+    protected function min_length($input, $length)
+    {
         return (strlen($input) >= $length);
     }
 
-    protected
-    function exact_length(
-        $input,
-        $length
-    ) {
+    protected function exact_length($input, $length)
+    {
         return (strlen($input) == $length);
     }
 
