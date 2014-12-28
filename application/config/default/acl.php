@@ -13,6 +13,7 @@ return [
         'error' => [
             'index' => ['all'],
             'error404' => ['all'],
+            'error403' => ['all'],
         ],
     ],
 ];
