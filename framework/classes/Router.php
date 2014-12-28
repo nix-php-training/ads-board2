@@ -90,7 +90,7 @@ class Router
         }
 
         $this->checkActiveRoute($url);
-
+        
         return [$this->controllerName, $this->actionName, $this->params];
 
     }
