@@ -65,8 +65,8 @@ class UserController extends Controller
         $this->view($this->_name);//Отрисовуем страницу с формами для отправки данных на Paypal
 
         $requestParams = array(
-            'RETURNURL' => 'http://ads-board2.zone/user/success',//user will return to this page when payment success
-            'CANCELURL' => 'http://ads-board2.zone/user/cancelled'//user will return to this page when payment cancelled
+            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
+            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
         );
 
         $orderParams = array(
