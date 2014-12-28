@@ -91,8 +91,6 @@ class Router
 
         $this->checkActiveRoute($url);
 
-
-    var_dump($this->controllerName, $this->actionName, $this->params);die();
         return [$this->controllerName, $this->actionName, $this->params];
 
     }
