@@ -80,6 +80,19 @@ footer p {
     font-size: 1.5em;
 }
 
+.panel-text-right {
+    display: inline-block;
+    float: right;
+}
+
+.panel-text-right a:link, .panel-text-right a:visited {
+    color: #FFFCF3;
+}
+
+.panel-text-right a:hover, .panel-text-right a:active {
+    color: #FCF5DC;
+}
+
 /* Ads style
 -------------------------------------------------- */
 

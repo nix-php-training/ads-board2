@@ -9,6 +9,7 @@ return [
             'registration' => ['all'],
             'logout' => ['user', 'admin'],
             'paypal' => ['all'],
+            'restore' => ['all'],
         ],
         'error' => [
             'index' => ['all'],
