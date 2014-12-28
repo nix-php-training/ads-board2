@@ -90,9 +90,7 @@ class Router
         }
 
         $this->checkActiveRoute($url);
-
-
-    var_dump($this->controllerName, $this->actionName, $this->params);die();
+        
         return [$this->controllerName, $this->actionName, $this->params];
 
     }
@@ -103,8 +101,6 @@ class Router
     public function checkActiveRoute($uri)
     {
         trim($uri);
-
-     //       $activeRoute = null;
             foreach ($this->routes as $name => $routeSettings) {
                 if (!$routeSettings['template']) {
 
