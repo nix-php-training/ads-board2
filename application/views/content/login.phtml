@@ -1,15 +1,47 @@
-<form class="form-signin col-md-3" role="form" action="/user/login" method="post">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required
-           autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+<div class="center-block width60p" id="login">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Login to your account <span class="panel-text-right">Or <a href="/home">return to
+                        home</a></span></h3>
+        </div>
+        <div class="panel-body">
 
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
+            <!-- Login form start -->
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password"
+                           placeholder="Password">
+                </div>
+
+                <div class="checkbox">
+                    <div class="icheckbox_flat">
+                        <input id="remember" type="checkbox">
+                    </div>
+                    <label for="remember"> Remember me</label>
+                </div>
+                <input type="submit" class="btn btn-success pull-right" value="Sign in">
+            </form>
+            <!-- Login form start -->
+
+        </div>
+        <div class="panel-footer">
+            <a href="/restore">Forgot your password?</a>
+        </div>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-</form>
+</div>
+
+<!-- Need for checkbox start -->
+<script src="/application/assets/js/icheck.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.icheckbox_flat').iCheck({
+            checkboxClass: 'icheckbox_flat'
+        });
+    });
+</script>
+<!-- Need for checkbox start -->
