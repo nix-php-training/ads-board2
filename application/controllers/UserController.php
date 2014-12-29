@@ -34,6 +34,7 @@ class UserController extends Controller
     function paypalAction()//action for Express Checkout on Paypal
     {
         $this->view('content/paypal');//Отрисовуем страницу с формами для отправки данных на Paypal
+        die();
 
         $requestParams = array(
             'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
@@ -53,7 +54,6 @@ class UserController extends Controller
             'L_PAYMENTREQUEST_0_AMT0' => '99.99',
             'L_PAYMENTREQUEST_0_QTY0' => '1'
         );
-
         $paypal = new Paypal();
         $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
