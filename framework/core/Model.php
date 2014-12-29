@@ -1,6 +1,11 @@
 <?php
 
-class Model extends Database
+class Model
 {
+    public $_db;
 
+    function __construct()
+    {
+        $this->_db = new Database();
+    }
 }

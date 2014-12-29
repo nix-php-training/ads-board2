@@ -5,24 +5,25 @@ class UserController extends Controller
 
     function loginAction()
     {
-        if ($_SESSION['userRole']!='guest'){
+        if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
-            $user = $this->model->getEmail($_POST['email']);
-            if ($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']) {
-                $_SESSION['userRole'] = $user['role'];
-                $_SESSION['userName'] = $user['name'];
+            $user = $this->_model->getByEmail($_POST['email']);
+            if ($user->password == $_POST['password']) {
+                $_SESSION['userId'] = $user->id;
+                $_SESSION['userRole'] = $user->role;
+                $_SESSION['userStatus'] = $user->status;
                 $this->redirect('/');
             }
         } else {
-        $this->view('content/login');
+            $this->view('content/login');
         }
     }
 
     function LogoutAction()
     {
-        session_destroy();
+        Auth::logout();
         $this->redirect('/');
     }
 
@@ -34,21 +35,22 @@ class UserController extends Controller
     function ConfirmAction()
     {
         $this->view($this->_name);//podklu4aem view confirm s privetstviem, formami logina i knopkoi submit
-        if(isset($_POST['email']) and isset($_POST['password']) and isset($_GET['link'])){
+        if (isset($_POST['email']) and isset($_POST['password']) and isset($_GET['link'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
             $link = $_GET['link'];
 
             /*Zdes vuzov methoda modeli na polu4enie dannux polzovatelya v vide massiva $arr po zna4eniu linka GET['link'] i polei email, password - v tablice dolgna but odna zapis*/
 
-            Registry::set('email', $arr['email']);//$arr polu4enui gipoteti4eskiu massive s infoi o usere v DB, berem email, password, link dlya dalneiwero sravneniya s vvedennumi v formu logina na stranice confirm
+            Registry::set('email',
+                $arr['email']);//$arr polu4enui gipoteti4eskiu massive s infoi o usere v DB, berem email, password, link dlya dalneiwero sravneniya s vvedennumi v formu logina na stranice confirm
             Registry::set('password', $arr['password']);
             Registry::set('link', $arr['link']);
             $emailDb = Registry::get('email');
             $passwordDb = Registry::get('password');
             $linkDb = Registry::get('link');
 
-            if(($email === $emailDb) and ($password === $passwordDb) and ($link === $linkDb)){
+            if (($email === $emailDb) and ($password === $passwordDb) and ($link === $linkDb)) {
                 /*ZDES Vuzov methoda modeli na izmenenie statusa usera s registred na confirmed i udalenie polya link u polzovatelya*/
                 Registry::delete('email');
                 Registry::delete('password');
@@ -70,10 +72,14 @@ class UserController extends Controller
         );
 
         $orderParams = array(
-            'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
-            'PAYMENTREQUEST_0_SHIPPINGAMT' => '0',//расході на доставку
-            'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',//валюта в трехбуквенном
-            'PAYMENTREQUEST_0_ITEMAMT' => '99.99'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+            'PAYMENTREQUEST_0_AMT' => '99.99',
+            //цена услуги
+            'PAYMENTREQUEST_0_SHIPPINGAMT' => '0',
+            //расході на доставку
+            'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
+            //валюта в трехбуквенном
+            'PAYMENTREQUEST_0_ITEMAMT' => '99.99'
+            //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
         );
 
         $item = array(//описание услуги, имя, описание, стоимость, количество
@@ -84,20 +90,20 @@ class UserController extends Controller
         );
 
         $paypal = new Paypal();
-        $response = $paypal -> request('SetExpressCheckout',$requestParams + $orderParams + $item);
+        $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
-        if(is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
+        if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
             $token = $response['TOKEN'];//получаем токен из ответа апи
-            header( 'Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token) );//отправляем юзверя на пейпал для проведения оплаты
+            header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
         }
 
         //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном
 
-        if( isset($_GET['token']) && !empty($_GET['token']) ) { // Токен присутствует
+        if (isset($_GET['token']) && !empty($_GET['token'])) { // Токен присутствует
             // Получаем детали оплаты, включая информацию о покупателе.
             // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
             $paypal = new Paypal();
-            $checkoutDetails = $paypal -> request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
+            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
 
             // Завершаем транзакцию
             $requestParams = array(
@@ -105,8 +111,8 @@ class UserController extends Controller
                 'PAYERID' => $_GET['PayerID']
             );
 
-            $response = $paypal -> request('DoExpressCheckoutPayment',$requestParams);
-            if( is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
+            $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
+            if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
                 // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
                 $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
             }

@@ -9,4 +9,8 @@ class Auth
             $_SESSION['userRole'] = 'guest';
         }
     }
-} 
+    static function logout()
+    {
+        session_destroy();
+    }
+}

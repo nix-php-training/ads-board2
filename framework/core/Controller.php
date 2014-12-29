@@ -3,7 +3,7 @@
 class Controller
 {
     protected $_view;
-    public $model;
+    protected $_model;
     protected $_name;
 
     public function __construct($name)
@@ -12,7 +12,7 @@ class Controller
         $this->_name = $name;
         $this->_view = new View();
         if (Registry::has('model')) {
-            $this->model = Registry::get('model');
+            $this->_model = Registry::get('model');
         }
     }
 
