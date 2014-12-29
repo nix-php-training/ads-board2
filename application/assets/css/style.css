@@ -212,3 +212,8 @@ td.ad-date {
 .icon-widget:before {
     content: "a";
 }
+
+/*plan table styles*/
+table#plan td{
+    width:33%;
+}
