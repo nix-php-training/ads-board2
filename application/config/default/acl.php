@@ -8,6 +8,7 @@ return [
             'login' => ['all'],
             'registration' => ['all'],
             'logout' => ['user', 'admin'],
+            'plan' => ['all'],
             'paypal' => ['all'],
             'restore' => ['all'],
         ],

@@ -31,11 +31,13 @@ class UserController extends Controller
         $this->view('content/registration');
     }
 
+    function planAction()
+    {
+        $this->view('content/plan');//Отрисовуем страницу с формами для отправки данных на Paypal
+    }
+
     function paypalAction()//action for Express Checkout on Paypal
     {
-        $this->view('content/paypal');//Отрисовуем страницу с формами для отправки данных на Paypal
-        die();
-
         $requestParams = array(
             'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
             'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
