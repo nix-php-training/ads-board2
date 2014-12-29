@@ -82,7 +82,8 @@ class Router
 
         //       $activeRoute = null;
         foreach ($this->routes as $name => $routeSettings) {
-            if (!$routeSettings['template']) {
+
+            if (@!$routeSettings['template']) {
 
                 continue;
             }
