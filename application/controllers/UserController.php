@@ -21,7 +21,7 @@ class UserController extends Controller
         }
     }
 
-    function LogoutAction()
+    function logoutAction()
     {
         Auth::logout();
         $this->redirect('/');
@@ -32,7 +32,7 @@ class UserController extends Controller
         $this->view('content/registration');
     }
 
-    function ConfirmAction()
+    function confirmAction()
     {
         $this->view($this->_name);//podklu4aem view confirm s privetstviem, formami logina i knopkoi submit
         if (isset($_POST['email']) and isset($_POST['password']) and isset($_GET['link'])) {
@@ -62,13 +62,13 @@ class UserController extends Controller
 
     }
 
-    function PaypalAction()//action for Express Checkout on Paypal
+    function paypalAction()//action for Express Checkout on Paypal
     {
         $this->view($this->_name);//Отрисовуем страницу с формами для отправки данных на Paypal
 
         $requestParams = array(
-            'RETURNURL' => 'http://ads-board2.zone/user/success',//user will return to this page when payment success
-            'CANCELURL' => 'http://ads-board2.zone/user/cancelled'//user will return to this page when payment cancelled
+            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
+            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
         );
 
         $orderParams = array(
@@ -117,5 +117,10 @@ class UserController extends Controller
                 $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
             }
         }
+    }
+
+    function restoreAction()
+    {
+        $this->view('content/restore');
     }
 }
