@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * !!!USELESS NOW!!!
+ *
  * Include error or message template
  *
  * Class ViewHelper

@@ -14,11 +14,12 @@ class View
      */
     public function render()
     {
+        // data for page
         $data = $this->_data;
 
         ob_start();
-        if (!@include(ROOT_PATH . '/application/views/content/' . $this->_tpl)) {
-            include ROOT_PATH . '/application/views/error/error.phtml';
+        if (!@include(ROOT_PATH . '/application/views/' . $this->_tpl)) {
+            include ROOT_PATH . '/application/views/error/error404.phtml';
         }
         $content = ob_get_clean();
         include ROOT_PATH . $this->_layout;
@@ -35,7 +36,7 @@ class View
     {
         $tpl = strtolower(Tools::normalizeUrl($tpl, 'phtml'));
 
-        $this->_tpl = file_exists(ROOT_PATH . '/application/views/content/' . $tpl) ? $tpl : null;
+        $this->_tpl = file_exists(ROOT_PATH . '/application/views/' . $tpl) ? $tpl : null;
 
         $this->_data = $data;
         $this->_layout = $layout;

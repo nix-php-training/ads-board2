@@ -1,0 +1,219 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+
+    font-family: 'Exo 2';
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 45px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 45px;
+    background-color: #707C8D;
+    padding: 1%;
+}
+
+footer a:link, footer a:visited {
+    color: #FFFCF3;
+}
+
+footer a:hover, footer a:active {
+    color: #FCF5DC;
+}
+
+footer p {
+    color: #FFFCF3;
+}
+
+#login input[type=submit] {
+    width: 20%;
+}
+
+#signup input[type=submit] {
+    width: 20%;
+}
+
+.hello {
+    background-color: #707C8D;
+    color: #FFFCF3;
+    padding: 8%;
+}
+
+.hello p {
+    font-size: 1.2em;
+}
+
+.hello h1 {
+    margin-top: 1%;
+    font-size: 1.7em;
+}
+
+.icheckbox_flat {
+    vertical-align: top;
+}
+
+.center-block img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    margin: 10% auto;
+    z-index: 1;
+}
+
+.error-text a {
+    font-size: 1.5em;
+}
+
+.panel-text-right {
+    display: inline-block;
+    float: right;
+}
+
+.panel-text-right a:link, .panel-text-right a:visited {
+    color: #FFFCF3;
+}
+
+.panel-text-right a:hover, .panel-text-right a:active {
+    color: #FCF5DC;
+}
+
+/* Ads style
+-------------------------------------------------- */
+
+#grid {
+    color: #FFFCF3;
+}
+
+img.logo {
+    width: 100%;
+}
+
+#home .item {
+    padding: 5% 5% 10% 5%;
+    background-color: #707C8D;
+}
+
+#home .item img {
+    width: 100%;
+}
+
+#home .item a:link, #home .item a:visited {
+    color: #FFFCF3;
+}
+
+#home .item a:hover, #home .item a:active {
+    color: #FCF5DC;
+}
+
+#home .item h1 {
+    font-size: 1.5em;
+}
+
+.margin7 {
+    margin-right: 7px;
+    margin-left: 7px;
+}
+
+.width60p {
+    width: 60%;
+}
+
+@media screen and (max-width: 900px) {
+    .width60p {
+        width: 100%;
+    }
+}
+
+#ad-list tr {
+    background-color: #EEEEEE;
+    margin-bottom: 10%;
+}
+
+td.ad-date {
+    vertical-align: middle;
+}
+
+.ad-img img {
+    width: 100%;
+}
+
+/* Fontastic
+-------------------------------------------------- */
+
+@charset "UTF-8";
+
+@font-face {
+    font-family: "my-font";
+    src: url("../fonts/my-font.eot");
+    src: url("../fonts/my-font.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/my-font.woff") format("woff"),
+    url("../fonts/my-font.ttf") format("truetype"),
+    url("../fonts/my-font.svg#my-font") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+[data-icon]:before {
+    font-family: "my-font" !important;
+    content: attr(data-icon);
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: "my-font" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sign-in:before {
+    content: "d";
+}
+
+.icon-sign-out:before {
+    content: "i";
+}
+
+.icon-user-add:before {
+    content: "q";
+}
+
+.icon-widget:before {
+    content: "a";
+}
+
+/*plan table styles*/
+table#plan td{
+    width:33%;
+}
