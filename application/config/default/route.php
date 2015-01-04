@@ -26,8 +26,9 @@ return [
             '/logout' => '/user/logout',
             '/registration' => '/user/registration',
             '/confirmation' => '',
-            '/restore-password' => '',
+            '/restore' => '/user/restore',
             '/error404' => '/error/error404',
+            '/error403' => '/error/error403',
         )
     ]
 ];
