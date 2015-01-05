@@ -38,19 +38,34 @@ class UserController extends Controller
 
     function paypalAction()//action for Express Checkout on Paypal
     {
-        $orderParams = array(
-            'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
-            'PAYMENTREQUEST_0_SHIPPINGAMT' => '0',//расході на доставку
-            'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',//валюта в трехбуквенном
-            'PAYMENTREQUEST_0_ITEMAMT' => '99.99'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
-        );
+        $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
+        $orderParams['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';//валюта в трехбуквенном
+        switch ($_GET['type']) {
+            case 'pro':
+                $orderParams = array(
+                    'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '99.99'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                );
 
-        $item = array(//описание услуги, имя, описание, стоимость, количество
-            'L_PAYMENTREQUEST_0_NAME0' => 'PRO-plan',
-            'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
-            'L_PAYMENTREQUEST_0_AMT0' => '99.99',
-            'L_PAYMENTREQUEST_0_QTY0' => '1'
-        );
+                $item = array(//описание услуги, имя, описание, стоимость, количество
+                    'L_PAYMENTREQUEST_0_NAME0' => 'PRO-plan',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_AMT0' => '99.99',
+                    'L_PAYMENTREQUEST_0_QTY0' => '1'
+                );break;
+            case 'business':
+                $orderParams = array(
+                    'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                );
+
+                $item = array(//описание услуги, имя, описание, стоимость, количество
+                    'L_PAYMENTREQUEST_0_NAME0' => 'BUSINESS-plan',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_AMT0' => '999.9',
+                    'L_PAYMENTREQUEST_0_QTY0' => '1'
+                );break;
+        }
 
         $requestParams = array(
             'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
