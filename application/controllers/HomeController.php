@@ -6,4 +6,9 @@ class HomeController extends Controller
     {
         $this->view('content/index');
     }
+
+    function postListAction()
+    {
+        $this->view('content/postList');
+    }
 }
