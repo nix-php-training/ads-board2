@@ -9,12 +9,10 @@ class UserController extends Controller
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
-            $user = $this->_model->getByEmail($_POST['email']);
-            if ($user->password == $_POST['password']) {
-                $_SESSION['userId'] = $user->id;
-                $_SESSION['userRole'] = $user->role;
-                $_SESSION['userStatus'] = $user->status;
+            if($this->_model->login()){
                 $this->redirect('/');
+            } else {
+                echo 'Введены не верные данные'; //todo Вывод в view
             }
         } else {
             $this->view('content/login');
@@ -23,13 +21,18 @@ class UserController extends Controller
 
     function logoutAction()
     {
-        Auth::logout();
+        $this->_model->logout();
         $this->redirect('/');
     }
 
     function registrationAction()
     {
-        $this->view('content/registration');
+        if (isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])) {
+            $valid=$this->_model->registration();
+            if(!is_array($valid)){
+                echo 'Вы зарегистрированы'; //todo Вывод в view
+            }else var_dump($valid);
+        } else $this->view('content/registration');
     }
 
     function confirmAction()
@@ -67,8 +70,10 @@ class UserController extends Controller
         $this->view($this->_name);//Отрисовуем страницу с формами для отправки данных на Paypal
 
         $requestParams = array(
-            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
-            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
+            'RETURNURL' => Config::get('site')['host'] . 'user/success',
+            //user will return to this page when payment success
+            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'
+            //user will return to this page when payment cancelled
         );
 
         $orderParams = array(

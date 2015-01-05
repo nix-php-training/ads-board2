@@ -14,7 +14,7 @@ class Validator
         'max_length' => ':attribute can be maximum :params character long',
         'min_length' => ':attribute must be minimum :params character long',
         'exact_length' => ':attribute field must :params character long',
-        'equals' => ':attribute field should be same as :params(0)'
+        'login' => ':attribute can contain only letters, numbers, hyphens (-), and underscores (_)'
     ];
 
     private function getErrorMessage($error, $attribute, $params = '')
@@ -160,9 +160,9 @@ class Validator
         return (strlen($input) == $length);
     }
 
-    protected static function equals($input, $param)
+    protected function login($input)
     {
-        return ($input == $param);
+        return preg_match('/^[a-zA-Z0-9_-]+$/', $input);
     }
 
 } 

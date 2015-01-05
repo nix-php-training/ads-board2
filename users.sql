@@ -1,54 +1,72 @@
--- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
---
--- Хост: localhost
--- Время создания: Дек 24 2014 г., 00:25
--- Версия сервера: 5.5.40-0ubuntu0.14.04.1
--- Версия PHP: 5.5.9-1ubuntu4.5
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+/*
+SQLyog Ultimate v11.52 (64 bit)
+MySQL - 5.5.40-0ubuntu0.14.04.1 : Database - ads-board2
+*********************************************************************
+*/
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- База данных: `ads-board2`
---
+/*!40101 SET SQL_MODE=''*/;
 
--- --------------------------------------------------------
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`ads-board2` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
---
--- Структура таблицы `users`
---
+USE `ads-board2`;
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `login` varchar(60) NOT NULL,
-  `email` varchar(60) NOT NULL,
-  `password` varchar(60) NOT NULL,
-  `start_date` datetime NOT NULL,
-  `status` varchar(30) NOT NULL,
-  `plan` tinyint(2) DEFAULT NULL,
-  `role` varchar(30) NOT NULL,
-  `link` varchar(60) NOT NULL,
+/*Table structure for table `roles` */
+
+DROP TABLE IF EXISTS `roles`;
+
+CREATE TABLE `roles` (
+  `id` int(2) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(12) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `roles` */
+
+insert  into `roles`(`id`,`name`) values (1,'user'),(2,'admin');
+
+/*Table structure for table `status` */
+
+DROP TABLE IF EXISTS `status`;
+
+CREATE TABLE `status` (
+  `id` int(2) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(12) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `status` */
+
+insert  into `status`(`id`,`name`) values (1,'unconfirmed'),(2,'registered'),(3,'baned');
+
+/*Table structure for table `users` */
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `login` varchar(32) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `startDate` datetime NOT NULL,
+  `statusId` tinyint(1) unsigned NOT NULL,
+  `roleId` tinyint(1) unsigned DEFAULT NULL,
+  `hash` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`,`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  UNIQUE KEY `email` (`login`,`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `users`
---
+/*Data for the table `users` */
 
-INSERT INTO `users` (`id`, `login`, `email`, `password`, `start_date`, `status`, `plan`, `role`, `link`) VALUES
-(1, 'Vasya', 'vasya@gmail.com', '123', '2014-12-24 00:00:00', 'registered', 0, 'user', ''),
-(5, 'Vova', 'vova@gmail.com', '123', '2014-12-24 00:00:00', 'registered', 0, 'admin', ''),
-(6, 'Kolya', 'kolya@gmail.com', '123', '0000-00-00 00:00:00', 'confirmed', NULL, 'user', '');
+insert  into `users`(`id`,`login`,`email`,`password`,`startDate`,`statusId`,`roleId`,`hash`) values (1,'Vasya','vasya@gmail.com','$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm','2014-12-24 00:00:00',1,1,'64923e291fd19ab7b85c5cbb34a79cd38c0f5334'),(5,'Vova','vova@gmail.com','$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm','2014-12-24 00:00:00',2,2,NULL),(6,'Kolya','kolya@gmail.com','$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm','0000-00-00 00:00:00',1,2,NULL);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

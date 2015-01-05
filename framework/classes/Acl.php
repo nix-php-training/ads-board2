@@ -6,7 +6,7 @@ class Acl
 
     function __construct()
     {
-        Auth::authentication();
+        Auth::init();
     }
 
     public function isAllow($controller, $action)
