@@ -4,12 +4,12 @@ class Controller
 {
     protected $_view;
     public $model;
-    protected $_name;
+    protected $_params;
 
-    public function __construct($name)
+    public function __construct($params)
     {
         $this->acl = new Acl();
-        $this->_name = $name;
+        $this->_params = $params;
         $this->_view = new View();
         if (Registry::has('model')) {
             $this->model = Registry::get('model');
