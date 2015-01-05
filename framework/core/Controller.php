@@ -37,14 +37,13 @@ class Controller
 
 
 
-    public function __construct($params)
+    public function __construct($params, $model)
     {
         $this->acl = new Acl();
         $this->_params = $params;
         $this->_view = new View();
-        if (Registry::has('model')) {
-            $this->_model = Registry::get('model');
-        }
+        $this->_model = $model;
+
     }
 
     public function view($tpl, $data = [], $layout = 'layout.phtml')

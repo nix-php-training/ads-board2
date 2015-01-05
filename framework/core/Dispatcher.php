@@ -29,15 +29,16 @@ class Dispatcher
             self::ErrorPage404();
         }
 
+
         $modelFile = self::$pureControllerName . '.php';
         $modelPath = "application/models/" . $modelFile;
         if (file_exists($modelPath)) {
             include $modelPath;
             $model = new self::$pureControllerName();
-            Registry::set('model', $model);
         }
+        else $model = false;
 
-        $controller = new $controllerName(self::$parameters);
+        $controller = new $controllerName(self::$parameters, $model);
         $action = $actionName;
 
         if (method_exists($controller, $action)) {
