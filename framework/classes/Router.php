@@ -4,7 +4,7 @@ class Router
 {
     private $actionName;
     private $controllerName;
-    private $params;
+    private $params = array();
     private $routes;
 
 
@@ -95,9 +95,6 @@ class Router
 
     }
 
-
-
-
     public function checkActiveRoute($uri)
     {
         trim($uri);
@@ -139,8 +136,6 @@ class Router
             }
 
     }
-
-
 
 
 }
