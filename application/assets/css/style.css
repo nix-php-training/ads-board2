@@ -214,6 +214,11 @@ td.ad-date {
 }
 
 /*plan table styles*/
-table#plan td{
-    width:33%;
+table#plans {
+    width: 100%;
+}
+
+table#plans td, th {
+    width: 33%;
+    text-align: center;
 }
