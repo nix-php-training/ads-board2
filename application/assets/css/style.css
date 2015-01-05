@@ -233,3 +233,18 @@ td.ad-date {
     display: flex;
     align-items: center;
 }
+
+ul.image-preview{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    /*padding-left: 0;*/
+}
+
+.image-preview li img {
+    height: 80%;
+}
+
+
+.image-preview img {
+}
