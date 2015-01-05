@@ -3,7 +3,7 @@
 class Controller
 {
     private $_view;
-    private $_model;
+    public $model;
     private $_params;
 
     /**
@@ -14,13 +14,6 @@ class Controller
         return $this->_view;
     }
 
-    /**
-     * @return null
-     */
-    public function getModel()
-    {
-        return $this->_model;
-    }
 
     /**
      * @return mixed
@@ -37,12 +30,14 @@ class Controller
 
 
 
-    public function __construct($params, $model)
+    public function __construct($params)
     {
         $this->acl = new Acl();
         $this->_params = $params;
         $this->_view = new View();
-        $this->_model = $model;
+        if (Registry::has('model')) {
+            $this->model = Registry::get('model');
+        }
 
     }
 

@@ -35,10 +35,10 @@ class Dispatcher
         if (file_exists($modelPath)) {
             include $modelPath;
             $model = new self::$pureControllerName();
+            Registry::set('model', $model);
         }
-        else $model = false;
 
-        $controller = new $controllerName(self::$parameters, $model);
+        $controller = new $controllerName(self::$parameters);
         $action = $actionName;
 
         if (method_exists($controller, $action)) {

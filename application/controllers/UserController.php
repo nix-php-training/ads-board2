@@ -9,7 +9,7 @@ class UserController extends Controller
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
-            $user = $this->getModel()->getEmail($_POST['email']);
+            $user = $this->model->getEmail($_POST['email']);
             if ($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']) {
                 $_SESSION['userRole'] = $user['role'];
                 $_SESSION['userName'] = $user['name'];
