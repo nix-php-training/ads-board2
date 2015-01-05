@@ -218,9 +218,7 @@ td.ad-date {
 
 .post-list {
     margin-top: 3%;
-
     padding: 15px;
-
     background-color: #D2D7D3;
 }
 
@@ -229,22 +227,47 @@ td.ad-date {
     font-size: 1.5em;
 }
 
+.post-list h2 {
+    margin-top: 0;
+    font-size: 1.3em;
+}
+
+.relative-images {
+    height: 203px;
+    overflow-y: auto;
+}
+
+/* Post-list: scroll style for relative-images
+-------------------------------------------------- */
+
+.post-list ::-webkit-scrollbar {
+    width: 12px;
+}
+
+.post-list ::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+
+.post-list ::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+
+.post-list ::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
 .vertical-align {
     display: flex;
     align-items: center;
 }
 
-ul.image-preview{
+.image-preview {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
-    /*padding-left: 0;*/
 }
-
-.image-preview li img {
-    height: 80%;
-}
-
 
 .image-preview img {
+    margin: 0;
 }
