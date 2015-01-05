@@ -38,11 +38,6 @@ class UserController extends Controller
 
     function paypalAction()//action for Express Checkout on Paypal
     {
-        $requestParams = array(
-            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
-            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
-        );
-
         $orderParams = array(
             'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
             'PAYMENTREQUEST_0_SHIPPINGAMT' => '0',//расході на доставку
@@ -51,11 +46,17 @@ class UserController extends Controller
         );
 
         $item = array(//описание услуги, имя, описание, стоимость, количество
-            'L_PAYMENTREQUEST_0_NAME0' => 'subscribe',
-            'L_PAYMENTREQUEST_0_DESC0' => 'subcribe for adsboard2.zone',
+            'L_PAYMENTREQUEST_0_NAME0' => 'PRO-plan',
+            'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
             'L_PAYMENTREQUEST_0_AMT0' => '99.99',
             'L_PAYMENTREQUEST_0_QTY0' => '1'
         );
+
+        $requestParams = array(
+            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
+            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
+        );
+
         $paypal = new Paypal();
         $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
