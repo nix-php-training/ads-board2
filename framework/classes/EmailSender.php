@@ -31,9 +31,6 @@ class EmailSender
         $link ="<a href = $uniqueQuery>" . $uniqueQuery . "</a>";
 
         $to = (filter_var($to,FILTER_VALIDATE_EMAIL)) ? $to : false;
-//        var_dump($receiver);
-//        die();
-
 
         $subject = 'Registration';
 
