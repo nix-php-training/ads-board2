@@ -27,10 +27,7 @@ class Dispatcher
             self::ErrorPage404();
         }
 
-        $modelFile = self::$pureControllerName . '.php';
-        $modelPath = "application/models/" . $modelFile;
-        if (file_exists($modelPath)) {
-            include $modelPath;
+        if (class_exists(self::$pureControllerName)){
             $model = new self::$pureControllerName();
             Registry::set('model', $model);
         }

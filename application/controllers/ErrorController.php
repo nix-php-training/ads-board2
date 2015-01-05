@@ -3,7 +3,7 @@
 /**
  * Class ErrorController
  */
-class ErrorController extends Controller
+class ErrorController extends BaseController
 {
 
     /**

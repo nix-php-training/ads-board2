@@ -13,7 +13,7 @@ class User extends Model
     function getBy($field, $value)
     {
         $where = [":$field" => $value];
-        return $this->_db->query("SELECT users.*, roles.name AS role, status.name AS status
+        return $this->db->query("SELECT users.*, roles.name AS role, status.name AS status
                                   FROM users
                                   JOIN status ON users.statusId=status.id
                                   JOIN roles ON users.roleId=roles.id
@@ -29,7 +29,7 @@ class User extends Model
         $hashCode = $this->newHash();
         setcookie('id', $hashId, $expire, '/');
         setcookie('hash', $hashCode, $expire, '/');
-        $this->_db->update($this->table, ["hash" => $hashCode], ["id" => $id]);
+        $this->db->update($this->table, ["hash" => $hashCode], ["id" => $id]);
     }
 
     function generateCode($length = 10)
@@ -58,13 +58,13 @@ class User extends Model
 
     function getIdByHash($hash)
     {
-        return $this->_db->fetchOne($this->table, 'id', ['hash' => $hash]);
+        return $this->db->fetchOne($this->table, 'id', ['hash' => $hash]);
     }
 
-    function login()
+    function login($login, $password)
     {
-        $user = $this->getBy('email', $_POST['email']);
-        if ($user && password_verify($_POST['password'], $user->password)) {
+        $user = $this->getBy('email', $login);
+        if ($user && password_verify($password, $user->password)) {
             if (isset($_POST['remember'])) {
                 $expire = 30;
             } else {
@@ -86,17 +86,17 @@ class User extends Model
 
     function inputExists($field, $input)
     {
-        return $this->_db->fetchOne($this->table, 'id', [$field => $input]);
+        return $this->db->fetchOne($this->table, 'id', [$field => $input]);
     }
 
-    function registration()
+    function registration($login, $email, $password)
     {
         $input = [
-            'login' => $_POST['login'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password']
+            'login' => $login,
+            'email' => $email,
+            'password' => $password
         ];
-        $valid = $this->_validator->validate($input, $this->rules);
+        $valid = $this->validator->validate($input, $this->rules);
 
         $loginExists = $this->inputExists('login', $input['login']);
         $emailExists = $this->inputExists('email', $input['email']);
@@ -114,11 +114,10 @@ class User extends Model
                 'login' => $input['login'],
                 'email' => $input['email'],
                 'password' => password_hash($input['password'], PASSWORD_DEFAULT),
-                'startDate' => date('Y-m-d H:i:s'),
-                'statusId' => $this->_db->fetchOne('status', 'id', ['name' => 'unconfirmed']),
-                'roleId' => $this->_db->fetchOne('roles', 'id', ['name' => 'user']),
+                'statusId' => $this->db->fetchOne('status', 'id', ['name' => 'unconfirmed']),
+                'roleId' => $this->db->fetchOne('roles', 'id', ['name' => 'user']),
             ];
-            $this->_db->insert($this->table, $data);
+            $this->db->insert($this->table, $data);
             return true;
         } else {
             return $valid;

@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     function loginAction()
@@ -9,10 +9,12 @@ class UserController extends Controller
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
-            if($this->_model->login()){
+            $login = $_POST['email'];
+            $password = $_POST['password'];
+            if($this->_model->login($login, $password)){
                 $this->redirect('/');
             } else {
-                echo 'Введены не верные данные'; //todo Вывод в view
+                echo 'Введены не верные данные';
             }
         } else {
             $this->view('content/login');
@@ -28,9 +30,12 @@ class UserController extends Controller
     function registrationAction()
     {
         if (isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])) {
-            $valid=$this->_model->registration();
+            $login = $_POST['login'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $valid=$this->_model->registration($login, $email, $password);
             if(!is_array($valid)){
-                echo 'Вы зарегистрированы'; //todo Вывод в view
+                echo 'Вы зарегистрированы';
             }else var_dump($valid);
         } else $this->view('content/registration');
     }
