@@ -1,7 +1,7 @@
 <?php
 class EmailSender
 {
-    public static function sendMail($to)
+    public static function sendMail($to)//send mail with unique-link to user and returns unique part of unique-link
     {
         $num = 44;
         $unique = '';
@@ -37,6 +37,7 @@ class EmailSender
         $message = "Congratulations you were successfully registered on adsboard2.zone, please follow next link $link to complete your registration";
 
         $headers = 'From: webmaster@example.com' . "\r\n" . 'Reply-To: webmaster@example.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+         return $unique;//returns unique part of unique-link what were sent to user, should be write in DB to table user to use in ConfirmAction() in future
 
         if(mail($to, $subject, $message, $headers)){
             echo 'Email were sent';

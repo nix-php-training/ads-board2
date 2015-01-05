@@ -40,6 +40,7 @@ class UserController extends Controller
     {
         $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
         $orderParams['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';//валюта в трехбуквенном
+
         switch ($_GET['type']) {
             case 'pro':
                 $orderParams = array(
