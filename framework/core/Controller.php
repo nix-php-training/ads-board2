@@ -2,9 +2,40 @@
 
 class Controller
 {
-    protected $_view;
-    public $model;
-    protected $_params;
+    private $_view;
+    private $_model;
+    private $_params;
+
+    /**
+     * @return View
+     */
+    public function getView()
+    {
+        return $this->_view;
+    }
+
+    /**
+     * @return null
+     */
+    public function getModel()
+    {
+        return $this->_model;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParams($key=null)
+    {
+        if(isset($key))
+            return array_key_exists($key, $this->_params) ? $this->_params[$key]:false ;
+        else
+            return $this->_params;
+
+    }
+
+
+
 
     public function __construct($params)
     {
@@ -12,7 +43,7 @@ class Controller
         $this->_params = $params;
         $this->_view = new View();
         if (Registry::has('model')) {
-            $this->model = Registry::get('model');
+            $this->_model = Registry::get('model');
         }
     }
 
