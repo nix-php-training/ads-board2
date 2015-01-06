@@ -3,11 +3,12 @@
         "psr-4": {
             "": [
                 "framework/classes",
-                "framework/core/"
+                "framework/core/",
+                "application/controllers",
+                "application/models"
             ]
         },
         "require": {
-            "monolog/monolog": "1.0.*"
         }
     }
 }
