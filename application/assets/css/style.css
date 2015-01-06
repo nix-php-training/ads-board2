@@ -125,9 +125,13 @@ img.logo {
     font-size: 1.5em;
 }
 
-.margin7 {
+.margin-rl7 {
     margin-right: 7px;
     margin-left: 7px;
+}
+
+.margin-t7p {
+    margin-top: 7%;
 }
 
 .width60p {

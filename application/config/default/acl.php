@@ -3,7 +3,8 @@ return [
     "acl" => [
         'home' => [
             'index' => ['all'],
-            'postlist' => ['all']
+            'postlist' => ['all'],
+            'pricing' => ['all']
         ],
         'user' => [
             'login' => ['all'],
