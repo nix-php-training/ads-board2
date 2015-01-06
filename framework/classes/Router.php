@@ -4,7 +4,7 @@ class Router
 {
     private $actionName;
     private $controllerName;
-    private $params;
+    private $params = array();
     private $routes;
 
 
@@ -48,6 +48,24 @@ class Router
         $this->actionName = $actionName;
     }
 
+    public function getQueryParamsFromURL($string)
+    {
+        $queryParams = array();
+        if($string == '') return array();
+        else{
+            $devidedByAnd = explode('&', $string);
+            foreach ($devidedByAnd as $v)
+            {
+                $devidedByEquil = explode('=', $v);
+                $queryParams[$devidedByEquil[0]] = $devidedByEquil[1];
+            }
+            return $queryParams;
+
+        }
+
+
+    }
+
     public function initRoutes()
     {
         $routes = Config::get('route');
@@ -71,14 +89,8 @@ class Router
             $url = $aliases[$url];
         }
 
-        $routeName = $this->checkActiveRoute($url);
-
-        if(!array_key_exists($routeName,$this->routes))
-        {
-            $this->controllerName = 'Home';
-            $this->actionName = 'index';
-        }
-
+        $this->checkActiveRoute($url);
+        
         return [$this->controllerName, $this->actionName, $this->params];
 
     }
@@ -87,7 +99,7 @@ class Router
     {
         trim($uri);
 
-            $activeRoute = null;
+     //       $activeRoute = null;
             foreach ($this->routes as $name => $routeSettings) {
                 if (!$routeSettings['template']) {
 
@@ -110,15 +122,14 @@ class Router
                         $this->params = array();
                         foreach ($routeSettings['params'] as $paramName => $param) {
                             if ($param[0] == "{") {//if $param is dynamic
-                                $this->params[$paramName] = $matches[$param[1]];
-                            } else {
+
+                                $this->params = $this->getQueryParamsFromURL($matches[$param[1]]);
+                            } else
+                            {
                                 $this->params[$paramName] = $param;
                             }
                         }
                     }
-
-                    $activeRoute = $name;
-                    return $activeRoute;
 
                 }
 
