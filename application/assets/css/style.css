@@ -304,6 +304,18 @@ table#plans td, th {
     background-color: #D2D7D3;
 }
 
+.post-list img {
+    width: 150px;
+}
+
+.post-list a:link, .post-list a:visited {
+    color: #656D78;
+}
+
+.post-list a:hover, .post-list a:active {
+    color: #434A54;
+}
+
 .post-list h1 {
     margin-top: 0;
     font-size: 1.5em;
@@ -312,41 +324,6 @@ table#plans td, th {
 .post-list h2 {
     margin-top: 0;
     font-size: 1.3em;
-}
-
-.post-list .relative-images {
-    height: 203px;
-    overflow-y: auto;
-}
-
-.image-preview {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.image-preview img {
-    margin: 0;
-}
-
-/* Scroll style for relative-images
--------------------------------------------------- */
-
-.post-list ::-webkit-scrollbar, .post-detail ::-webkit-scrollbar {
-    width: 12px;
-}
-
-.post-list ::-webkit-scrollbar-track, .post-detail ::-webkit-scrollbar-track {
-    background-color: #eaeaea;
-    border-left: 1px solid #ccc;
-}
-
-.post-list ::-webkit-scrollbar-thumb, .post-detail ::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-}
-
-.post-list ::-webkit-scrollbar-thumb:hover, .post-detail ::-webkit-scrollbar-thumb:hover {
-    background-color: #aaa;
 }
 
 /* Post-detail
