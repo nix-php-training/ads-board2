@@ -230,10 +230,14 @@ table#plans td, th {
 /* Post-list
 -------------------------------------------------- */
 
+.posts :last-child {
+    margin-bottom: 3%;
+}
+
 .post-list {
-    margin-top: 3%;
-    padding: 15px;
-    background-color: #D2D7D3;
+margin-top: 3%;
+padding: 15px;
+background-color: #D2D7D3;
 }
 
 .post-list h1 {
