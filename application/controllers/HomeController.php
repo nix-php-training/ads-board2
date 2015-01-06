@@ -16,4 +16,9 @@ class HomeController extends Controller
     {
         $this->view('content/pricing');
     }
+
+    function postDetailAction()
+    {
+        $this->view('content/postDetail');
+    }
 }

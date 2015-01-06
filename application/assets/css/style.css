@@ -41,6 +41,15 @@ footer p {
     color: #FFFCF3;
 }
 
+nav a {
+    color: #ffffff !important;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 2%;
+    padding-top: 0;
+}
+
 #login input[type=submit] {
     width: 20%;
 }
@@ -50,18 +59,12 @@ footer p {
 }
 
 .hello {
-    background-color: #707C8D;
-    color: #FFFCF3;
     padding: 8%;
-}
-
-.hello p {
-    font-size: 1.2em;
 }
 
 .hello h1 {
     margin-top: 1%;
-    font-size: 1.7em;
+    font-size: 4.5em;
 }
 
 .icheckbox_flat {
@@ -157,6 +160,61 @@ td.ad-date {
     width: 100%;
 }
 
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+/* No padding
+-------------------------------------------------- */
+
+.no-padding-all {
+    padding: 0;
+}
+
+.no-padding-rl {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.no-padding-tb {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.no-padding-t {
+    padding-top: 0;
+}
+
+.no-padding-b {
+    padding-bottom: 0;
+}
+
+/* No margin
+-------------------------------------------------- */
+
+.no-margin-all {
+    margin: 0;
+}
+
+.no-margin-rl {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.no-margin-tb {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.no-margin-t {
+    margin-top: 0;
+}
+
+.no-margin-b {
+    margin-bottom: 0;
+}
+
 /* Fontastic
 -------------------------------------------------- */
 
@@ -217,7 +275,13 @@ td.ad-date {
     content: "a";
 }
 
-/*plan table styles*/
+.icon-skype:before {
+    content: "b";
+}
+
+/* Plan table styles
+-------------------------------------------------- */
+
 table#plans {
     width: 100%;
 }
@@ -235,9 +299,9 @@ table#plans td, th {
 }
 
 .post-list {
-margin-top: 3%;
-padding: 15px;
-background-color: #D2D7D3;
+    margin-top: 3%;
+    padding: 15px;
+    background-color: #D2D7D3;
 }
 
 .post-list h1 {
@@ -250,42 +314,93 @@ background-color: #D2D7D3;
     font-size: 1.3em;
 }
 
-.relative-images {
+.post-list .relative-images {
     height: 203px;
     overflow-y: auto;
 }
 
-/* Post-list: scroll style for relative-images
--------------------------------------------------- */
-
-.post-list ::-webkit-scrollbar {
-    width: 12px;
-}
-
-.post-list ::-webkit-scrollbar-track {
-    background-color: #eaeaea;
-    border-left: 1px solid #ccc;
-}
-
-.post-list ::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-}
-
-.post-list ::-webkit-scrollbar-thumb:hover {
-    background-color: #aaa;
-}
-
-.vertical-align {
-    display: flex;
-    align-items: center;
-}
-
 .image-preview {
     list-style-type: none;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 .image-preview img {
     margin: 0;
+}
+
+/* Scroll style for relative-images
+-------------------------------------------------- */
+
+.post-list ::-webkit-scrollbar, .post-detail ::-webkit-scrollbar {
+    width: 12px;
+}
+
+.post-list ::-webkit-scrollbar-track, .post-detail ::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+
+.post-list ::-webkit-scrollbar-thumb, .post-detail ::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+
+.post-list ::-webkit-scrollbar-thumb:hover, .post-detail ::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+/* Post-detail
+-------------------------------------------------- */
+
+.post-detail {
+    /*background-color: #D2D7D3;*/
+}
+
+.post-detail .price {
+    width: 100%;
+    background-color: #F9690E;
+    color: white;
+    padding: 2%;
+    text-align: center;
+}
+
+.post-detail .body {
+    margin-top: 3%;
+}
+
+.post-detail .description {
+    margin: 3% 0 7% 0;
+}
+
+.post-detail .author {
+    padding: 5%;
+}
+
+.post-detail .photo-amount {
+    z-index: 9999;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #F9690E;
+    color: white;
+    padding: 1% 2%;
+    text-align: center;
+}
+
+.post-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.post-thumbnail img {
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    height: 100%;
+    width: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }

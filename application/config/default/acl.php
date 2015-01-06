@@ -4,7 +4,8 @@ return [
         'home' => [
             'index' => ['all'],
             'postlist' => ['all'],
-            'pricing' => ['all']
+            'pricing' => ['all'],
+            'postdetail' => ['all']
         ],
         'user' => [
             'login' => ['all'],
