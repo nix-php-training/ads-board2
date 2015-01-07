@@ -11,7 +11,7 @@ class ErrorController extends BaseController
      */
     public function indexAction()
     {
-        $this->view('error/error404','', 'error');
+        $this->view('error/error404', '', 'error');
     }
 
     /**

@@ -96,20 +96,21 @@ class User extends Model
             'email' => $email,
             'password' => $password
         ];
-        $valid = $this->validator->validate($input, $this->rules);
+        $result = $this->validator->validate($input, $this->rules);
+        if ($result !== true) {
+            $valid = $result;
+        }
 
         $loginExists = $this->inputExists('login', $input['login']);
         $emailExists = $this->inputExists('email', $input['email']);
         if ($loginExists !== false) {
-            unset($valid);
             $valid['login'] = $input['login'] . ' is already exists';
         }
         if ($emailExists !== false) {
-            unset($valid);
             $valid['email'] = $input['email'] . ' is already exists';
         }
 
-        if (!is_array($valid)) {
+        if (empty($valid)) {
             $data = [
                 'login' => $input['login'],
                 'email' => $input['email'],

@@ -2,8 +2,8 @@
 
 class Model
 {
-    public   $db;
-    public  $validator;
+    public $db;
+    public $validator;
 
     function __construct()
     {

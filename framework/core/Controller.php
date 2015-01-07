@@ -6,13 +6,13 @@ class Controller
     protected $_model;
     protected $_name;
 
-    public function __construct($name)
+    public function __construct($name, $model)
     {
         $this->acl = new Acl();
-        $this->_name = $name;
         $this->_view = new View();
-        if (Registry::has('model')) {
-            $this->_model = Registry::get('model');
+        $this->_name = $name;
+        if (class_exists($model)) {
+            $this->_model = new $model;
         }
     }
 

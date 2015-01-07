@@ -18,28 +18,18 @@ class Dispatcher
         $actionName = self::$pureActionName . 'Action';
         $controllerName = self::$pureControllerName . 'Controller';
 
+        if (class_exists($controllerName)) {
+            $controller = new $controllerName(self::$pureActionName, self::$pureControllerName);
+            $action = $actionName;
 
-        $controllerFile = $controllerName . '.php';
-        $controllerPath = "application/controllers/" . $controllerFile;
-        if (file_exists($controllerPath)) {
-            include $controllerPath;
-        } else {
-            self::ErrorPage404();
-        }
-
-        if (class_exists(self::$pureControllerName)){
-            $model = new self::$pureControllerName();
-            Registry::set('model', $model);
-        }
-
-        $controller = new $controllerName(self::$pureActionName);
-        $action = $actionName;
-
-        if (method_exists($controller, $action)) {
-            if ($controller->acl->isAllow(strtolower(self::$pureControllerName), self::$pureActionName)) {
-                $controller->$action();
+            if (method_exists($controller, $action)) {
+                if ($controller->acl->isAllow(strtolower(self::$pureControllerName), self::$pureActionName)) {
+                    $controller->$action();
+                } else {
+                    self::ErrorPage403();
+                }
             } else {
-                self::ErrorPage403();
+                self::ErrorPage404();
             }
         } else {
             self::ErrorPage404();

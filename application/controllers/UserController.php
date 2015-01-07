@@ -11,7 +11,7 @@ class UserController extends BaseController
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $login = $_POST['email'];
             $password = $_POST['password'];
-            if($this->_model->login($login, $password)){
+            if ($this->_model->login($login, $password)) {
                 $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
@@ -33,11 +33,15 @@ class UserController extends BaseController
             $login = $_POST['login'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $valid=$this->_model->registration($login, $email, $password);
-            if(!is_array($valid)){
+            $valid = $this->_model->registration($login, $email, $password);
+            if (!is_array($valid)) {
                 echo 'Вы зарегистрированы';
-            }else var_dump($valid);
-        } else $this->view('content/registration');
+            } else {
+                var_dump($valid);
+            }
+        } else {
+            $this->view('content/registration');
+        }
     }
 
     function confirmAction()
