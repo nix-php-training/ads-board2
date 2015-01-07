@@ -21,4 +21,16 @@ class HomeController extends Controller
     {
         $this->view('content/postDetail');
     }
+
+    function addPostAction()
+    {
+        $this->view('content/addPost');
+    }
+
+    // for image download example
+    // will be moved to correct controller
+    function imageDownloadAction()
+    {
+        ChromePhp::log($_FILES);
+    }
 }

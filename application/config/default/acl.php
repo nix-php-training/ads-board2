@@ -5,7 +5,9 @@ return [
             'index' => ['all'],
             'postlist' => ['all'],
             'pricing' => ['all'],
-            'postdetail' => ['all']
+            'postdetail' => ['all'],
+            'addpost' => ['all'],
+            'imagedownload' => ['all']
         ],
         'user' => [
             'login' => ['all'],
