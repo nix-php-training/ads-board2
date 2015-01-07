@@ -40,7 +40,7 @@ class UserController extends Controller
     {
         $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
         $orderParams['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';//валюта в трехбуквенном
-        switch ($_GET['type']) {
+        switch ($this->getParams('type')) {
             case 'pro':
                 $orderParams = array(
                     'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
@@ -86,7 +86,7 @@ class UserController extends Controller
             // Получаем детали оплаты, включая информацию о покупателе.
             // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
             $paypal = new Paypal();
-            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
+            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
 
             // Завершаем транзакцию
             $requestParams = array(

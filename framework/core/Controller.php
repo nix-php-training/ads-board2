@@ -2,18 +2,43 @@
 
 class Controller
 {
-    protected $_view;
+    private $_view;
     public $model;
-    protected $_name;
+    private $_params;
 
-    public function __construct($name)
+    /**
+     * @return View
+     */
+    public function getView()
+    {
+        return $this->_view;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getParams($key=null)
+    {
+        if(isset($key))
+            return array_key_exists($key, $this->_params) ? $this->_params[$key]:false ;
+        else
+            return $this->_params;
+
+    }
+
+
+
+
+    public function __construct($params)
     {
         $this->acl = new Acl();
-        $this->_name = $name;
+        $this->_params = $params;
         $this->_view = new View();
         if (Registry::has('model')) {
             $this->model = Registry::get('model');
         }
+
     }
 
     public function view($tpl, $data = [], $layout = 'layout.phtml')
