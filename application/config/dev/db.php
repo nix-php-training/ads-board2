@@ -5,7 +5,7 @@ return [
         'host' => 'localhost',
         'dbname' => 'ads-board2',
         'user' => 'root',
-        'password' => '123',
+        'password' => 'root',
         'charset' => 'utf8',
     ]
 ];

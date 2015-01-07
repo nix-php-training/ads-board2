@@ -60,6 +60,7 @@ h1, h2, h3, h4, h5 {
 
 .hello {
     padding: 8%;
+    text-align: center;
 }
 
 .hello h1 {
@@ -380,4 +381,11 @@ table#plans td, th {
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+/* Post add
+-------------------------------------------------- */
+
+.post-add {
+
 }
