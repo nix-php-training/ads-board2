@@ -9,9 +9,9 @@ class UserController extends BaseController
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
-            $login = $_POST['email'];
+            $email = $_POST['email'];
             $password = $_POST['password'];
-            if ($this->_model->login($login, $password)) {
+            if ($this->_model->login($email, $password)) {
                 $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';

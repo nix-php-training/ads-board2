@@ -13,9 +13,9 @@ class User extends Model
     function getBy($field, $value)
     {
         $where = [":$field" => $value];
-        return $this->db->query("SELECT users.*, roles.name AS role, status.name AS status
+        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status
                                   FROM users
-                                  JOIN status ON users.statusId=status.id
+                                  JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
                                   WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
@@ -61,9 +61,10 @@ class User extends Model
         return $this->db->fetchOne($this->table, 'id', ['hash' => $hash]);
     }
 
-    function login($login, $password)
+    function login($email, $password)
     {
-        $user = $this->getBy('email', $login);
+        $user = $this->getBy('email', $email);
+        var_dump($user);
         if ($user && password_verify($password, $user->password)) {
             if (isset($_POST['remember'])) {
                 $expire = 30;
