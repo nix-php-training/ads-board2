@@ -110,13 +110,12 @@ class User extends Model
         if ($emailExists !== false) {
             $valid['email'] = $input['email'] . ' is already exists';
         }
-
         if (empty($valid)) {
             $data = [
                 'login' => $input['login'],
                 'email' => $input['email'],
                 'password' => password_hash($input['password'], PASSWORD_DEFAULT),
-                'statusId' => $this->db->fetchOne('status', 'id', ['name' => 'unconfirmed']),
+                'statusId' => $this->db->fetchOne('statuses', 'id', ['name' => 'unconfirmed']),
                 'roleId' => $this->db->fetchOne('roles', 'id', ['name' => 'user']),
             ];
             $this->db->insert($this->table, $data);

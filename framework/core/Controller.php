@@ -2,15 +2,43 @@
 
 class Controller
 {
-    protected $_view;
-    protected $_model;
-    protected $_name;
+    private $_view;
+    private $_model;
+    private $_params;
 
-    public function __construct($name, $model)
+    /**
+     * @return View
+     */
+    public function getView()
+    {
+        return $this->_view;
+    }
+
+    public function getModel()
+    {
+        return $this->_model;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParams($key=null)
+    {
+        if(isset($key))
+            return array_key_exists($key, $this->_params) ? $this->_params[$key]:false ;
+        else
+            return $this->_params;
+
+    }
+
+
+
+
+    public function __construct($params, $model)
     {
         $this->acl = new Acl();
+        $this->_params = $params;
         $this->_view = new View();
-        $this->_name = $name;
         if (class_exists($model)) {
             $this->_model = new $model;
         }

@@ -11,7 +11,7 @@ class UserController extends BaseController
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            if ($this->_model->login($email, $password)) {
+            if ($this->getModel()->login($email, $password)) {
                 $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
@@ -23,7 +23,7 @@ class UserController extends BaseController
 
     function logoutAction()
     {
-        $this->_model->logout();
+        $this->getModel()->logout();
         $this->redirect('/');
     }
 
@@ -33,7 +33,7 @@ class UserController extends BaseController
             $login = $_POST['login'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $valid = $this->_model->registration($login, $email, $password);
+            $valid = $this->getModel()->registration($login, $email, $password);
             if (!is_array($valid)) {
                 echo 'Вы зарегистрированы';
             } else {
@@ -53,7 +53,7 @@ class UserController extends BaseController
     {
         $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
         $orderParams['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';//валюта в трехбуквенном
-        switch ($_GET['type']) {
+        switch ($this->getParams('type')) {
             case 'pro':
                 $orderParams = array(
                     'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
@@ -99,7 +99,7 @@ class UserController extends BaseController
             // Получаем детали оплаты, включая информацию о покупателе.
             // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
             $paypal = new Paypal();
-            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
+            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
 
             // Завершаем транзакцию
             $requestParams = array(
