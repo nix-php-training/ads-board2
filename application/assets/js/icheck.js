@@ -7,7 +7,7 @@
  * MIT Licensed
  */
 
-(function($) {
+(function ($) {
 
     // Cached vars
     var _iCheck = 'iCheck',
@@ -31,13 +31,13 @@
         _mobile = /ipad|iphone|ipod|android|blackberry|windows phone|opera mini|silk/i.test(navigator.userAgent);
 
     // Plugin init
-    $.fn[_iCheck] = function(options, fire) {
+    $.fn[_iCheck] = function (options, fire) {
 
         // Walker
         var handle = 'input[type="' + _checkbox + '"], input[type="' + _radio + '"]',
             stack = $(),
-            walker = function(object) {
-                object.each(function() {
+            walker = function (object) {
+                object.each(function () {
                     var self = $(this);
 
                     if (self.is(handle)) {
@@ -57,7 +57,7 @@
             // Find checkboxes and radio buttons
             walker(this);
 
-            return stack.each(function() {
+            return stack.each(function () {
                 var self = $(this);
 
                 if (options == 'destroy') {
@@ -106,7 +106,7 @@
             // Walk around the selector
             walker(this);
 
-            return stack.each(function() {
+            return stack.each(function () {
                 var self = $(this);
 
                 // If already customized
@@ -151,7 +151,7 @@
                     aria = !!settings.aria,
 
                 // Set ARIA placeholder
-                    ariaID = _iCheck + '-' + Math.random().toString(36).substr(2,6),
+                    ariaID = _iCheck + '-' + Math.random().toString(36).substr(2, 6),
 
                 // Parent & helper
                     parent = '<div class="' + className + '" ' + (aria ? 'role="' + node[_type] + '" ' : ''),
@@ -159,7 +159,7 @@
 
                 // Set ARIA "labelledby"
                 if (aria) {
-                    label.each(function() {
+                    label.each(function () {
                         parent += 'aria-labelledby="';
 
                         if (this.id) {
@@ -188,7 +188,7 @@
 
                 // Label events
                 if (label.length) {
-                    label.on(_click + '.i mouseover.i mouseout.i ' + _touch, function(event) {
+                    label.on(_click + '.i mouseover.i mouseout.i ' + _touch, function (event) {
                         var type = event[_type],
                             item = $(this);
 
@@ -225,7 +225,7 @@
                 }
 
                 // Input events
-                self.on(_click + '.i focus.i blur.i keyup.i keydown.i keypress.i', function(event) {
+                self.on(_click + '.i focus.i blur.i keyup.i keydown.i keypress.i', function (event) {
                     var type = event[_type],
                         key = event.keyCode;
 
@@ -256,7 +256,7 @@
                 });
 
                 // Helper events
-                helper.on(_click + ' mousedown mouseup mouseover mouseout ' + _touch, function(event) {
+                helper.on(_click + ' mousedown mouseup mouseover mouseout ' + _touch, function (event) {
                     var type = event[_type],
 
                     // mousedown|mouseup
@@ -373,7 +373,7 @@
 
                 inputs = form.length ? form.find(inputs) : $(inputs);
 
-                inputs.each(function() {
+                inputs.each(function () {
                     if (this !== node && $(this).data(_iCheck)) {
                         off($(this), state);
                     }

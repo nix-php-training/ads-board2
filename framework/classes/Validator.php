@@ -14,6 +14,7 @@ class Validator
         'max_length' => ':attribute can be maximum :params character long',
         'min_length' => ':attribute must be minimum :params character long',
         'exact_length' => ':attribute field must :params character long',
+        'login' => ':attribute can contain only letters, numbers, hyphens (-), and underscores (_)'
     ];
 
     private function getErrorMessage($error, $attribute, $params = '')
@@ -157,6 +158,11 @@ class Validator
     protected function exact_length($input, $length)
     {
         return (strlen($input) == $length);
+    }
+
+    protected function login($input)
+    {
+        return preg_match('/^[a-zA-Z0-9_-]+$/', $input);
     }
 
 } 
