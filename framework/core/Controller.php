@@ -2,7 +2,14 @@
 
 class Controller
 {
+    /**
+     * @var $_view View
+     */
     private $_view;
+
+    /**
+     * @var $_model Model
+     */
     private $_model;
     private $_params;
 

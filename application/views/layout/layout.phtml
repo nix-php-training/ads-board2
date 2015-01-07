@@ -31,62 +31,14 @@
 
 <body>
 
-<header>
-    <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/home">ADS BOARD</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-navbar-collapse">
 
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group search-only">
-                        <i class="search-icon glyphicon glyphicon-search"></i>
-                        <input type="text" class="form-control search-query" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-info" data-type="last">Search</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/home/postlist"><i class="glyphicon glyphicon-eye-open"></i> Watch ads</a></li>
-                    <?php
-                    if ($_SESSION['userRole'] == 'guest') {
-                        echo '<li class="btn btn-xs btn-primary"><a href="/registration" ><i class="icon-user-add"></i> Sing up</a></li>
-                              <li class="btn btn-xs btn-success"><a href="/login"><i class="icon-sign-in"></i> Sing in</a></li>';
-                    } else {
-                        echo '<li><a href=""><i class="glyphicon glyphicon-plus-sign"></i> Create new ads <span class="badge">1</span></a></li>
-                              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">[Username] <span class="caret"></span></a>
-                              <ul class="dropdown-menu" role="menu">
-                                <li><a href="#"><i class="icon-widget"></i> Profile</a></li>
-                                <li class="divider"></li><li><a href="/user/logout"><i class="icon-sign-out"></i> Logout</a></li>
-                              </ul></li>';
-                    }
-                    ?>
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<main role="main" class="container" id="home">
-
-    <?php echo $content ?>
-
-</main>
-
-<div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="contactUsLabel" aria-hidden="true">
+<div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="contactUsLabel" aria-hidden="true"
+     data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                        aria-hidden="true">&Cross;</span></button>
                 <h4 class="modal-title" id="contactUsLabel">Contact form</h4>
             </div>
             <div class="modal-body">
@@ -121,13 +73,65 @@
     </div>
 </div>
 
+<header>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home">ADS BOARD</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group search-only">
+                        <i class="search-icon glyphicon glyphicon-search"></i>
+                        <input type="text" class="form-control search-query" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-info" data-type="last">Search</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/home/postlist"><i class="glyphicon glyphicon-eye-open"></i> Watch ads</a></li>
+                    <?php
+                    if ($_SESSION['userRole'] == 'guest') {
+                        echo '<li class="btn btn-xs btn-primary"><a href="/registration" ><i class="icon-user-add"></i> Sing up</a></li>
+                              <li class="btn btn-xs btn-success"><a href="/login"><i class="icon-sign-in"></i> Sing in</a></li>';
+                    } else {
+                        echo '<li><a href="/home/addpost"><i class="glyphicon glyphicon-plus-sign"></i> Create new ads <span class="badge">1</span></a></li>
+                              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $_SESSION["userLogin"] . ' <span class="caret"></span></a>
+                              <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><i class="icon-widget"></i> Profile</a></li>
+                                <li class="divider"></li><li><a href="/user/logout"><i class="icon-sign-out"></i> Logout</a></li>
+                              </ul></li>';
+                    }
+                    ?>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main role="main" class="container" id="home">
+
+    <?php echo $content ?>
+
+</main>
+
+
 <footer>
     <div class="container">
         <p class="pull-left">Copyright&nbsp;&copy;&nbsp;
             <script type="text/javascript">
                 document.write(new Date().getFullYear());
             </script>
-            Ads Board. All rights reserved.</p>
+            Ads Board. All rights reserved.
+        </p>
 
         <p class="pull-right">
             <a href="/home">Home</a>&emsp;
