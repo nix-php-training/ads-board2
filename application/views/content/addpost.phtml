@@ -1,0 +1,43 @@
+<div class="center-block width60p post-add">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">Add new advertisement<span class="panel-text-right">Or <a href="/home">return to
+                        home</a></span></h3>
+        </div>
+        <div class="panel-body">
+
+            <p class="text-danger">
+                Fields marked with * are required!
+            </p>
+
+            <label for="dropzone">Add photo of your goods</label>
+            <form id="dropzone" action="/home/imagedownload" class="dropzone"></form>
+
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="category"><span class="text-danger">*</span> Category</label>
+                    <select name="category" id="category" class="form-control">
+                        <option value="1">Automobiles</option>
+                        <option value="2">Furniture</option>
+                        <option value="3">Toys</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subject"><span class="text-danger">*</span> Subject</label>
+                    <input type="text" class="form-control" id="subject" placeholder="Enter subject">
+                </div>
+                <div class="form-group">
+                    <label for="description"><span class="text-danger">*</span> Description</label>
+                    <textarea class="form-control" id="description" placeholder="Tell us about your goods" required
+                              rows="5"></textarea>
+                </div>
+
+                <input type="submit" class="btn btn-danger pull-right" value="Create">
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="/application/assets/js/dropzone.min.js"></script>

@@ -3,6 +3,9 @@
 class BaseController extends Controller
 {
 
+    /**
+     * @var $_auth Auth
+     */
     private $_auth;
 
     function __construct($params, $model)
