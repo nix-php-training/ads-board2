@@ -4,6 +4,7 @@ class Dispatcher
 {
     private static $pureControllerName;
     private static $pureActionName;
+    private static $parameters;
 
     static function start()
     {
@@ -14,6 +15,7 @@ class Dispatcher
 
         self::$pureControllerName = ucfirst($router->getControllerName());
         self::$pureActionName = strtolower($router->getActionName());
+        self::$parameters = $router->getParams();
 
         $actionName = self::$pureActionName . 'Action';
         $controllerName = self::$pureControllerName . 'Controller';
