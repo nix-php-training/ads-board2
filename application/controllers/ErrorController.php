@@ -19,7 +19,7 @@ class ErrorController extends BaseController
      */
     public function error404Action()
     {
-        $this->view('error/error404', '', 'error');
+        $this->view('error/error404', array('title' => 'Page not found!'), 'error');
     }
 
     /**
@@ -27,7 +27,7 @@ class ErrorController extends BaseController
      */
     public function error403Action()
     {
-        $this->view('error/error403', '', 'error');
+        $this->view('error/error403', array('title' => 'Access denied!'), 'error');
     }
 
 }

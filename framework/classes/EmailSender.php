@@ -1,5 +1,4 @@
 <?php
-
 class EmailSender
 {
     public static function sendMail($to)
@@ -7,104 +6,31 @@ class EmailSender
         $num = 44;
         $unique = '';
 
-        $arr = array(
-            'a',
-            'b',
-            'c',
-            'd',
-            'e',
-            'f',
-            'g',
-            'h',
-            'i',
-            'j',
-            'k',
-            'l',
-            'm',
-            'n',
-            'o',
-            'p',
-            'r',
-            's',
-            't',
-            'u',
-            'v',
-            'x',
-            'y',
-            'z',
-            'A',
-            'B',
-            'C',
-            'D',
-            'E',
-            'F',
-            'G',
-            'H',
-            'I',
-            'J',
-            'K',
-            'L',
-            'M',
-            'N',
-            'O',
-            'P',
-            'R',
-            'S',
-            'T',
-            'U',
-            'V',
-            'X',
-            'Y',
-            'Z',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '0',
-            '.',
-            ',',
-            '(',
-            ')',
-            '[',
-            ']',
-            '!',
-            '?',
-            '&',
-            '^',
-            '%',
-            '@',
-            '*',
-            '$',
-            '<',
-            '>',
-            '/',
-            '|',
-            '+',
-            '-',
-            '{',
-            '}',
-            '`',
-            '~'
-        );
+        $arr= array('a','b','c','d','e','f',
+            'g','h','i','j','k','l',
+            'm','n','o','p','r','s',
+            't','u','v','x','y','z',
+            'A','B','C','D','E','F',
+            'G','H','I','J','K','L',
+            'M','N','O','P','R','S',
+            'T','U','V','X','Y','Z',
+            '1','2','3','4','5','6',
+            '7','8','9','0','.',',',
+            '(',')','[',']','!','?',
+            '&','^','%','@','*','$',
+            '<','>','/','|','+','-',
+            '{','}','`','~');
 
-        for ($i = 1; $i <= $num; $i++) {
+        for($i = 1; $i <= $num; $i++){
             $index = mt_rand(0, count($arr) - 1);
             $unique .= $arr[$index];
         }
 
         $uniqueQuery = ROOT_PATH . "/user/confirm?link=" . urlencode($unique);
 
-        $link = "<a href = $uniqueQuery>" . $uniqueQuery . "</a>";
+        $link ="<a href = $uniqueQuery>" . $uniqueQuery . "</a>";
 
-        $to = (filter_var($to, FILTER_VALIDATE_EMAIL)) ? $to : false;
-//        var_dump($receiver);
-//        die();
-
+        $to = (filter_var($to,FILTER_VALIDATE_EMAIL)) ? $to : false;
 
         $subject = 'Registration';
 
@@ -112,9 +38,9 @@ class EmailSender
 
         $headers = 'From: webmaster@example.com' . "\r\n" . 'Reply-To: webmaster@example.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 
-        if (mail($to, $subject, $message, $headers)) {
+        if(mail($to, $subject, $message, $headers)){
             echo 'Email were sent';
-        } else {
+        }else{
             echo 'Please try again later..';
         }
     }

@@ -9,9 +9,9 @@ class UserController extends BaseController
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
-            $login = $_POST['email'];
+            $email = $_POST['email'];
             $password = $_POST['password'];
-            if ($this->_model->login($login, $password)) {
+            if ($this->_model->login($email, $password)) {
                 $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
@@ -44,63 +44,45 @@ class UserController extends BaseController
         }
     }
 
-    function confirmAction()
+    function planAction()
     {
-        $this->view($this->_name);//podklu4aem view confirm s privetstviem, formami logina i knopkoi submit
-        if (isset($_POST['email']) and isset($_POST['password']) and isset($_GET['link'])) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $link = $_GET['link'];
-
-            /*Zdes vuzov methoda modeli na polu4enie dannux polzovatelya v vide massiva $arr po zna4eniu linka GET['link'] i polei email, password - v tablice dolgna but odna zapis*/
-
-            Registry::set('email',
-                $arr['email']);//$arr polu4enui gipoteti4eskiu massive s infoi o usere v DB, berem email, password, link dlya dalneiwero sravneniya s vvedennumi v formu logina na stranice confirm
-            Registry::set('password', $arr['password']);
-            Registry::set('link', $arr['link']);
-            $emailDb = Registry::get('email');
-            $passwordDb = Registry::get('password');
-            $linkDb = Registry::get('link');
-
-            if (($email === $emailDb) and ($password === $passwordDb) and ($link === $linkDb)) {
-                /*ZDES Vuzov methoda modeli na izmenenie statusa usera s registred na confirmed i udalenie polya link u polzovatelya*/
-                Registry::delete('email');
-                Registry::delete('password');
-                Registry::delete('link');
-                /*vuzov actiona s zaloginenum polzovatelem na pervoi stranice*/
-            }
-        }
-
-
+        $this->view('content/plan');//Отрисовуем страницу с формами для отправки данных на Paypal
     }
 
     function paypalAction()//action for Express Checkout on Paypal
     {
-        $this->view($this->_name);//Отрисовуем страницу с формами для отправки данных на Paypal
+        $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
+        $orderParams['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';//валюта в трехбуквенном
+        switch ($_GET['type']) {
+            case 'pro':
+                $orderParams = array(
+                    'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '99.99'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                );
+
+                $item = array(//описание услуги, имя, описание, стоимость, количество
+                    'L_PAYMENTREQUEST_0_NAME0' => 'PRO-plan',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_AMT0' => '99.99',
+                    'L_PAYMENTREQUEST_0_QTY0' => '1'
+                );break;
+            case 'business':
+                $orderParams = array(
+                    'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                );
+
+                $item = array(//описание услуги, имя, описание, стоимость, количество
+                    'L_PAYMENTREQUEST_0_NAME0' => 'BUSINESS-plan',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_AMT0' => '999.9',
+                    'L_PAYMENTREQUEST_0_QTY0' => '1'
+                );break;
+        }
 
         $requestParams = array(
-            'RETURNURL' => Config::get('site')['host'] . 'user/success',
-            //user will return to this page when payment success
-            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'
-            //user will return to this page when payment cancelled
-        );
-
-        $orderParams = array(
-            'PAYMENTREQUEST_0_AMT' => '99.99',
-            //цена услуги
-            'PAYMENTREQUEST_0_SHIPPINGAMT' => '0',
-            //расході на доставку
-            'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
-            //валюта в трехбуквенном
-            'PAYMENTREQUEST_0_ITEMAMT' => '99.99'
-            //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
-        );
-
-        $item = array(//описание услуги, имя, описание, стоимость, количество
-            'L_PAYMENTREQUEST_0_NAME0' => 'subscribe',
-            'L_PAYMENTREQUEST_0_DESC0' => 'subcribe for adsboard2.zone',
-            'L_PAYMENTREQUEST_0_AMT0' => '99.99',
-            'L_PAYMENTREQUEST_0_QTY0' => '1'
+            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
+            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
         );
 
         $paypal = new Paypal();
