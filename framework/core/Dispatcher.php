@@ -21,7 +21,7 @@ class Dispatcher
         $controllerName = self::$pureControllerName . 'Controller';
 
         if (class_exists($controllerName)) {
-            $controller = new $controllerName(self::$pureActionName, self::$pureControllerName);
+            $controller = new $controllerName(self::$parameters, self::$pureControllerName);
             $action = $actionName;
 
             if (method_exists($controller, $action)) {

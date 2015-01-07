@@ -3,7 +3,7 @@
 class Controller
 {
     private $_view;
-    public $model;
+    private $_model;
     private $_params;
 
     /**
@@ -14,6 +14,10 @@ class Controller
         return $this->_view;
     }
 
+    public function getModel()
+    {
+        return $this->_model;
+    }
 
     /**
      * @return mixed
@@ -30,12 +34,11 @@ class Controller
 
 
 
-    public function __construct($params)
+    public function __construct($params, $model)
     {
         $this->acl = new Acl();
         $this->_params = $params;
         $this->_view = new View();
-        $this->_name = $name;
         if (class_exists($model)) {
             $this->_model = new $model;
         }
