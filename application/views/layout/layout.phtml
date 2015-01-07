@@ -81,14 +81,61 @@
 
 </main>
 
+<div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="contactUsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="contactUsLabel">Contact form</h4>
+            </div>
+            <div class="modal-body">
+                <p>Feel free to contact us for any issues you might have with our service.</p>
+
+                <form>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label for="message-username">Name</label>
+                                <input type="text" id="message-username" required class="form-control"
+                                       placeholder="Name">
+                            </div>
+                            <div class="col-xs-6">
+                                <label for="message-email">Email</label>
+                                <input type="email" id="message-email" required class="form-control"
+                                       placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Message:</label>
+                        <textarea class="form-control" id="message-text" required rows="5"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer>
     <div class="container">
-        <p class="pull-left">&copy;&nbsp;Copyright&nbsp;</p>
+        <p class="pull-left">Copyright&nbsp;&copy;&nbsp;
+            <script type="text/javascript">
+                document.write(new Date().getFullYear());
+            </script>
+            Ads Board. All rights reserved.</p>
 
-        <p class="pull-right"><a href="/home">Home</a>&emsp;<a href="#">About</a>&emsp;<a
-                href="/home/pricing">Pricing</a>&emsp;<a href="#">Terms</a>&emsp;<span
-                id="09;"></span><a href="#">Contact
-                us</a></p>
+        <p class="pull-right">
+            <a href="/home">Home</a>&emsp;
+            <a href="#">About</a>&emsp;
+            <a href="/home/pricing">Pricing</a>&emsp;
+            <a href="#">Terms</a>&emsp;
+            <a href="#" data-toggle="modal" data-target="#contactUs">Contact us</a>
+        </p>
     </div>
 </footer>
 
