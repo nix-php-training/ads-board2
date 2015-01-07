@@ -3,7 +3,7 @@
 /**
  * Class ErrorController
  */
-class ErrorController extends Controller
+class ErrorController extends BaseController
 {
 
     /**
@@ -11,7 +11,7 @@ class ErrorController extends Controller
      */
     public function indexAction()
     {
-        $this->view('error/error404','', 'error');
+        $this->view('error/error404', '', 'error');
     }
 
     /**
