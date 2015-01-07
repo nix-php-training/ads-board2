@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     function loginAction()
@@ -9,11 +9,12 @@ class UserController extends Controller
             $this->redirect('/');
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
-            $user = $this->model->getEmail($_POST['email']);
-            if ($user['email'] == $_POST['email'] && $user['password'] == $_POST['password']) {
-                $_SESSION['userRole'] = $user['role'];
-                $_SESSION['userName'] = $user['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            if ($this->getModel()->login($email, $password)) {
                 $this->redirect('/');
+            } else {
+                echo 'Введены не верные данные';
             }
         } else {
             $this->view('content/login');
@@ -22,13 +23,25 @@ class UserController extends Controller
 
     function logoutAction()
     {
-        session_destroy();
+        $this->getModel()->logout();
         $this->redirect('/');
     }
 
     function registrationAction()
     {
-        $this->view('content/registration');
+        if (isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])) {
+            $login = $_POST['login'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $valid = $this->getModel()->registration($login, $email, $password);
+            if (!is_array($valid)) {
+                echo 'Вы зарегистрированы';
+            } else {
+                var_dump($valid);
+            }
+        } else {
+            $this->view('content/registration');
+        }
     }
 
     function planAction()

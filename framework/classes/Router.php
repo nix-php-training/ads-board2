@@ -62,8 +62,6 @@ class Router
             return $queryParams;
 
         }
-
-
     }
 
     public function initRoutes()

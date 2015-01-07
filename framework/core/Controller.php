@@ -2,8 +2,15 @@
 
 class Controller
 {
+    /**
+     * @var $_view View
+     */
     private $_view;
-    public $model;
+
+    /**
+     * @var $_model Model
+     */
+    private $_model;
     private $_params;
 
     /**
@@ -14,6 +21,10 @@ class Controller
         return $this->_view;
     }
 
+    public function getModel()
+    {
+        return $this->_model;
+    }
 
     /**
      * @return mixed
@@ -30,15 +41,14 @@ class Controller
 
 
 
-    public function __construct($params)
+    public function __construct($params, $model)
     {
         $this->acl = new Acl();
         $this->_params = $params;
         $this->_view = new View();
-        if (Registry::has('model')) {
-            $this->model = Registry::get('model');
+        if (class_exists($model)) {
+            $this->_model = new $model;
         }
-
     }
 
     public function view($tpl, $data = [], $layout = 'layout.phtml')
