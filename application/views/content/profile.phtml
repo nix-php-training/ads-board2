@@ -1,7 +1,13 @@
 <div class="profile">
     <div class="row">
         <h3>some_dude_login
-            <small><a href="">[complain]</a></small>
+            <?php
+            if ($_SESSION['userRole'] == 'guest') {
+                echo '<small><a href="">[complain]</a></small>';
+            } else {
+                echo '<small><a href="/edit">[edit]</a></small>';
+            }
+            ?>
         </h3>
 
         <div class="well">
@@ -42,7 +48,9 @@
 
             <div class="col-md-6 text">
                 <h2><a href="/home/postlist">Category</a></h2>
+
                 <h1><a href="/home/postdetail">Post subject</a></h1>
+
                 <p>Holland, Amsterdam</p>
                 <a href="">Some Dude</a>
 
@@ -74,7 +82,9 @@
 
             <div class="col-md-6 text">
                 <h2><a href="/home/postlist">Category</a></h2>
+
                 <h1><a href="/home/postdetail">Post subject</a></h1>
+
                 <p>Holland, Amsterdam</p>
                 <a href="">Some Dude</a>
 
@@ -104,7 +114,9 @@
 
             <div class="col-md-6 text">
                 <h2><a href="/home/postlist">Category</a></h2>
+
                 <h1><a href="/home/postdetail">Post subject</a></h1>
+
                 <p>Holland, Amsterdam</p>
                 <a href="">Some Dude</a>
 
@@ -134,7 +146,9 @@
 
             <div class="col-md-6 text">
                 <h2><a href="/home/postlist">Category</a></h2>
+
                 <h1><a href="/home/postdetail">Post subject</a></h1>
+
                 <p>Holland, Amsterdam</p>
                 <a href="">Some Dude</a>
 

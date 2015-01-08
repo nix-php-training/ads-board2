@@ -124,4 +124,8 @@ class UserController extends BaseController
     {
         $this->view('content/profile');
     }
+    function editProfileAction()
+    {
+        $this->view('content/editProfile');
+    }
 }
