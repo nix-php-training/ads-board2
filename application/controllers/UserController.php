@@ -33,6 +33,15 @@ class UserController extends BaseController
             $login = $_POST['login'];
             $email = $_POST['email'];
             $password = $_POST['password'];
+
+            /*mail section*/
+
+            $letter = new EmailSender();//Creating object EmailSender
+            $letter->sendMail($_POST['email']);//Sending Email with unique-link to user email
+            $letter->unique;//Unique part of link, u may use it to write in DB
+
+            /*end of mail section*/
+
             $valid = $this->getModel()->registration($login, $email, $password);
             if (!is_array($valid)) {
                 echo 'Вы зарегистрированы';
@@ -118,5 +127,15 @@ class UserController extends BaseController
     function restoreAction()
     {
         $this->view('content/restore');
+    }
+
+    function profileAction()
+    {
+        $this->view('content/profile');
+    }
+
+    function editProfileAction()
+    {
+        $this->view('content/editProfile');
     }
 }

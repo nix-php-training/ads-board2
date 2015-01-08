@@ -5,17 +5,21 @@ return [
             'index' => ['all'],
             'postlist' => ['all'],
             'pricing' => ['all'],
+            'terms' => ['all'],
+            'about' => ['all'],
             'postdetail' => ['all'],
-            'addpost' => ['all'],
-            'imagedownload' => ['all']
+            'addpost' => ['user', 'admin'],
+            'imagedownload' => ['user', 'admin']
         ],
         'user' => [
             'login' => ['all'],
-            'registration' => ['all'],
+            'registration' => ['guest'],
             'logout' => ['user', 'admin'],
             'plan' => ['all'],
             'paypal' => ['all'],
-            'restore' => ['all'],
+            'restore' => ['guest'],
+            'profile' => ['all'],
+            'editprofile' => ['user', 'admin'],
         ],
         'error' => [
             'index' => ['all'],

@@ -29,6 +29,14 @@ footer {
     padding: 1%;
 }
 
+a:link, a:visited {
+    color: #656D78;
+}
+
+a:hover, a:active {
+    color: #434A54;
+}
+
 footer a:link, footer a:visited {
     color: #FFFCF3;
 }
@@ -50,12 +58,47 @@ h1, h2, h3, h4, h5 {
     padding-top: 0;
 }
 
-#login input[type=submit] {
+input[type=submit] {
     width: 20%;
 }
 
-#signup input[type=submit] {
-    width: 20%;
+@media (max-width: 992px) {
+    #top-link {
+        visibility: hidden;
+    }
+}
+
+#top-link {
+    cursor: pointer;
+    display: none;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    padding: 0;
+    z-index: 1;
+}
+
+#top-link:hover {
+    background: rgba(70, 77, 88, 0.2);
+}
+
+#top-link a {
+    display: block;
+    width: 45px; /* Width of image */
+    height: 45px; /* Height of image */
+    background: url('../img/top.png') no-repeat;
+    background-size: cover;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70); /* IE 5.5+*/
+    -moz-opacity: 0.5; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 0.5; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 0.5; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
+}
+
+#top-link:hover a {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100); /* IE 5.5+*/
+    -moz-opacity: 1; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 1; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 1; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
 }
 
 .hello {
@@ -80,8 +123,18 @@ h1, h2, h3, h4, h5 {
     z-index: 1;
 }
 
-.error-text a {
+.error-img img {
+    margin: 5% auto !important;
+}
+
+.error-text {
     font-size: 1.5em;
+}
+
+.about-img {
+    width: 20%;
+    float: left;
+    margin: 2% 2% 2% 0;
 }
 
 .panel-text-right {
@@ -175,6 +228,14 @@ td.ad-date {
 
 .no-padding-rl {
     padding-left: 0;
+    padding-right: 0;
+}
+
+.no-padding-l {
+    padding-left: 0;
+}
+
+.no-padding-r {
     padding-right: 0;
 }
 
@@ -388,4 +449,25 @@ table#plans td, th {
 
 .post-add {
 
+}
+
+/* Edit profile
+-------------------------------------------------- */
+.edit-profile {
+
+}
+
+.edit-profile .panel-heading {
+    background-color: #763568;
+    border-bottom: 1px solid #763568;
+}
+
+.btn-iris, .btn-iris:active {
+    background-color: #763568;
+    border: 1px solid #763568;
+}
+
+.btn-iris:hover, .btn-iris:focus {
+    background-color: #8D608C;
+    border: 1px solid #8D608C;
 }
