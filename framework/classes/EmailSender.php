@@ -1,7 +1,8 @@
 <?php
 class EmailSender
 {
-    public static function sendMail($to)
+    public $unique;
+    public function sendMail($to)
     {
         $num = 44;
         $unique = '';
@@ -25,23 +26,33 @@ class EmailSender
             $index = mt_rand(0, count($arr) - 1);
             $unique .= $arr[$index];
         }
-
-        $uniqueQuery = ROOT_PATH . "/user/confirm?link=" . urlencode($unique);
+        $this->unique = $unique;
+        $uniqueQuery = Config::get('site')['host'] . "user/login?link=" . urlencode($unique);
 
         $link ="<a href = $uniqueQuery>" . $uniqueQuery . "</a>";
 
-        $to = (filter_var($to,FILTER_VALIDATE_EMAIL)) ? $to : false;
-
-        $subject = 'Registration';
-
-        $message = "Congratulations you were successfully registered on adsboard2.zone, please follow next link $link to complete your registration";
-
-        $headers = 'From: webmaster@example.com' . "\r\n" . 'Reply-To: webmaster@example.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
-
-        if(mail($to, $subject, $message, $headers)){
-            echo 'Email were sent';
-        }else{
-            echo 'Please try again later..';
+        $mail = new PHPMailer(); // create a new object
+        $mail->IsSMTP(); // enable SMTP
+        $mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+        $mail->SMTPAuth = true; // authentication enabled
+        $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465; // or 587
+        $mail->IsHTML(true);
+        $mail->Username = "adsboard2@gmail.com";//created acc spec for project
+        $mail->Password = "Ads-Board2.zone";//acc of project password(!)
+        $mail->SetFrom("example@gmail.com");
+        $mail->Subject = "Registration";
+        $mail->Body = "Congratulations you were successfully registered on ads-board2.zone, please follow next link $link to complete your registration";
+        $mail->AddAddress($to);
+        $mail->Send();//sending mail
+        /*if(!$mail->Send())
+        {
+            echo "Mailer Error: " . $mail->ErrorInfo;
         }
+        else
+        {
+            echo "Message has been sent";
+        }*/
     }
 }
