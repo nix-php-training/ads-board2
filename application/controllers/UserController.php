@@ -33,6 +33,15 @@ class UserController extends BaseController
             $login = $_POST['login'];
             $email = $_POST['email'];
             $password = $_POST['password'];
+
+            /*mail section*/
+
+            $letter = new EmailSender();//Creating object EmailSender
+            $letter->sendMail($_POST['email']);//Sending Email with unique-link to user email
+            $letter->unique;//Unique part of link, u may use it to write in DB
+
+            /*end of mail section*/
+
             $valid = $this->getModel()->registration($login, $email, $password);
             if (!is_array($valid)) {
                 echo 'Вы зарегистрированы';
@@ -65,8 +74,7 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );
-                break;
+                );break;
             case 'business':
                 $orderParams = array(
                     'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
@@ -78,8 +86,7 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '999.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );
-                break;
+                );break;
         }
 
         $requestParams = array(
