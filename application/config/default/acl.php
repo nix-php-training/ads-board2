@@ -6,16 +6,16 @@ return [
             'postlist' => ['all'],
             'pricing' => ['all'],
             'postdetail' => ['all'],
-            'addpost' => ['all'],
-            'imagedownload' => ['all']
+            'addpost' => ['user, admin'],
+            'imagedownload' => ['user, admin']
         ],
         'user' => [
             'login' => ['all'],
-            'registration' => ['all'],
+            'registration' => ['guest'],
             'logout' => ['user', 'admin'],
             'plan' => ['all'],
             'paypal' => ['all'],
-            'restore' => ['all'],
+            'restore' => ['guest'],
         ],
         'error' => [
             'index' => ['all'],
