@@ -9,8 +9,8 @@ class HomeController extends BaseController
 
     function postListAction()
     {
-        $result = (new Category())->getCategoriesBy(['id','title']);
-        $data['categories'] = $result;
+        $categories = (new Category())->getCategoriesBy(['id','title']);
+        $data['categories'] = $categories;
         $this->view('content/postList', $data);
 
     }

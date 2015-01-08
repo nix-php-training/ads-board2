@@ -10,4 +10,13 @@ class Category extends Model
         return $this->db->fetchAll($this->table,['*']);
     }
 
+    function addCategory($title, $desc)
+    {
+        $data = [
+            'title' =>$title,
+            'description' => $desc
+        ];
+        $this->db->insert($this->table,$data);
+    }
+
 }
