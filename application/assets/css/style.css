@@ -29,6 +29,14 @@ footer {
     padding: 1%;
 }
 
+a:link, a:visited {
+    color: #656D78;
+}
+
+a:hover, a:active {
+    color: #434A54;
+}
+
 footer a:link, footer a:visited {
     color: #FFFCF3;
 }
