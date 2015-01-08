@@ -7,9 +7,12 @@ class Paypal
 
     //данные(полномочия) песочницы
     protected $credentials = array(
-        'USER' => 'sdk-three_api1.sdk.com',
-        'PWD' => 'QFZCWN5HZM8VBG7Q',
-        'SIGNATURE' => 'A-IzJhZZjhg29XQ2qnhapuwxIDzyAZQ92FRP5dqBzVesOkzbdUONzmOU',
+        'USER' => 'ch.kyrill-facilitator_api1.gmail.com',
+        'PWD' => 'HTNT6R6EEH7Z76R6',
+        'SIGNATURE' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AE.YSMq7OL6JtrdUhwzcO0-hJ0Az',
+//        'USER' => 'sdk-three_api1.sdk.com',
+//        'PWD' => 'QFZCWN5HZM8VBG7Q',
+//        'SIGNATURE' => 'A-IzJhZZjhg29XQ2qnhapuwxIDzyAZQ92FRP5dqBzVesOkzbdUONzmOU',
     );
 
     //адресс отправки запроса для песочницы(реальный адресс - https://api-3t.paypal.com/nvp (?))
