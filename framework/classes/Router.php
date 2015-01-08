@@ -4,7 +4,7 @@ class Router
 {
     private $actionName;
     private $controllerName;
-    private $params;
+    private $params = array();
     private $routes;
 
 
@@ -62,8 +62,6 @@ class Router
             return $queryParams;
 
         }
-
-
     }
 
     public function initRoutes()
@@ -95,16 +93,13 @@ class Router
 
     }
 
-
-
-
     public function checkActiveRoute($uri)
     {
         trim($uri);
 
      //       $activeRoute = null;
             foreach ($this->routes as $name => $routeSettings) {
-                if (!$routeSettings['template']) {
+                if (!isset($routeSettings['template'])) {
 
                     continue;
                 }
@@ -139,8 +134,6 @@ class Router
             }
 
     }
-
-
 
 
 }
