@@ -65,7 +65,8 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );break;
+                );
+                break;
             case 'business':
                 $orderParams = array(
                     'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
@@ -77,7 +78,8 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '999.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );break;
+                );
+                break;
         }
 
         $requestParams = array(
@@ -124,6 +126,7 @@ class UserController extends BaseController
     {
         $this->view('content/profile');
     }
+
     function editProfileAction()
     {
         $this->view('content/editProfile');

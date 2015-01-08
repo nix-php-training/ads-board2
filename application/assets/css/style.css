@@ -58,11 +58,7 @@ h1, h2, h3, h4, h5 {
     padding-top: 0;
 }
 
-#login input[type=submit] {
-    width: 20%;
-}
-
-#signup input[type=submit] {
+input[type=submit] {
     width: 20%;
 }
 
@@ -137,7 +133,7 @@ h1, h2, h3, h4, h5 {
 
 .about-img {
     width: 20%;
-    float:left;
+    float: left;
     margin: 2% 2% 2% 0;
 }
 
@@ -232,6 +228,14 @@ td.ad-date {
 
 .no-padding-rl {
     padding-left: 0;
+    padding-right: 0;
+}
+
+.no-padding-l {
+    padding-left: 0;
+}
+
+.no-padding-r {
     padding-right: 0;
 }
 
@@ -445,4 +449,25 @@ table#plans td, th {
 
 .post-add {
 
+}
+
+/* Edit profile
+-------------------------------------------------- */
+.edit-profile {
+
+}
+
+.edit-profile .panel-heading {
+    background-color: #763568;
+    border-bottom: 1px solid #763568;
+}
+
+.btn-iris, .btn-iris:active {
+    background-color: #763568;
+    border: 1px solid #763568;
+}
+
+.btn-iris:hover, .btn-iris:focus {
+    background-color: #8D608C;
+    border: 1px solid #8D608C;
 }
