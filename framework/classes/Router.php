@@ -100,7 +100,6 @@ class Router
      //       $activeRoute = null;
             foreach ($this->routes as $name => $routeSettings) {
                 if (!isset($routeSettings['template'])) {
-
                     continue;
                 }
                 if (preg_match('@' . $routeSettings['template'] . '@
