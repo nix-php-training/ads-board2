@@ -9,7 +9,10 @@ class HomeController extends BaseController
 
     function postListAction()
     {
-        $this->view('content/postList');
+        $result = (new Category())->getCategoriesBy(['id','title']);
+        $data['categories'] = $result;
+        $this->view('content/postList', $data);
+
     }
 
     function pricingAction()
