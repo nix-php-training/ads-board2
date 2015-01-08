@@ -18,6 +18,8 @@ return [
             'plan' => ['all'],
             'paypal' => ['all'],
             'restore' => ['guest'],
+            'profile' => ['all'],
+            'editprofile' => ['user', 'admin'],
         ],
         'error' => [
             'index' => ['all'],

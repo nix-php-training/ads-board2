@@ -26,6 +26,8 @@ return [
             '/about' => '/home/about',
             '/login' => '/user/login',
             '/logout' => '/user/logout',
+            '/profile' => '/user/profile',
+            '/edit' => '/user/editprofile',
             '/registration' => '/user/registration',
             '/confirmation' => '',
             '/restore' => '/user/restore',
