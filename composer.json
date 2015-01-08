@@ -7,8 +7,11 @@
                 "application/controllers",
                 "application/models"
             ]
-        },
-        "require": {
         }
+
+    },
+
+    "require": {
+        "phpmailer/phpmailer": "5.2.9"
     }
 }
