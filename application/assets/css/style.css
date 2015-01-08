@@ -80,8 +80,18 @@ h1, h2, h3, h4, h5 {
     z-index: 1;
 }
 
-.error-text a {
+.error-img img {
+    margin: 5% auto !important;
+}
+
+.error-text {
     font-size: 1.5em;
+}
+
+.about-img {
+    width: 20%;
+    float:left;
+    margin: 2% 2% 2% 0;
 }
 
 .panel-text-right {

@@ -22,6 +22,8 @@ return [
         ),
         'static' => array(
             '/home' => '/',
+            '/terms' => '/home/terms',
+            '/about' => '/home/about',
             '/login' => '/user/login',
             '/logout' => '/user/logout',
             '/registration' => '/user/registration',
