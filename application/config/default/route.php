@@ -33,7 +33,11 @@ return [
             '/restore' => '/user/restore',
             '/error404' => '/error/error404',
             '/error403' => '/error/error403',
-            '/plan' => '/user/plan'
+            '/plan' => '/user/plan',
+            '/postlist'=>'/home/postlist',
+            '/postdetail' => '/home/postdetail',
+            '/addpost' => '/home/addpost',
+            '/imagedownload' => '/home/imagedownload'
         )
     ]
 ];
