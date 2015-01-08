@@ -27,6 +27,16 @@ class HomeController extends BaseController
         $this->view('content/addPost');
     }
 
+    function termsAction()
+    {
+        $this->view('content/terms');
+    }
+
+    function aboutAction()
+    {
+        $this->view('content/about');
+    }
+
     // for image download example
     // will be moved to correct controller
     function imageDownloadAction()

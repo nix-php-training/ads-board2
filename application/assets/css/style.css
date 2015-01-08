@@ -88,6 +88,12 @@ h1, h2, h3, h4, h5 {
     font-size: 1.5em;
 }
 
+.about-img {
+    width: 20%;
+    float:left;
+    margin: 2% 2% 2% 0;
+}
+
 .panel-text-right {
     display: inline-block;
     float: right;
