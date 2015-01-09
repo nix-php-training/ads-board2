@@ -237,6 +237,17 @@ td.ad-date {
     overflow-y: auto;
 }
 
+
+.image-preview {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.image-preview img {
+    margin: 0;
+}
+
 /* Post-list: scroll style for relative-images
 -------------------------------------------------- */
 
@@ -260,14 +271,4 @@ td.ad-date {
 .vertical-align {
     display: flex;
     align-items: center;
-}
-
-.image-preview {
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-}
-
-.image-preview img {
-    margin: 0;
 }
