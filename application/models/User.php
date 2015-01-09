@@ -119,6 +119,7 @@ class User extends Model
                 'roleId' => $this->db->fetchOne('roles', 'id', ['name' => 'user']),
             ];
             $this->db->insert($this->table, $data);
+            Registry::set('email', $data['email']);
             return true;
         } else {
             return $valid;
@@ -127,7 +128,8 @@ class User extends Model
 
     function putLink($link)
     {
-        $temp = $this->db->query("SELECT id FROM users WHERE id = LAST_INSERT_ID()")->fetch(PDO::FETCH_OBJ);
+        $userEmail = Registry::get('email');
+        $temp = $this->db->query("SELECT id FROM users WHERE email LIKE '$userEmail'")->fetch(PDO::FETCH_OBJ);
         $data = [
             'link' => $link,
             'userId' => $temp->id,
