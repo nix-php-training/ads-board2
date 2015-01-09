@@ -127,9 +127,10 @@ class User extends Model
 
     function putLink($link)
     {
+        $temp = $this->db->query("SELECT id FROM users WHERE id = LAST_INSERT_ID()")->fetch(PDO::FETCH_OBJ);
         $data = [
             'link' => $link,
-            'userId' => '1'/*$this->db->query("SELECT MAX(id) FROM users") ? query doesn't works YYYYY*/,
+            'userId' => $temp->id,
         ];
         $this->db->insert($this->linksTable, $data);
     }
