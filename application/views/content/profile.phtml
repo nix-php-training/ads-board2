@@ -1,24 +1,25 @@
+
+<?php
+$profile = Registry::get('profile');?>
 <div class="profile">
     <div class="row">
         <h3>some_dude_login
             <?php
-            if ($_SESSION['userRole'] == 'guest') {
-                echo '<small><a href="">[complain]</a></small>';
-            } else {
+            if ($_SESSION['userId'] == $profile['userId']) {
                 echo '<small><a href="/edit">[edit]</a></small>';
+            } else {
+                echo '<small><a href="">[complain]</a></small>';
             }
             ?>
         </h3>
-
         <div class="well">
-            <p><i class="glyphicon glyphicon-user"></i> Some Dude</p>
+            <p><i class="glyphicon glyphicon-user"></i> <?= $profile['firstname'].' '.$profile['lastname']?></p>
 
-            <p><i class="glyphicon glyphicon-earphone"></i> 214-748-3647</p>
+            <p><i class="glyphicon glyphicon-earphone"></i> <?= $profile['phone']?></p>
 
-            <p><i class="icon-skype"></i> dude_in_skype</p>
+            <p><i class="icon-skype"></i> <?= $profile['skype']?></p>
 
-            <p><i class="glyphicon glyphicon-map-marker"></i> <a
-                    href="http://maps.google.com/?q=Amsterdam, De Wallen St. 1">Amsterdam, De Wallen St. 1</a></p>
+            <p><i class="glyphicon glyphicon-map-marker"></i> <?= $profile['birthdate']?></p>
         </div>
     </div>
     <div class="row">

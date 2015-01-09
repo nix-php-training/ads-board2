@@ -55,6 +55,10 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+/*Data for the table `profiles` */
+
+insert  into `profiles`(`id`,`firstname`,`lastname`,`birthdate`,`phone`,`skype`,`userId`) values (1,'Vasiliy','Lee','2000-01-21 01:09:59','+380505556677','Lee',1),(4,'Vladimir','Den','2015-01-19 01:22:16','+80501112233','Denchik',2),(7,'Nikolay','Popov','2008-01-11 01:23:24','+380679998877','PopovN',3);
+
 CREATE TABLE IF NOT EXISTS `advertisements` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `subject` varchar(256) NOT NULL ,

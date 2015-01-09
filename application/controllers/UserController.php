@@ -128,14 +128,4 @@ class UserController extends BaseController
     {
         $this->view('content/restore');
     }
-
-    function profileAction()
-    {
-        $this->view('content/profile');
-    }
-
-    function editProfileAction()
-    {
-        $this->view('content/editProfile');
-    }
 }

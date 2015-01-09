@@ -26,5 +26,9 @@ return [
             'error404' => ['all'],
             'error403' => ['all'],
         ],
+        'profile' => [
+            'profile' => ['all'],
+            'editprofile' => ['all'],
+        ],
     ],
 ];
