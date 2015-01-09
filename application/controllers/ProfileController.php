@@ -1,24 +1,31 @@
 <?php
 
-class ProfileController extends BaseController{
+class ProfileController extends BaseController
+{
 
     protected $userId;
 
-    function profileAction()
+    public function profileAction()
     {
         $userId = $this->getParams('user');
-        if ($userId){
+        if ($userId) {
             $this->userId = $userId;
         } else {
             $this->userId = $_SESSION['userId'];
         }
-        $profile = $this->getModel()->getProfile($this->userId);
-        Registry::set('profile', $profile);
-        $this->view('content/profile');
+        $data = $this->getModel()->getProfile($this->userId);
+        $this->view('content/profile', $data);
     }
 
-    function editProfileAction()
+    public function editProfileAction()
     {
-        $this->view('content/editProfile');
+        $this->userId = $_SESSION['userId'];
+        $users = new User();
+        $profile = $this->getModel()->getProfile($this->userId);
+        $user = $users->getBy('id', $this->userId);
+        $data['user'] = $user;
+        $data['profile'] = $profile;
+        var_dump($data);
+            $this->view('content/editProfile', $data);
     }
 } 

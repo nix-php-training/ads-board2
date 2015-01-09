@@ -17,7 +17,7 @@ class User extends Model
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
-                                  WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
+                                  WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_ASSOC);
     }
 
     function setCookie($id, $expire = 0)
@@ -64,14 +64,13 @@ class User extends Model
     function login($email, $password)
     {
         $user = $this->getBy('email', $email);
-        var_dump($user);
-        if ($user && password_verify($password, $user->password)) {
+        if ($user && password_verify($password, $user['password'])) {
             if (isset($_POST['remember'])) {
                 $expire = 30;
             } else {
                 $expire = 0;
             }
-            $this->setCookie($user->id, $expire);
+            $this->setCookie($user['id'], $expire);
             return true;
         } else {
             return false;

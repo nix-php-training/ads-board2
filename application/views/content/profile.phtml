@@ -1,11 +1,8 @@
-
-<?php
-$profile = Registry::get('profile');?>
 <div class="profile">
     <div class="row">
         <h3>some_dude_login
             <?php
-            if ($_SESSION['userId'] == $profile['userId']) {
+            if ($_SESSION['userId'] == $data['userId']) {
                 echo '<small><a href="/edit">[edit]</a></small>';
             } else {
                 echo '<small><a href="">[complain]</a></small>';
@@ -13,13 +10,13 @@ $profile = Registry::get('profile');?>
             ?>
         </h3>
         <div class="well">
-            <p><i class="glyphicon glyphicon-user"></i> <?= $profile['firstname'].' '.$profile['lastname']?></p>
+            <p><i class="glyphicon glyphicon-user"></i> <?= $data['firstname'].' '.$data['lastname']?></p>
 
-            <p><i class="glyphicon glyphicon-earphone"></i> <?= $profile['phone']?></p>
+            <p><i class="glyphicon glyphicon-earphone"></i> <?= $data['phone']?></p>
 
-            <p><i class="icon-skype"></i> <?= $profile['skype']?></p>
+            <p><i class="icon-skype"></i> <?= $data['skype']?></p>
 
-            <p><i class="glyphicon glyphicon-map-marker"></i> <?= $profile['birthdate']?></p>
+            <p><i class="glyphicon glyphicon-map-marker"></i> <?= $data['birthdate']?></p>
         </div>
     </div>
     <div class="row">

@@ -1,6 +1,7 @@
 <?php
 
-class Profile extends Model{
+class Profile extends Model
+{
 
     protected $table = 'profiles';
 
@@ -10,7 +11,7 @@ class Profile extends Model{
         'password' => ['min_length(3)', 'max_length(32)']
     ];
 
-    function getProfile($id)
+    public function getProfile($id)
     {
         return $this->db->fetchRow($this->table, ['*'], ['userId'=>$id]);
     }
