@@ -9,9 +9,17 @@ class HomeController extends BaseController
 
     function postListAction()
     {
-        $categories = (new Category())->getCategoriesBy(['id', 'title']);
-        $data['categories'] = $categories;
-        $this->view('content/postList', $data);
+        $data = array();
+
+        try {
+            $categories = (new Category())->getCategoriesBy(['id', 'title']);
+            $data['categories'] = $categories;
+            $this->view('content/postList', $data);
+        } catch (DatabaseConnectException $e) {
+            $data['message'] = $e->getMessage();
+            $data['adminEmail'] = Config::get('site')['adminEmail'];
+            $this->view('error/error', $data);
+        }
 
     }
 
@@ -43,7 +51,7 @@ class HomeController extends BaseController
                 $this->redirect('/postlist');
             } else $this->view('content/addPost');
 
-        }else{
+        } else {
             $categories = (new Category())->getCategoriesBy(['id', 'title']);
             $data['categories'] = $categories;
             $this->view('content/addPost', $data);
@@ -51,20 +59,20 @@ class HomeController extends BaseController
         }
     }
 
-        function termsAction()
-        {
-            $this->view('content/terms');
-        }
-
-        function aboutAction()
-        {
-            $this->view('content/about');
-        }
-
-        // for image download example
-        // will be moved to correct controller
-        function imageDownloadAction()
-        {
-            ChromePhp::log($_FILES);
-        }
+    function termsAction()
+    {
+        $this->view('content/terms');
     }
+
+    function aboutAction()
+    {
+        $this->view('content/about');
+    }
+
+    // for image download example
+    // will be moved to correct controller
+    function imageDownloadAction()
+    {
+        ChromePhp::log($_FILES);
+    }
+}

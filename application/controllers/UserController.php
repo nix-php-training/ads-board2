@@ -74,7 +74,8 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );break;
+                );
+                break;
             case 'business':
                 $orderParams = array(
                     'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
@@ -86,7 +87,8 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '999.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );break;
+                );
+                break;
         }
 
         $requestParams = array(
@@ -95,47 +97,51 @@ class UserController extends BaseController
         );
 
         $paypal = new Paypal();
-        $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
+        try {
+            $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
-        if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
-            $token = $response['TOKEN'];//получаем токен из ответа апи
-            header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
-        }
-
-        //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном
-
-        if (isset($_GET['token']) && !empty($_GET['token'])) { // Токен присутствует
-            // Получаем детали оплаты, включая информацию о покупателе.
-            // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
-            $paypal = new Paypal();
-            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
-
-            // Завершаем транзакцию
-            $requestParams = array(
-                'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-                'PAYERID' => $_GET['PayerID']
-            );
-
-            $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
-            if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
-                // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
-                $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+            if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
+                $token = $response['TOKEN'];//получаем токен из ответа апи
+                header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
             }
+
+            //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном
+
+            if (isset($_GET['token']) && !empty($_GET['token'])) { // Токен присутствует
+                // Получаем детали оплаты, включая информацию о покупателе.
+                // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
+                $paypal = new Paypal();
+                $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
+
+                // Завершаем транзакцию
+                $requestParams = array(
+                    'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
+                    'PAYERID' => $_GET['PayerID']
+                );
+
+                $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
+                if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
+                    // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
+                    $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+                }
+            }
+        } catch (CurleException $e) {
+            $this->view('error/error', $data = array('message' => $e->getMessage()));
         }
     }
+}
 
-    function restoreAction()
-    {
-        $this->view('content/restore');
-    }
+function restoreAction()
+{
+    $this->view('content/restore');
+}
 
-    function profileAction()
-    {
-        $this->view('content/profile');
-    }
+function profileAction()
+{
+    $this->view('content/profile');
+}
 
-    function editProfileAction()
-    {
-        $this->view('content/editProfile');
-    }
+function editProfileAction()
+{
+    $this->view('content/editProfile');
 }
