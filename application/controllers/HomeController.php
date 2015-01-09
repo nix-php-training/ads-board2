@@ -10,17 +10,9 @@ class HomeController extends BaseController
     function postListAction()
     {
         $data = array();
-
-        try {
-            $categories = (new Category())->getCategoriesBy(['id', 'title']);
-            $data['categories'] = $categories;
-            $this->view('content/postList', $data);
-        } catch (DatabaseConnectException $e) {
-            $data['message'] = $e->getMessage();
-            $data['adminEmail'] = Config::get('site')['adminEmail'];
-            $this->view('error/error', $data);
-        }
-
+        $categories = (new Category())->getCategoriesBy(['id', 'title']);
+        $data['categories'] = $categories;
+        $this->view('content/postList', $data);
     }
 
     function pricingAction()

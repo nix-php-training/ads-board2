@@ -8,10 +8,19 @@ class Dispatcher
 
     static function start()
     {
+        /**
+         * @var $controller Controller
+         */
 
-        $router = new Router();
-        $router->initRoutes();
-        $router->getActiveRoute();
+        try {
+            $router = new Router();
+            $router->getActiveRoute();
+        } catch (InitRoutesException $e) {
+            $data['message'] = $e->getMessage();
+            $data['adminEmail'] = Config::get('site')['adminEmail'];
+            $controller->view('error/error', $data);
+        }
+
 
         self::$pureControllerName = ucfirst($router->getControllerName());
         self::$pureActionName = strtolower($router->getActionName());
@@ -25,32 +34,31 @@ class Dispatcher
             $action = $actionName;
 
             if (method_exists($controller, $action)) {
+
+                // check if is allow action for current user
                 if ($controller->acl->isAllow(strtolower(self::$pureControllerName), self::$pureActionName)) {
-                    $controller->$action();
+
+                    try {
+
+                        // run action
+                        $controller->$action();
+                        /**
+                         * Expects
+                         * @var $e DatabaseConnectException
+                         */
+                    } catch (DatabaseConnectException $e) {
+                        $data['message'] = $e->getMessage();
+                        $data['adminEmail'] = Config::get('site')['adminEmail'];
+                        $controller->view('error/error', $data);
+                    }
                 } else {
-                    self::ErrorPage403();
+                    throw new AccessDenyException();
                 }
             } else {
-                self::ErrorPage404();
+                throw new PageNotFoundException();
             }
         } else {
-            self::ErrorPage404();
+            throw new PageNotFoundException();
         }
-    }
-
-    private static function ErrorPage404()
-    {
-        $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
-        header('HTTP/1.1 404 Not Found');
-        header('Status: 404 Not Found');
-        header('Location:' . $host . 'error404');
-    }
-
-    private static function ErrorPage403()
-    {
-        $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
-        header('HTTP/1.1 403 Access deny');
-        header('Status: 403 Access deny');
-        header('Location:' . $host . 'error403');
     }
 }

@@ -125,6 +125,10 @@ class UserController extends BaseController
                     $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
                 }
             }
+            /**
+             * Expects
+             * @var $e CurleException
+             */
         } catch (CurleException $e) {
             $this->view('error/error', $data = array('message' => $e->getMessage()));
         }
