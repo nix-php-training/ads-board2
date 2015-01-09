@@ -98,6 +98,13 @@ CREATE TABLE IF NOT EXISTS `plans` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `confirmationLinks` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `link` varchar(128),
+  `userId` BIGINT NOT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
@@ -106,6 +113,7 @@ ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_plans` FOREIGN KEY (planId) R
 ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY (advertisementId) REFERENCES advertisements(id);
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_statuses` FOREIGN KEY (statusId) REFERENCES statuses(id);
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (roleId) REFERENCES roles(id);
+ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users(id);
 
 
 INSERT INTO `roles` (`name`) VALUES
