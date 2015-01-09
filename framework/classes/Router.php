@@ -56,7 +56,6 @@ class Router
     {
         $routes = Config::get('route');
 
-
         if (isset($routes)) {
             $this->routes = $routes;
         } else {
