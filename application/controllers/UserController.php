@@ -133,19 +133,19 @@ class UserController extends BaseController
             $this->view('error/error', $data = array('message' => $e->getMessage()));
         }
     }
-}
 
-function restoreAction()
-{
-    $this->view('content/restore');
-}
+    function restoreAction()
+    {
+        $this->view('content/restore');
+    }
 
-function profileAction()
-{
-    $this->view('content/profile');
-}
+    function profileAction()
+    {
+        $this->view('content/profile');
+    }
 
-function editProfileAction()
-{
-    $this->view('content/editProfile');
+    function editProfileAction()
+    {
+        $this->view('content/editProfile');
+    }
 }
