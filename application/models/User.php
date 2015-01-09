@@ -3,7 +3,7 @@
 class User extends Model
 {
     protected $table = 'users';
-
+    protected $linksTable = 'confirmationLinks';
     protected $rules = [
         'login' => ['login', 'min_length(3)', 'max_length(32)'],
         'email' => ['email'],
@@ -123,5 +123,14 @@ class User extends Model
         } else {
             return $valid;
         }
+    }
+
+    function putLink($link)
+    {
+        $data = [
+            'link' => $link,
+            'userId' => '1'/*$this->db->query("SELECT MAX(id) FROM users") ? query doesn't works YYYYY*/,
+        ];
+        $this->db->insert($this->linksTable, $data);
     }
 }
