@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico'/>
 
     <title>Ads-board2</title>
 
@@ -16,17 +16,63 @@
     <link href="/application/assets/css/style.css" rel="stylesheet">
     <link href="/application/assets/css/component.css" rel="stylesheet">
     <link href="/application/assets/css/lightbox.css" rel="stylesheet"/>
+    <link href="/application/assets/css/dropzone.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.css"/>
 
     <link
         href='http://fonts.googleapis.com/css?family=Exo+2:400,300,300italic,400italic,700,700italic&subset=latin,cyrillic'
         rel='stylesheet' type='text/css'>
 
-
     <script src="/application/assets/js/jquery-1.10.1.min.js"></script>
     <script src="/application/assets/js/bootstrap.min.js"></script>
+    <script src="/application/assets/js/goToTop.js"></script>
+
 </head>
 
 <body>
+
+
+<div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="contactUsLabel" aria-hidden="true"
+     data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&Cross;</span></button>
+                <h4 class="modal-title" id="contactUsLabel">Contact form</h4>
+            </div>
+            <div class="modal-body">
+                <p>Feel free to contact us for any issues you might have with our service.</p>
+
+                <form>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label for="message-username">Name</label>
+                                <input type="text" id="message-username" required class="form-control"
+                                       placeholder="Name">
+                            </div>
+                            <div class="col-xs-6">
+                                <label for="message-email">Email</label>
+                                <input type="email" id="message-email" required class="form-control"
+                                       placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Message:</label>
+                        <textarea class="form-control" id="message-text" required rows="5"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <header>
     <nav class="navbar navbar-inverse navbar-static-top">
@@ -42,6 +88,7 @@
                 <a class="navbar-brand" href="/home">ADS BOARD</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group search-only">
                         <i class="search-icon glyphicon glyphicon-search"></i>
@@ -50,23 +97,21 @@
                     <button type="submit" class="btn btn-info" data-type="last">Search</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-
-                    <li><a href=""><i class="glyphicon glyphicon-eye-open"></i> Watch ads</a>
-                    </li>
-
+                    <li><a href="/postlist"><i class="glyphicon glyphicon-eye-open"></i> Watch ads</a></li>
                     <?php
                     if ($_SESSION['userRole'] == 'guest') {
-                        echo '<li><a href="/registration" class="btn btn-primary"><i class="icon-user-add"></i> Sing up</a></li>
-                              <li><a href="/login" class="btn btn-success"><i class="icon-sign-in"></i> Sing in</a></li>';
+                        echo '<li class="btn btn-xs btn-primary"><a href="/registration" ><i class="icon-user-add"></i> Sing up</a></li>
+                              <li class="btn btn-xs btn-success"><a href="/login"><i class="icon-sign-in"></i> Sing in</a></li>';
                     } else {
-                        echo '<li><a href=""><i class="glyphicon glyphicon-plus-sign"></i> Create new ads <span class="badge">1</span></a></li>
-                              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">[Username] <span class="caret"></span></a>
+                        echo '<li><a href="/addpost"><i class="glyphicon glyphicon-plus-sign"></i> Create new ads <span class="badge">1</span></a></li>
+                              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $_SESSION["userLogin"] . ' <span class="caret"></span></a>
                               <ul class="dropdown-menu" role="menu">
-                                <li><a href="#"><i class="icon-widget"></i> Profile</a></li>
-                                <li class="divider"></li><li><a href="#"><i class="icon-sign-out"></i> Logout</a></li>
+                                <li><a href="/profile"><i class="icon-widget"></i> Profile</a></li>
+                                <li class="divider"></li><li><a href="/logout"><i class="icon-sign-out"></i> Logout</a></li>
                               </ul></li>';
                     }
                     ?>
+
                 </ul>
             </div>
         </div>
@@ -79,14 +124,27 @@
 
 </main>
 
+
 <footer>
     <div class="container">
-        <p class="pull-left">&copy;&nbsp;Copyright&nbsp;</p>
+        <p class="pull-left">Copyright&nbsp;&copy;&nbsp;
+            <script type="text/javascript">
+                document.write(new Date().getFullYear());
+            </script>
+            Ads Board. All rights reserved.
+        </p>
 
-        <p class="pull-right"><a href="/home">Home</a>&emsp;<a href="#">About</a>&emsp;<a href="#">Terms</a>&emsp;<span id="09;"></span><a href="#">Contact
-                us</a></p>
+        <p class="pull-right">
+            <a href="/home">Home</a>&emsp;
+            <a href="/about">About</a>&emsp;
+            <a href="/home/pricing">Pricing</a>&emsp;
+            <a href="/terms">Terms</a>&emsp;
+            <a href="#" data-toggle="modal" data-target="#contactUs">Contact us</a>
+        </p>
     </div>
 </footer>
-
+<div id="top-link">
+    <a href="#top"><span id="topicon"></span></a>
+</div>
 </body>
 </html>

@@ -4,11 +4,6 @@ class Acl
 {
     protected $access = false;
 
-    function __construct()
-    {
-        Auth::authentication();
-    }
-
     public function isAllow($controller, $action)
     {
         $rules = Config::get('acl');
