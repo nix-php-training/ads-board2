@@ -1,11 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
---
--- Хост: localhost
--- Время создания: Дек 24 2014 г., 00:25
--- Версия сервера: 5.5.40-0ubuntu0.14.04.1
--- Версия PHP: 5.5.9-1ubuntu4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,10 +23,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `login` varchar(32) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `confrimDate` datetime NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `confrimDate` datetime,
   `statusId` BIGINT NOT NULL,
   `roleId` BIGINT NOT NULL,
+  `hash` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -124,10 +117,10 @@ INSERT INTO `statuses` (`name`) VALUES
   ('registered'),
   ('banned');
 
-INSERT INTO `users` ( `login`, `email`, `password`, `confrimDate`, `statusId`, `roleId`) VALUES
-  ('Vasya', 'vasya@gmail.com', '123', '2014-12-24 00:00:00', 1,  2),
-  ('Vova', 'vova@gmail.com', '123', '2014-12-24 00:00:00', 1,  1),
-  ('Kolya', 'kolya@gmail.com', '123', '0000-00-00 00:00:00', 2, 2);
+INSERT INTO `users` ( `login`, `email`, `password`, `confrimDate`, `statusId`, `roleId`,`hash`) VALUES
+  ('Vasya', 'vasya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  2, NULL),
+  ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  1, NULL),
+  ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
 
 
 
