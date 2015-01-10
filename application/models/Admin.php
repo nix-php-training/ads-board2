@@ -4,16 +4,6 @@ class Admin extends Model
 {
     public function getUsers()
     {
-//        return $this->db->query("SELECT users.*,
-//                                        roles.name AS role,
-//                                        statuses.name AS status,
-//                                        profiles.firstname AS fname,
-//                                        profiles.lastname AS lname
-//                                  FROM users
-//                                    JOIN statuses ON users.statusId=statuses.id
-//                                    JOIN roles ON users.roleId=roles.id
-//                                    JOIN profiles ON users.id=profiles.userId;")->fetch(PDO::FETCH_ASSOC);
-
         return $this->db->query("SELECT users.id AS id,
        users.login AS login,
        users.email AS email,
@@ -33,4 +23,44 @@ FROM users
     {
         $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
     }
-} 
+
+    public function getPlans()
+    {
+        return $this->db->query("SELECT id, name, price, term, posts FROM plans")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function savePlan($params)
+    {
+        $exist = $this->db->query("SELECT id FROM plans WHERE id={$params['id']}")->fetch(PDO::FETCH_ASSOC);
+        if ($exist) {
+            $this->updatePlan($params);
+        } else {
+            $this->createPlan($params);
+        }
+    }
+
+    private function createPlan($params)
+    {
+        $data['name'] = $params['name'];
+        $data['price'] = $params['price'];
+        $data['term'] = $params['term'];
+        $data['posts'] = $params['posts'];
+
+        $this->db->insert('plans', $data);
+    }
+
+    private function updatePlan($params)
+    {
+        $this->db->update('plans', [
+            'name' => $params['name'],
+            'price' => $params['price'],
+            'term' => $params['term'],
+            'posts' => $params['posts']
+        ], ['id' => $params['id']]);
+    }
+
+    public function removePlan($id)
+    {
+        $this->db->delete('plans', ['id' => $id]);
+    }
+}

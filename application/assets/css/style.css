@@ -487,13 +487,21 @@ table#plans td, th {
 /* Edit profile
 -------------------------------------------------- */
 
-.admin-user th {
+.admin {
+    margin-bottom: 5%;
+}
+
+.admin th {
     text-align: left;
     cursor: pointer;
 }
 
-.admin-user button {
+.admin button {
     width: 100%;
+<<<<<<< HEAD
 .image-preview img {
     margin: 0;
+=======
+    margin: 1px;
+>>>>>>> dev
 }
