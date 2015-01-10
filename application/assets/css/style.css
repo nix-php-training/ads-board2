@@ -33,6 +33,14 @@ footer {
     background-color: #264348;
 }
 
+.st-sort-descent:before {
+    content: '▴ ';
+}
+
+.st-sort-ascent:before {
+    content: '▾ ';
+}
+
 a:link, a:visited {
     color: #656D78;
 }
