@@ -1,6 +1,15 @@
 <div ng-controller="userCtrl" class="row admin-user">
-
     <h3>Users management</h3>
+
+    <div class="alert alert-danger" ng-class="{hidden:showError}" role="alert">Something wrong. Try again later.</div
+
+    <h5>Users statistics</h5>
+    <ul class="list-inline">
+        <li>All: {{userAmount}}</li>
+        <li>Unconfirmed: {{unconfirmedUser}}</li>
+        <li>Registered: {{registeredUser}}</li>
+        <li>Banned: {{bannedUser}}</li>
+    </ul>
 
     <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
         <thead>
@@ -10,12 +19,11 @@
             <th st-sort="email" class="col-md-4">Email</th>
             <th st-sort="status" class="col-md-1">Status</th>
             <th st-sort="role" class="col-md-1">Role</th>
-            <!--            <th st-sort="name">Name</th>-->
-
-            <th class="col-md-1">Banned</th>
+            <th class="col-md-1">Ban</th>
         </tr>
         <tr>
-            <th colspan="6"><input st-search="" class="form-control" placeholder="Search ..." type="text"/></th>
+            <th colspan="6"><input st-search="" value="{{searchPattern}}" class="form-control" placeholder="Search ..."
+                                   type="text"/></th>
         </tr>
         </thead>
         <tbody>
@@ -26,7 +34,7 @@
             <td>{{row.status}}</td>
             <td>{{row.role}}</td>
             <td>
-                <button ng-click="ban(row)" class="btn btn-danger">Ban</button>
+                <button ng-click="ban(row)" class="btn btn-{{row.btnType}}">{{row.btnTitle}}</button>
             </td>
         </tr>
         </tbody>

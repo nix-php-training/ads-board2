@@ -21,6 +21,6 @@ class Admin extends Model
        statuses.name AS status
 FROM users
   JOIN statuses ON users.statusId=statuses.id
-  JOIN roles ON users.roleId=roles.id")->fetch(PDO::FETCH_ASSOC);
+  JOIN roles ON users.roleId=roles.id")->fetchAll(PDO::FETCH_ASSOC);
     }
 } 

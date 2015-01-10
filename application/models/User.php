@@ -17,7 +17,7 @@ class User extends Model
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
-                                  WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_ASSOC);
+                                  WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
 
     function setCookie($id, $expire = 0)

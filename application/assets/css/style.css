@@ -491,3 +491,7 @@ table#plans td, th {
     text-align: left;
     cursor: pointer;
 }
+
+.admin-user button {
+    width: 100%;
+}
