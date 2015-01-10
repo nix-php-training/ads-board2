@@ -27,11 +27,12 @@ return [
             'error403' => ['all'],
         ],
         'admin' => [
-            'index' => ['all'],
-            'users' => ['all'],
-            'plans' => ['all'],
-            'categories' => ['all'],
-            'advertisements' => ['all'],
+            'index' => ['admin'],
+            'users' => ['admin'],
+            'plans' => ['admin'],
+            'categories' => ['admin'],
+            'advertisements' => ['admin'],
+            'showusers' => ['admin']
         ]
     ],
 ];

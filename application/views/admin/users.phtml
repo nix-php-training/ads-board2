@@ -1,133 +1,36 @@
-<div class="row">
-    <label for="categories">Categories</label>
-    <select name="categories" id="categories" class="form-control">
-        <?php
-        foreach($data['categories'] as $v) {echo '<option value="'.$v['id'].'">'.$v['title'].'</option>';}
-        ?>
+<div ng-controller="userCtrl" class="row admin-user">
 
-    </select>
+    <h3>Users management</h3>
+
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+        <tr>
+            <th st-sort="id">Id</th>
+            <th st-sort="login">Login</th>
+            <th st-sort="email">Email</th>
+            <th st-sort="status">Status</th>
+            <th st-sort="role">Role</th>
+<!--            <th st-sort="name">Name</th>-->
+
+            <th>Banned</th>
+        </tr>
+        <tr>
+            <th colspan="6"><input st-search="" class="form-control" placeholder="Search ..." type="text"/></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in displayedCollection">
+            <td>{{row.id}}</td>
+            <td>{{row.login}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.status}}</td>
+            <td>{{row.role}}</td>
+            <td>
+<!--                <input name="remember" ng-change="ban(row)" ng-model="row.banned" class="form-control" type="checkbox"/>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
-<!-- Will be repeat in loop start -->
-<div class="posts">
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/1.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/1.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <!-- Will be repeat in loop end -->
-
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/2.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/3.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/4.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-</div>
-
-<script src="/application/assets/js/lightbox.min.js"></script>
+<script src="/application/assets/js/adminUsers.js"></script>
