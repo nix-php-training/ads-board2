@@ -13,11 +13,14 @@ class HomeController extends BaseController
         $categories = (new Category())->getCategoriesBy(['id', 'title']);
         $ads = (new Advertisement())->getAllAdvertisements();
 
-// TODO: use strtotime to manipulate with creationDate + date ()
         $data['categories'] = $categories;
-        $ads = (new Advertisement())->splitCreationDate($ads);
 
-        var_dump($ads);
+        foreach ($ads as &$v)
+        {
+            $temp = strtotime($v['creationDate']);
+            $v['creationDate'] = $temp;
+        }
+        //var_dump($ads); die();
         $data['advertisements'] = $ads;
         $this->view('content/postList', $data);
     }

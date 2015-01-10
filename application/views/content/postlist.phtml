@@ -8,16 +8,15 @@
     </select>
 </div>
 
-<!-- Will be repeat in loop start -->
 <div class="posts">
 
-
+    <?php foreach ($data['advertisements'] as $v) : ?>
 
     <div class="row post-list vertical-align">
         <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
+            <h1><?php echo date("Y-m-d", $v['creationDate']) ?></h1>
 
-            <h2>17:51:48</h2>
+            <h2><?php echo date("h:m", $v['creationDate']) ?></h2>
         </div>
 
         <div class="col-md-2">
@@ -34,103 +33,17 @@
 
         <div class="col-md-6 text">
             <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
+
+            <a href="/profile"><?php echo htmlspecialchars($v['login']) ?></a>
 
         </div>
         <div class="col-md-2 text-right">
-            <h1>$500</h1>
+            <h1><?php echo htmlspecialchars($v['price']) ?>$</h1>
         </div>
     </div>
-    <!-- Will be repeat in loop end -->
 
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
+    <?php endforeach; ?>
 
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/2.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/3.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/4.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
 </div>
 
 <script src="/application/assets/js/lightbox.min.js"></script>

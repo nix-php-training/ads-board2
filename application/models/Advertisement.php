@@ -16,18 +16,15 @@ class Advertisement extends Model
                                   INNER JOIN users u on a.userId=u.id')->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function splitCreationDate($ads)
-    {
-        foreach ($ads as $v)
-        {
-            var_dump($v['creationDate']);
-            $dateAndTime = explode( ' ', $v['creationDate']);
-            var_dump($dateAndTime);
-            $v['creationDate'] = $dateAndTime[0];
-            $v['creationTime'] = $dateAndTime[1];
-
-        }
-        return $ads;
-    }
+//    public function convertDateto($ads)
+//    {
+//        foreach ($ads as $v)
+//        {
+//            var_dump($v['creationDate']);
+//            $v['creationDate'] = strtotime($v['creationDate']);
+//
+//        }
+//        return $ads;
+//    }
 
 }
