@@ -23,4 +23,14 @@ FROM users
   JOIN statuses ON users.statusId=statuses.id
   JOIN roles ON users.roleId=roles.id")->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function banUser($id)
+    {
+        $this->db->update('users', ['statusId' => '3'], ['id' => $id]);
+    }
+
+    public function unbanUser($id)
+    {
+        $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
+    }
 } 

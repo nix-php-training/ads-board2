@@ -22,8 +22,8 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
      */
     $scope.displayedCollection = [];
 
-    var btnType = {'danger': 'danger', 'info': 'info'};
-    var btnTitle = {'ban': 'Ban', 'unban': 'Unban'};
+    var btnType = {'danger': 'btn-danger', 'info': 'btn-info', 'hidden': 'hidden'};
+    var btnTitle = {"banUnban": 'Ban', 'unban': 'Unban'};
 
     $scope.btnType = 'danger';
 
@@ -52,12 +52,32 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
      *
      * @param row
      */
-    $scope.ban = function (row) {
+    $scope.banUnban = function (row) {
         var index = $scope.rowCollection.indexOf(row);
+        var path = '', status = '';
         if (index !== -1) {
-            //TODO: implementation of user ban function
-            console.log("index> " + index);
-            console.log("id> " + row.id);
+            // if current status == banned then unban
+            // else ban selected user
+            if (row.status === 'banned') {
+                path = '/admin/unban';
+                status = 'registered'
+            } else {
+                path = '/admin/ban';
+                status = 'banned'
+            }
+
+            $http({
+                url: path,
+                method: "POST",
+                data: 'id=' + row.id,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function () {
+                $scope.rowCollection[index].status = status;
+                $scope.rowCollection = setBtnType($scope.rowCollection.sort(byId));
+                $scope.displayedCollection = [].concat($scope.rowCollection);
+            }).error(function () {
+                $scope.showError = false;
+            });
         }
     };
 
@@ -98,7 +118,8 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
     };
 
     /**
-     * Set class for button ban/unban
+     * Set class for button banUnban/unban
+     * Has class hidden for unconfirmed user
      *
      * @param data
      * @returns {*}
@@ -106,12 +127,16 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
     var setBtnType = function (data) {
         var l = data.length;
         for (var i = 0; i < l; i += 1) {
-            if (data[i]['status'] === 'banned') {
-                data[i]['btnType'] = btnType.info;
-                data[i]['btnTitle'] = btnTitle.unban;
+            var row = data[i], status = row['status'];
+
+            if (status === 'banned') {
+                row['btnType'] = btnType.info;
+                row['btnTitle'] = btnTitle.unban;
+            } else if (status === 'unconfirmed') {
+                row['btnType'] = btnType.hidden;
             } else {
-                data[i]['btnType'] = btnType.danger;
-                data[i]['btnTitle'] = btnTitle.ban;
+                row['btnType'] = btnType.danger;
+                row['btnTitle'] = btnTitle.banUnban;
             }
         }
         return data;
