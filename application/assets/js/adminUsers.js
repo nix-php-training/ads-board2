@@ -7,7 +7,8 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
      *
      * @type {boolean}
      */
-    $scope.showError = true;
+    $scope.hideError = true;
+    $scope.hideSuccess = true;
 
     /**
      * user list
@@ -32,17 +33,14 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
      */
     $http.get('/admin/showusers').success(function (data) {
 
-        $scope.showError = true;
+        $scope.hideError = true;
 
         $scope.rowCollection = setBtnType(data.sort(byId));
 
         // statistics info
-        $scope.userAmount = data.length;
-        $scope.bannedUser = getCountOf(data, 'status', 'banner');
-        $scope.unconfirmedUser = getCountOf(data, 'status', 'unconfirmed');
-        $scope.registeredUser = getCountOf(data, 'status', 'registered');
+        statisticInfo(data);
     }).error(function () {
-        $scope.showError = false;
+        $scope.hideError = false;
     });
 
     $scope.displayedCollection = [].concat($scope.rowCollection);
@@ -75,8 +73,9 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
                 $scope.rowCollection[index].status = status;
                 $scope.rowCollection = setBtnType($scope.rowCollection.sort(byId));
                 $scope.displayedCollection = [].concat($scope.rowCollection);
+                statisticInfo($scope.rowCollection);
             }).error(function () {
-                $scope.showError = false;
+                $scope.hideError = false;
             });
         }
     };
@@ -141,5 +140,12 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
         }
         return data;
     };
+
+    var statisticInfo = function (data) {
+        $scope.userAmount = data.length;
+        $scope.bannedUser = getCountOf(data, 'status', 'banner');
+        $scope.unconfirmedUser = getCountOf(data, 'status', 'unconfirmed');
+        $scope.registeredUser = getCountOf(data, 'status', 'registered');
+    }
 
 }]);

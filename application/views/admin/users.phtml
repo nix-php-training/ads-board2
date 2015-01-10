@@ -1,7 +1,14 @@
 <div ng-controller="userCtrl" class="row admin-user">
     <h3>Users management</h3>
 
-    <div class="alert alert-danger" ng-class="{hidden:showError}" role="alert">Something wrong. Try again later.</div
+    <div class="alert alert-danger" ng-class="{hidden:hideError}" role="alert">
+        <strong>Warning!</strong> Something wrong. Try again later.
+    </div>
+
+    <div class="alert alert-success alert-dismissable" ng-class="{hidden:hideSuccess}">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><span class="pull-right">&Cross;</span></button>
+        <strong>Success!</strong> User status was changed successfully.
+    </div>
 
     <h5>Users statistics</h5>
     <ul class="list-inline">
