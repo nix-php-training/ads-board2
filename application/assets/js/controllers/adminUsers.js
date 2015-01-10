@@ -31,7 +31,7 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
     /**
      * get data from server
      */
-    $http.get('/admin/showusers').success(function (data) {
+    $http.get('/admin/getusers').success(function (data) {
 
         $scope.hideError = true;
 
@@ -80,22 +80,6 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
         }
     };
 
-    // local functions
-
-    /**
-     * For array sort by user id
-     *
-     * @param a
-     * @param b
-     * @returns {number}
-     */
-    var byId = function (a, b) {
-        if (a.id < b.id)
-            return -1;
-        if (a.id > b.id)
-            return 1;
-        return 0;
-    };
 
     /**
      * Get count of elements with value by key

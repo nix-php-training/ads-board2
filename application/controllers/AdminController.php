@@ -12,7 +12,8 @@ class AdminController extends BaseController
         $this->view('admin/users', [], 'admin');
     }
 
-    public function showUsersAction()
+
+    public function getUsersAction()
     {
         echo json_encode($this->getModel()->getUsers());
     }
@@ -29,20 +30,21 @@ class AdminController extends BaseController
         $this->getModel()->unbanUser($id);
     }
 
-    public function editPlanAction()
+    public function savePlanAction()
     {
-
-    }
-
-    public function createPlanAction()
-    {
-
+        $this->getModel()->savePlan($_POST);
     }
 
     public function removePlanAction()
     {
 
     }
+
+    public function getPlansAction()
+    {
+        echo json_encode($this->getModel()->getPlans());
+    }
+
 
     public function plansAction()
     {

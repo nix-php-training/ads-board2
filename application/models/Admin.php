@@ -29,7 +29,23 @@ FROM users
         return $this->db->query("SELECT id, name, price, term, posts FROM plans")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updatePlan($params)
+    public function savePlan($params)
+    {
+        $exist = $this->db->query("SELECT id FROM plans WHERE id={$params['id']}")->fetch(PDO::FETCH_ASSOC);
+        if ($exist) {
+            $this->updatePlan($params);
+        } else {
+            $this->createPlan($params);
+        }
+    }
+
+    private function createPlan($params)
+    {
+        $this->db->insert('plans', $params);
+
+    }
+
+    private function updatePlan($params)
     {
         $this->db->update('plans', [
             'name' => $params['name'],
