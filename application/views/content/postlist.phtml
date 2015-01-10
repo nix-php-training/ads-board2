@@ -1,15 +1,18 @@
 <div class="row">
     <label for="categories">Categories</label>
     <select name="categories" id="categories" class="form-control">
-        <?php
-        foreach($data['categories'] as $v) {echo '<option value="'.$v['id'].'">'.$v['title'].'</option>';}
-        ?>
+        <?php foreach ($data['categories'] as $v) : ?>
+            <option value="<?php htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['title']) ?></option>
+        <?php endforeach; ?>
 
     </select>
 </div>
 
 <!-- Will be repeat in loop start -->
 <div class="posts">
+
+
+
     <div class="row post-list vertical-align">
         <div class="col-md-2 text-right">
             <h1>2015-01-05</h1>

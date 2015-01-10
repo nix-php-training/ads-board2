@@ -10,7 +10,14 @@ class HomeController extends BaseController
     function postListAction()
     {
         $categories = (new Category())->getCategoriesBy(['id', 'title']);
+        $ads = (new Advertisement())->getAllAdvertisements();
+
+// TODO: use strtotime to manipulate with creationDate + date ()
         $data['categories'] = $categories;
+        $ads = (new Advertisement())->splitCreationDate($ads);
+
+        var_dump($ads);
+        $data['advertisements'] = $ads;
         $this->view('content/postList', $data);
 
     }
