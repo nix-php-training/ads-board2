@@ -27,31 +27,51 @@ app.controller('planCtrl', ['$scope', '$http', function ($scope, $http) {
     });
 
 
-    $scope.edit = function (tableData) {
-        $scope.editingData[tableData.id] = true;
+    $scope.edit = function (id) {
+        $scope.editingData[id] = true;
         $scope.editorEnabled = true;
     };
 
-    $scope.cancelEditing = function (tableData) {
-        $scope.editingData[tableData.id] = false;
+    $scope.cancelEditing = function (id) {
+        $scope.editingData[id] = false;
         $scope.editorEnabled = false;
     };
 
 
-    $scope.save = function (tableData) {
-        $scope.editingData[tableData.id] = false;
+    $scope.save = function (row) {
+        $scope.editingData[row.id] = false;
         $scope.editorEnabled = false;
 
         $http({
             url: '/admin/saveplan',
             method: "POST",
-            data: $.param(tableData),
+            data: $.param(row),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function () {
 
         }).error(function () {
             $scope.hideError = false;
         });
+    };
+
+    $scope.deletePlan = function (row) {
+
+        var index = $scope.rowCollection.indexOf(row);
+
+        if (index !== -1) {
+            $scope.rowCollection.splice(index, 1);
+
+            $http({
+                url: '/admin/removeplan',
+                method: "POST",
+                data: "id=" + row.id,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function () {
+
+            }).error(function () {
+                $scope.hideError = false;
+            });
+        }
     };
 
     $scope.addPlan = function () {

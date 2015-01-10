@@ -37,7 +37,8 @@ class AdminController extends BaseController
 
     public function removePlanAction()
     {
-
+        $id = $_POST['id'];
+        $this->getModel()->removePlan($id);
     }
 
     public function getPlansAction()
