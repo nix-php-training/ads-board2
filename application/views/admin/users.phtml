@@ -5,14 +5,14 @@
     <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
         <thead>
         <tr>
-            <th st-sort="id">Id</th>
-            <th st-sort="login">Login</th>
-            <th st-sort="email">Email</th>
-            <th st-sort="status">Status</th>
-            <th st-sort="role">Role</th>
-<!--            <th st-sort="name">Name</th>-->
+            <th st-sort="id" class="col-md-1">Id</th>
+            <th st-sort="login" class="col-md-4">Login</th>
+            <th st-sort="email" class="col-md-4">Email</th>
+            <th st-sort="status" class="col-md-1">Status</th>
+            <th st-sort="role" class="col-md-1">Role</th>
+            <!--            <th st-sort="name">Name</th>-->
 
-            <th>Banned</th>
+            <th class="col-md-1">Banned</th>
         </tr>
         <tr>
             <th colspan="6"><input st-search="" class="form-control" placeholder="Search ..." type="text"/></th>
@@ -26,7 +26,7 @@
             <td>{{row.status}}</td>
             <td>{{row.role}}</td>
             <td>
-<!--                <input name="remember" ng-change="ban(row)" ng-model="row.banned" class="form-control" type="checkbox"/>-->
+                <button ng-click="ban(row)" class="btn btn-danger">Ban</button>
             </td>
         </tr>
         </tbody>
