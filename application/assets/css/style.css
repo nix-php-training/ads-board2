@@ -29,6 +29,18 @@ footer {
     padding: 1%;
 }
 
+.admin-footer {
+    background-color: #264348;
+}
+
+.st-sort-descent:before {
+    content: '▴ ';
+}
+
+.st-sort-ascent:before {
+    content: '▾ ';
+}
+
 a:link, a:visited {
     color: #656D78;
 }
@@ -395,8 +407,13 @@ table#plans td, th {
     /*background-color: #D2D7D3;*/
 }
 
-/* Post-list: scroll style for relative-images
--------------------------------------------------- */
+.post-detail .price {
+    width: 100%;
+    background-color: #F9690E;
+    color: white;
+    padding: 2%;
+    text-align: center;
+}
 
 .post-detail .body {
     margin-top: 3%;
@@ -421,17 +438,62 @@ table#plans td, th {
     text-align: center;
 }
 
-.vertical-align {
-    display: flex;
-    align-items: center;
+.post-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
 }
 
-.image-preview {
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
+.post-thumbnail img {
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    height: 100%;
+    width: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
+/* Post add
+-------------------------------------------------- */
+
+.post-add {
+
+}
+
+/* Edit profile
+-------------------------------------------------- */
+.edit-profile {
+
+}
+
+.edit-profile .panel-heading {
+    background-color: #763568;
+    border-bottom: 1px solid #763568;
+}
+
+.btn-iris, .btn-iris:active {
+    background-color: #763568;
+    border: 1px solid #763568;
+}
+
+.btn-iris:hover, .btn-iris:focus {
+    background-color: #8D608C;
+    border: 1px solid #8D608C;
+}
+
+/* Edit profile
+-------------------------------------------------- */
+
+.admin-user th {
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin-user button {
+    width: 100%;
 .image-preview img {
     margin: 0;
 }
