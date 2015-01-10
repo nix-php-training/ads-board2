@@ -26,5 +26,12 @@ return [
             'error404' => ['all'],
             'error403' => ['all'],
         ],
+        'admin' => [
+            'index' => ['all'],
+            'users' => ['all'],
+            'plans' => ['all'],
+            'categories' => ['all'],
+            'advertisements' => ['all'],
+        ]
     ],
 ];
