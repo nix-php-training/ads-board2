@@ -2,35 +2,9 @@ var app = angular.module('adminApp', ['smart-table']);
 
 app.controller('planCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    var testData = [
-        {
-            'id': '0',
-            'name': 'free',
-            'price': '0',
-            'term': '30',
-            'posts': '10'
-        },
-        {
-            'id': '1',
-            'name': 'pro',
-            'price': '99',
-            'term': '30',
-            'posts': '1000'
-        },
-        {
-            'id': '2',
-            'name': 'business',
-            'price': '199',
-            'term': '30',
-            'posts': '0'
-        }
-    ];
-
     $scope.rowCollection = [];
     $scope.displayedCollection = [];
     $scope.editingData = [];
-
-    $scope.rowCollection = testData;
 
     $scope.displayedCollection = [].concat($scope.rowCollection);
 
@@ -53,18 +27,18 @@ app.controller('planCtrl', ['$scope', '$http', function ($scope, $http) {
     });
 
 
-    $scope.edit = function(tableData){
+    $scope.edit = function (tableData) {
         $scope.editingData[tableData.id] = true;
         $scope.editorEnabled = true;
     };
 
-    $scope.cancelEditing = function(tableData){
+    $scope.cancelEditing = function (tableData) {
         $scope.editingData[tableData.id] = false;
         $scope.editorEnabled = false;
     };
 
 
-    $scope.save = function(tableData){
+    $scope.save = function (tableData) {
         $scope.editingData[tableData.id] = false;
         $scope.editorEnabled = false;
 
@@ -79,4 +53,18 @@ app.controller('planCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.hideError = false;
         });
     };
+
+    $scope.addPlan = function () {
+
+        var newItem =
+        {
+            'id': $scope.rowCollection.length + 1,
+            'name': '',
+            'price': '',
+            'term': '',
+            'posts': ''
+        };
+
+        $scope.rowCollection.push(newItem);
+    }
 }]);

@@ -487,6 +487,10 @@ table#plans td, th {
 /* Edit profile
 -------------------------------------------------- */
 
+.admin {
+    margin-bottom: 5%;
+}
+
 .admin th {
     text-align: left;
     cursor: pointer;

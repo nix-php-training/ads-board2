@@ -41,8 +41,12 @@ FROM users
 
     private function createPlan($params)
     {
-        $this->db->insert('plans', $params);
+        $data['name'] = $params['name'];
+        $data['price'] = $params['price'];
+        $data['term'] = $params['term'];
+        $data['posts'] = $params['posts'];
 
+        $this->db->insert('plans', $data);
     }
 
     private function updatePlan($params)
