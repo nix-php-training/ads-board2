@@ -16,6 +16,47 @@ class Config
     private static $path = ACONF;
 
     /**
+     * Initialize config array
+     *
+     * @param null $dir
+     * @return array
+     */
+    public static function init($dir = null)
+    {
+        $confDefault = Config::assembleConfig(self::$path . 'default/');
+
+        self::$conf = $confDefault;
+
+        if (isset($dir) && !is_null($dir)) {
+            $pathConfig = self::$path . $dir . '/';
+            $confUser = Config::assembleConfig($pathConfig);
+            self::$conf = array_replace_recursive($confDefault, $confUser);
+        }
+    }
+
+    /**
+     * Create one config array from all files in directory which is passed like parameter
+     *
+     * @param $path
+     * @return array
+     * @throws ConfigLoadException
+     */
+    public static function assembleConfig($path)
+    {
+        $filesList = glob($path . '*.php');
+        if (empty($filesList)) {
+            throw new ConfigLoadException();
+        } else {
+            $config = array();
+            foreach ($filesList as $file) {
+                $confTemp = require_once $file;
+                $config = array_merge($config, $confTemp);
+            }
+            return $config;
+        }
+    }
+
+    /**
      * Get config by key or key with subkey
      *
      * @param null $key
@@ -38,63 +79,26 @@ class Config
     }
 
     /**
-     * Initialize config array
-     *
-     * @param null $dir
-     * @return array
-     */
-    public static function init($dir = null)
-    {
-
-        $confDefault = Config::assembleConfig(self::$path . 'default/');
-        self::$conf = $confDefault;
-
-        if (isset($dir) && !is_null($dir)) {
-            $pathConfig = self::$path . $dir . '/';
-            $confUser = Config::assembleConfig($pathConfig);
-            self::$conf = array_replace_recursive($confDefault, $confUser);
-        }
-        $reg = self::get('registry');
-        if (!is_null($reg)) {
-            foreach ($reg as $k => $v) {
-                Registry::set($k, $v);
-            }
-        }
-    }
-
-    /**
-     * Create one config array from all files in directory which is passed like parameter
-     *
-     * @param $path
-     * @return array
-     */
-    public static function assembleConfig($path)
-    {
-        $filesList = glob($path . '*.php');
-        $config = array();
-        foreach ($filesList as $file) {
-            $confTemp = require_once $file;
-            $config = array_merge($config, $confTemp);
-        }
-        return $config;
-    }
-
-    /**
      * Sets path to user config directory.
      * '/' on the end of line is required.
      *
      * Attention! Do it carefully!
      * Change the path in exceptional cases!
      *
+     * Use try {} catch {} for it.
+     *
      * If you redefine config folder
      * it will have to contains folder 'default' for default configs.
      *
      * @param $path
+     * @throws ConfigLoadException
      */
     public static function setPath($path)
     {
         if (is_dir($path)) {
             self::$path = $path;
+        } else {
+            throw new ConfigLoadException();
         }
     }
 }
