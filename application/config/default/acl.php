@@ -33,8 +33,11 @@ return [
             'categories' => ['admin'],
             'advertisements' => ['admin'],
             'showusers' => ['admin'],
-            'ban' => ['admin'],
-            'unban' => ['admin']
+            'banuser' => ['admin'],
+            'unbanuser' => ['admin'],
+            'editPlan' => ['admin'],
+            'createPlan' => ['admin'],
+            'removePlan' => ['admin'],
         ]
     ],
 ];

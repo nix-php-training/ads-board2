@@ -57,10 +57,10 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
             // if current status == banned then unban
             // else ban selected user
             if (row.status === 'banned') {
-                path = '/admin/unban';
+                path = '/admin/unbanuser';
                 status = 'registered'
             } else {
-                path = '/admin/ban';
+                path = '/admin/banuser';
                 status = 'banned'
             }
 
@@ -143,7 +143,7 @@ app.controller('userCtrl', ['$scope', '$http', function ($scope, $http) {
 
     var statisticInfo = function (data) {
         $scope.userAmount = data.length;
-        $scope.bannedUser = getCountOf(data, 'status', 'banner');
+        $scope.bannedUser = getCountOf(data, 'status', 'banned');
         $scope.unconfirmedUser = getCountOf(data, 'status', 'unconfirmed');
         $scope.registeredUser = getCountOf(data, 'status', 'registered');
     }

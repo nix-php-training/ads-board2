@@ -17,16 +17,31 @@ class AdminController extends BaseController
         echo json_encode($this->getModel()->getUsers());
     }
 
-    public function banAction()
+    public function banUserAction()
     {
         $id = $_POST['id'];
         $this->getModel()->banUser($id);
     }
 
-    public function unbanAction()
+    public function unbanUserAction()
     {
         $id = $_POST['id'];
         $this->getModel()->unbanUser($id);
+    }
+
+    public function editPlanAction()
+    {
+
+    }
+
+    public function createPlanAction()
+    {
+
+    }
+
+    public function removePlanAction()
+    {
+
     }
 
     public function plansAction()
@@ -43,5 +58,4 @@ class AdminController extends BaseController
     {
         $this->view('admin/advertisements', [], 'admin');
     }
-
 } 
