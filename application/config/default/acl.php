@@ -32,9 +32,12 @@ return [
             'plans' => ['admin'],
             'categories' => ['admin'],
             'advertisements' => ['admin'],
-            'showusers' => ['admin'],
-            'ban' => ['admin'],
-            'unban' => ['admin']
+            'getusers' => ['admin'],
+            'banuser' => ['admin'],
+            'unbanuser' => ['admin'],
+            'saveplan' => ['admin'],
+            'removeplan' => ['admin'],
+            'getplans' => ['admin'],
         ]
     ],
 ];
