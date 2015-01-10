@@ -11,20 +11,25 @@ class Advertisement extends Model
 
     public function getAllAdvertisements()
     {
-        return $this->db->query('select a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
+        try {
+            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
                                   INNER JOIN categories c on a.categoryId=c.id
                                   INNER JOIN users u on a.userId=u.id')->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
     }
 
-//    public function convertDateto($ads)
-//    {
-//        foreach ($ads as $v)
-//        {
-//            var_dump($v['creationDate']);
-//            $v['creationDate'] = strtotime($v['creationDate']);
-//
-//        }
-//        return $ads;
-//    }
+    public function getAdvertisementById($id)
+    {
+        try {
+            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
+                                  INNER JOIN categories c on a.categoryId=c.id
+                                  INNER JOIN users u on a.userId=u.id
+                                  WHERE a.id='.$id)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
 
 }

@@ -32,7 +32,18 @@ class HomeController extends BaseController
 
     function postDetailAction()
     {
-        $this->view('content/postDetail');
+        try
+        {
+            $data = array();
+            $id = $this->getParams('adsId');
+            $ads = (new Advertisement())->getAdvertisementById($id);
+            $data['ads'] = $ads;
+            $this->view('content/postDetail', $data);
+        }
+        catch (DatabaseErrorException $e) {
+            $this->view('error/error', $data = array('message' => $e->getMessage()));
+        }
+
     }
 
     function addPostAction()

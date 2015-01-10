@@ -2,7 +2,7 @@
     <label for="categories">Categories</label>
     <select name="categories" id="categories" class="form-control">
         <?php foreach ($data['categories'] as $v) : ?>
-            <option value="<?php htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['title']) ?></option>
+            <option value="<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['title']) ?></option>
         <?php endforeach; ?>
 
     </select>
@@ -16,7 +16,7 @@
         <div class="col-md-2 text-right">
             <h1><?php echo date("Y-m-d", $v['creationDate']) ?></h1>
 
-            <h2><?php echo date("h:m", $v['creationDate']) ?></h2>
+            <h2><?php echo date("H:m", $v['creationDate']) ?></h2>
         </div>
 
         <div class="col-md-2">
@@ -32,7 +32,7 @@
         </div>
 
         <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
+            <h1><a href="/postdetail/<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['subject']) ?></a></h1>
 
             <a href="/profile"><?php echo htmlspecialchars($v['login']) ?></a>
 

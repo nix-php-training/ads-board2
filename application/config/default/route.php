@@ -20,6 +20,15 @@ return [
             'action' => 'index',//static
             'params' => array()
         ),
+        'postdetail' => array(
+            'template' => '^\/postdetail\/(\w+)$',
+            'controller' => 'home', //static
+            'action' => 'postdetail',//static
+            'params' => array(
+                'adsId' => '[1]'
+            )
+        ),
+
         'static' => array(
             '/home' => '/',
             '/terms' => '/home/terms',
@@ -35,7 +44,7 @@ return [
             '/error403' => '/error/error403',
             '/plan' => '/user/plan',
             '/postlist'=>'/home/postlist',
-            '/postdetail' => '/home/postdetail',
+         //   '/postdetail' => '/home/postdetail',
             '/addpost' => '/home/addpost',
             '/imagedownload' => '/home/imagedownload'
         )
