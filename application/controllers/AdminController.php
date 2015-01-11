@@ -144,7 +144,7 @@ class AdminController extends BaseController
      */
     public function getCategoriesAction()
     {
-        echo json_encode($this->categoryModel->getCategoriesBy());
+        echo json_encode($this->categoryModel->getCategoriesBy(['id', 'title', 'description']));
     }
 
     /**

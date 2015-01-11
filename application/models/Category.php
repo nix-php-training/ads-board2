@@ -41,7 +41,6 @@ class Category extends Model
         } else {
             $this->addCategory($data);
         }
-        $this->db->insert($this->table, $data);
     }
 
     /**
