@@ -34,16 +34,19 @@ class UserController extends BaseController
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            /*mail section*/
-
-            $letter = new EmailSender();//Creating object EmailSender
-            $letter->sendMail($_POST['email']);//Sending Email with unique-link to user email
-            $letter->unique;//Unique part of link, u may use it to write in DB
-
-            /*end of mail section*/
 
             $valid = $this->getModel()->registration($login, $email, $password);
             if (!is_array($valid)) {
+
+                /*mail section*/
+
+                $letter = new EmailSender();//Creating object EmailSender
+
+                $letter->sendMail($_POST['email']);//Sending Email with unique-link to user email
+                $this->getModel()->putLink($letter->unique);//Unique part of link writing in DB table confirmationLinks
+
+                /*end of mail section*/
+
                 echo 'Вы зарегистрированы';
             } else {
                 var_dump($valid);
@@ -147,5 +150,17 @@ class UserController extends BaseController
     function editProfileAction()
     {
         $this->view('content/editProfile');
+    }
+
+    function confirmAction()
+    {
+        $link = $this->getParams('link');
+
+        if($this->getModel()->checkStatus($link)){
+            header("Location: " . Config::get('site')['host'] . 'user/login');
+        }else{
+            $this->getModel()->changeStatus($link);
+            $this->view('content/confirm');
+        }
     }
 }
