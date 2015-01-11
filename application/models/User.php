@@ -10,14 +10,15 @@ class User extends Model
         'password' => ['min_length(3)', 'max_length(32)']
     ];
 
-    function getBy($field, $value)
+    function getBy($field, $value, $table='users')
     {
         $where = [":$field" => $value];
-        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status
+        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
-                                  WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
+                                  JOIN confirmationLinks ON users.id=confirmationLinks.userId
+                                  WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
 
     function setCookie($id, $expire = 0)
@@ -64,7 +65,7 @@ class User extends Model
     function login($email, $password)
     {
         $user = $this->getBy('email', $email);
-        var_dump($user);
+//        var_dump($user);
         if ($user && password_verify($password, $user->password)) {
             if (isset($_POST['remember'])) {
                 $expire = 30;
@@ -119,6 +120,7 @@ class User extends Model
                 'roleId' => $this->db->fetchOne('roles', 'id', ['name' => 'user']),
             ];
             $this->db->insert($this->table, $data);
+            Registry::set('email', $data['email']);
             return true;
         } else {
             return $valid;
@@ -127,11 +129,30 @@ class User extends Model
 
     function putLink($link)
     {
-        $temp = $this->db->query("SELECT id FROM users WHERE id = LAST_INSERT_ID()")->fetch(PDO::FETCH_OBJ);
+        $userEmail = Registry::get('email');
+        $temp = $this->db->query("SELECT id FROM users WHERE email LIKE '$userEmail'")->fetch(PDO::FETCH_OBJ);
         $data = [
             'link' => $link,
             'userId' => $temp->id,
         ];
         $this->db->insert($this->linksTable, $data);
+    }
+
+    function checkStatus($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');
+        switch($user->status){
+            case 'registered'://implements constants!
+                return true;break;
+            case 'unconfirmed':
+                return false;break;
+            default:
+                echo "Your link is invalid";
+        }
+    }
+
+    function changeStatus()
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');
     }
 }

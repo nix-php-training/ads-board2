@@ -12,7 +12,7 @@ class UserController extends BaseController
             $email = $_POST['email'];
             $password = $_POST['password'];
             if ($this->getModel()->login($email, $password)) {
-                $this->redirect('/');
+//                $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
             }
@@ -140,5 +140,21 @@ class UserController extends BaseController
     function editProfileAction()
     {
         $this->view('content/editProfile');
+    }
+
+    function confirmAction()
+    {
+        $this->view('content/confirm');
+
+        $loginAdress = Config::get('site')['host'] . "user/login";
+
+        $link = $this->getParams('link');
+
+        if($this->getModel()->checkStatus($link)){
+            echo "You already registered on ads-board2.zone, plz<a href=$loginAdress>login</a>";
+        }else{
+            echo 'U r unconfirmed for now, admin must change ur status to registered';
+            $this->getModel()->changeStatus($link);
+        }
     }
 }
