@@ -58,13 +58,15 @@ class HomeController extends BaseController
                 'userId' => intval($_SESSION['userId'])
             ];
             var_dump($data);
+            var_dump($_FILES); die();
 
             if (isset($subject) && isset($description) && isset($price) && isset($category)) {
                 (new Advertisement())->addAdvertisement($data);
                 $this->redirect('/postlist');
-            } else $this->view('content/addPost');
+            } else $this->view('content/addPost'); var_dump($_FILES); die();
 
         } else {
+
             $categories = (new Category())->getCategoriesBy(['id', 'title']);
             $data['categories'] = $categories;
             $this->view('content/addPost', $data);
@@ -86,6 +88,14 @@ class HomeController extends BaseController
     // will be moved to correct controller
     function imageDownloadAction()
     {
+        $arr = Config::get('site');
+
+        $tempUserDir = $arr['tempImagePath'].$_SESSION['userId'];
+        mkdir($tempUserDir);
+
+        move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir.'/'.time().'_'.$_FILES['file']['name']);
+
         ChromePhp::log($_FILES);
+
     }
 }
