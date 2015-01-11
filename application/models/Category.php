@@ -4,10 +4,13 @@ class Category extends Model
 {
     protected $table = 'categories';
 
-    function getCategoriesBy($data = [])
+    public function getCategoriesBy($data = [])
     {
-        if(isset($data)) return $this->db->fetchAll($this->table,$data);
-        return $this->db->fetchAll($this->table,['*']);
+        if (isset($data)) {
+            return $this->db->fetchAll($this->table, $data);
+        }
+
+        return $this->db->fetchAll($this->table, ['*']);
     }
 
     function addCategory($data)
@@ -38,6 +41,7 @@ class Category extends Model
         } else {
             $this->addCategory($data);
         }
+        $this->db->insert($this->table, $data);
     }
 
     /**
