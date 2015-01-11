@@ -103,4 +103,17 @@ FROM users
     {
         $this->db->delete('categories', ['id' => $id]);
     }
+
+    //--------- Advertisements functions--------------
+
+    public function getAds()
+    {
+        return $this->db->query("SELECT subject, price, creationDate, userId,
+  advertisements.id AS id,
+  categories.title AS category,
+  users.login AS userLogin
+FROM advertisements
+  JOIN categories ON categoryId=categories.id
+  JOIN users ON userId=users.id")->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

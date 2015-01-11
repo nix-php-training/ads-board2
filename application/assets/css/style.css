@@ -500,3 +500,12 @@ table#plans td, th {
     width: 100%;
     margin: 1px;
 }
+
+.admin .post-list {
+    background-color: #F9F9F9;
+
+}
+
+.admin .post-list td {
+    vertical-align: middle;
+}
