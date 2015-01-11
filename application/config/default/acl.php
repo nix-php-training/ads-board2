@@ -32,15 +32,25 @@ return [
             'plans' => ['admin'],
             'categories' => ['admin'],
             'advertisements' => ['admin'],
+
+            // user management
             'getusers' => ['admin'],
             'banuser' => ['admin'],
             'unbanuser' => ['admin'],
+
+            // plan management
             'saveplan' => ['admin'],
             'removeplan' => ['admin'],
             'getplans' => ['admin'],
+
+            // category management
             'removecategory' => ['admin'],
             'savecategory' => ['admin'],
-            'getcategories' =>['admin']
+            'getcategories' =>['admin'],
+
+            // advertisement management
+            'removeadvertisement' => ['admin'],
+            'getadvertisements' => ['admin']
         ]
     ],
 ];
