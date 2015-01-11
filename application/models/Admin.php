@@ -2,6 +2,7 @@
 
 class Admin extends Model
 {
+    //--------- User functions--------------
     public function getUsers()
     {
         return $this->db->query("SELECT users.id AS id,
@@ -24,6 +25,7 @@ FROM users
         $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
     }
 
+    //--------- Plan functions--------------
     public function getPlans()
     {
         return $this->db->query("SELECT id, name, price, term, posts FROM plans")->fetchAll(PDO::FETCH_ASSOC);
@@ -62,5 +64,43 @@ FROM users
     public function removePlan($id)
     {
         $this->db->delete('plans', ['id' => $id]);
+    }
+
+    //--------- Category functions--------------
+
+    public function getCategories()
+    {
+        return $this->db->query("SELECT id, title, description FROM categories")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function saveCategory($params)
+    {
+        $exist = $this->db->query("SELECT id FROM categories WHERE id={$params['id']}")->fetch(PDO::FETCH_ASSOC);
+        if ($exist) {
+            $this->updateCategory($params);
+        } else {
+            $this->createCategory($params);
+        }
+    }
+
+    private function createCategory($params)
+    {
+        $data['title'] = $params['title'];
+        $data['description'] = $params['description'];
+
+        $this->db->insert('categories', $data);
+    }
+
+    private function updateCategory($params)
+    {
+        $this->db->update('categories', [
+            'title' => $params['title'],
+            'description' => $params['description']
+        ], ['id' => $params['id']]);
+    }
+
+    public function removeCategory($id)
+    {
+        $this->db->delete('categories', ['id' => $id]);
     }
 }
