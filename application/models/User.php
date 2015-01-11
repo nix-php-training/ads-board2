@@ -159,4 +159,44 @@ class User extends Model
 //        die();
         $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");
     }
+
+    /**
+     * Extract all users from db
+     *
+     * @return mixed Array('id', 'login', 'email, 'role', 'status')
+     */
+    public function getUsers()
+    {
+        return $this->db->query("SELECT
+  users.id      AS id,
+  users.login   AS login,
+  users.email   AS email,
+  roles.name    AS role,
+  statuses.name AS status
+FROM users
+  JOIN statuses ON users.statusId = statuses.id
+  JOIN roles ON users.roleId = roles.id")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Set status 'banned' for user by id
+     *
+     * @param $id
+     */
+    public function banUser($id)
+    {
+        $this->db->update('users', ['statusId' => '3'], ['id' => $id]);
+    }
+
+    /**
+     * Set status 'registered' for user by id
+     * Don't pass user with status 'unregistered'
+     *
+     * @param $id
+     */
+    public function unbanUser($id)
+    {
+        $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
+    }
+
 }
