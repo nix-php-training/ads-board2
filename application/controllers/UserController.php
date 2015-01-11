@@ -61,6 +61,16 @@ class UserController extends BaseController
         $this->view('content/plan');//Отрисовуем страницу с формами для отправки данных на Paypal
     }
 
+    function successAction()
+    {
+        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
+    }
+
+    function cancelledAction()
+    {
+        $this->view('content/cancelled');//Отрисовуем страницу на которую прийдет пользователь в случае отмены оплаты на Paypal
+    }
+
     function paypalAction()//action for Express Checkout on Paypal
     {
         $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
