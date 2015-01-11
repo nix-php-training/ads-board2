@@ -2,6 +2,36 @@
 
 class AdminController extends BaseController
 {
+    /**
+     * @var User
+     */
+    private $userModel;
+
+    /**
+     * @var Plan
+     */
+    private $planModel;
+
+    /**
+     * @var Advertisement
+     */
+    private $advertisementModel;
+
+    /**
+     * @var Category
+     */
+    private $categoryModel;
+
+    function __construct($params, $model)
+    {
+        parent::__construct($params, $model);
+
+        $this->userModel = new User();
+        $this->planModel = new Plan();
+        $this->advertisementModel = new Advertisement();
+        $this->categoryModel = new Category();
+    }
+
     public function indexAction()
     {
         $this->usersAction();
@@ -22,7 +52,7 @@ class AdminController extends BaseController
      */
     public function getUsersAction()
     {
-        echo json_encode($this->getModel()->getUsers());
+        echo json_encode($this->userModel->getUsers());
     }
 
     /**
@@ -33,7 +63,7 @@ class AdminController extends BaseController
     public function banUserAction()
     {
         $id = $_POST['id'];
-        $this->getModel()->banUser($id);
+        $this->userModel->banUser($id);
     }
 
     /**
@@ -44,7 +74,7 @@ class AdminController extends BaseController
     public function unbanUserAction()
     {
         $id = $_POST['id'];
-        $this->getModel()->unbanUser($id);
+        $this->userModel->unbanUser($id);
     }
 
     //--------- Plan functions--------------
@@ -56,7 +86,7 @@ class AdminController extends BaseController
      */
     public function savePlanAction()
     {
-        $this->getModel()->savePlan($_POST);
+        $this->planModel->savePlan($_POST);
     }
 
     /**
@@ -67,7 +97,7 @@ class AdminController extends BaseController
     public function removePlanAction()
     {
         $id = $_POST['id'];
-        $this->getModel()->removePlan($id);
+        $this->planModel->removePlan($id);
     }
 
     /**
@@ -75,7 +105,7 @@ class AdminController extends BaseController
      */
     public function getPlansAction()
     {
-        echo json_encode($this->getModel()->getPlans());
+        echo json_encode($this->planModel->getPlans());
     }
 
     /**
@@ -95,7 +125,7 @@ class AdminController extends BaseController
      */
     public function saveCategoryAction()
     {
-        $this->getModel()->saveCategory($_POST);
+        $this->categoryModel->saveCategory($_POST);
     }
 
     /**
@@ -106,7 +136,7 @@ class AdminController extends BaseController
     public function removeCategoryAction()
     {
         $id = $_POST['id'];
-        $this->getModel()->removeCategory($id);
+        $this->categoryModel->removeCategory($id);
     }
 
     /**
@@ -114,7 +144,7 @@ class AdminController extends BaseController
      */
     public function getCategoriesAction()
     {
-        echo json_encode($this->getModel()->getCategories());
+        echo json_encode($this->categoryModel->getCategoriesBy());
     }
 
     /**
@@ -139,7 +169,7 @@ class AdminController extends BaseController
      */
     public function getAdvertisementsAction()
     {
-        echo json_encode($this->getModel()->getAds());
+        echo json_encode($this->advertisementModel->getAds());
     }
 
     /**
@@ -150,6 +180,6 @@ class AdminController extends BaseController
     public function removeAdvertisementAction()
     {
         $id = $_POST['id'];
-        $this->getModel()->removeAds($id);
+        $this->advertisementModel->removeAds($id);
     }
 } 
