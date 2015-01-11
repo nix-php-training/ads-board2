@@ -3,6 +3,11 @@
 class Admin extends Model
 {
     //--------- User functions--------------
+    /**
+     * Extract all users from db
+     *
+     * @return mixed Array('id', 'login', 'email, 'role', 'status')
+     */
     public function getUsers()
     {
         return $this->db->query("SELECT
@@ -16,22 +21,46 @@ FROM users
   JOIN roles ON users.roleId = roles.id")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Set status 'banned' for user by id
+     *
+     * @param $id
+     */
     public function banUser($id)
     {
         $this->db->update('users', ['statusId' => '3'], ['id' => $id]);
     }
 
+    /**
+     * Set status 'registered' for user by id
+     * Don't pass user with status 'unregistered'
+     *
+     * @param $id
+     */
     public function unbanUser($id)
     {
         $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
     }
 
     //--------- Plan functions--------------
+
+    /**
+     * Extract all plans from db
+     *
+     * @return mixed Array ('id', 'name', 'price', 'term', 'post')
+     */
     public function getPlans()
     {
         return $this->db->query("SELECT id, name, price, term, posts FROM plans")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Update plan row if plan exist
+     * or
+     * create new row in db
+     *
+     * @param $params
+     */
     public function savePlan($params)
     {
         $exist = $this->db->query("SELECT id FROM plans WHERE id={$params['id']}")->fetch(PDO::FETCH_ASSOC);
@@ -42,6 +71,11 @@ FROM users
         }
     }
 
+    /**
+     * Create new plan
+     *
+     * @param $params Array('name', 'price', 'term', 'posts')
+     */
     private function createPlan($params)
     {
         $data['name'] = $params['name'];
@@ -52,6 +86,11 @@ FROM users
         $this->db->insert('plans', $data);
     }
 
+    /**
+     * Update exist plan
+     *
+     * @param $params Array('name', 'price', 'term', 'posts')
+     */
     private function updatePlan($params)
     {
         $this->db->update('plans', [
@@ -62,6 +101,11 @@ FROM users
         ], ['id' => $params['id']]);
     }
 
+    /**
+     * Delete plan from db by id
+     *
+     * @param $id
+     */
     public function removePlan($id)
     {
         $this->db->delete('plans', ['id' => $id]);
@@ -69,11 +113,23 @@ FROM users
 
     //--------- Category functions--------------
 
+    /**
+     * Extract all categories from db
+     *
+     * @return mixed Array('id', 'title', 'description')
+     */
     public function getCategories()
     {
         return $this->db->query("SELECT id, title, description FROM categories")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Update category row if category exist
+     * or
+     * create new row in db
+     *
+     * @param $params Array('id', 'title', 'description')
+     */
     public function saveCategory($params)
     {
         $exist = $this->db->query("SELECT id FROM categories WHERE id={$params['id']}")->fetch(PDO::FETCH_ASSOC);
@@ -84,6 +140,11 @@ FROM users
         }
     }
 
+    /**
+     * Create new category
+     *
+     * @param $params Array('title', 'description')
+     */
     private function createCategory($params)
     {
         $data['title'] = $params['title'];
@@ -92,6 +153,11 @@ FROM users
         $this->db->insert('categories', $data);
     }
 
+    /**
+     * Update exits category
+     *
+     * @param $params Array('title', 'description')
+     */
     private function updateCategory($params)
     {
         $this->db->update('categories', [
@@ -100,6 +166,11 @@ FROM users
         ], ['id' => $params['id']]);
     }
 
+    /**
+     * Delete category from db by id
+     *
+     * @param $id
+     */
     public function removeCategory($id)
     {
         $this->db->delete('categories', ['id' => $id]);
@@ -107,6 +178,11 @@ FROM users
 
     //--------- Advertisements functions--------------
 
+    /**
+     * Extract all posts from db with link at image
+     *
+     * @return mixed Array('id', 'subject', 'price', 'creationDate', 'userId', 'category', 'userLogin', 'link')
+     */
     public function getAds()
     {
         return $this->db->query("SELECT
@@ -125,9 +201,14 @@ FROM advertisements
 GROUP BY id")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Remove post and related images by id
+     *
+     * @param $id
+     */
     public function removeAds($id)
     {
-        return $this->db->query("DELETE advertisements, advertisementsImages
+        $this->db->query("DELETE advertisements, advertisementsImages
 FROM advertisements
   JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
 WHERE advertisements.id={$id}");
