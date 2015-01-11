@@ -6,7 +6,7 @@ class Advertisement extends Model
 
     public function addAdvertisement($data)
     {
-        $this->db->insert($this->table, $data);
+        return $this->db->insert($this->table, $data);
     }
 
     public function getAllAdvertisements()

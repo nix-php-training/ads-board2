@@ -1,35 +1,42 @@
 <?php
 
-class Advertisement extends Model
+class AdvertisementImages extends Model
 {
     protected $table = 'advertisementsImages';
 
     public function saveAdsImages($adsId)
     {
-        $this->db->insert($this->table, $data);
+       // $this->db->insert($this->table, $data);
     }
 
-    public function getAllAdvertisements()
-    {
-        try {
-            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
-                                  INNER JOIN categories c on a.categoryId=c.id
-                                  INNER JOIN users u on a.userId=u.id')->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new DatabaseErrorException();
+    function makeThumb( $filename, $type ) {
+        global $max_width, $max_height;
+        if ( $type == 'jpg' ) {
+            $src = imagecreatefromjpeg($filename);
+        } else {
+            $src = imagecreatefrompng($filename);
         }
-    }
-
-    public function getAdvertisementById($id)
-    {
-        try {
-            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
-                                  INNER JOIN categories c on a.categoryId=c.id
-                                  INNER JOIN users u on a.userId=u.id
-                                  WHERE a.id='.$id)->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new DatabaseErrorException();
+        if ( ($oldW = imagesx($src)) < ($oldH = imagesy($src)) ) {
+            $newW = $oldW * ($max_width / $oldH);
+            $newH = $max_height;
+        } else {
+            $newW = $max_width;
+            $newH = $oldH * ($max_height / $oldW);
         }
-    }
+        $new = imagecreatetruecolor($newW, $newH);
+        imagecopyresampled($new, $src, 0, 0, 0, 0, $newW, $newH, $oldW, $oldH);
+        $temp = explode('/',$filename);
+        $imageName = 'thumb_'.end($temp);
+        array_push(end($temp),$imageName);
+        $newFileName = implode('/',$temp);
 
+
+        if ( $type == 'jpg' ) {
+            imagejpeg($new, $newFileName);
+        } else {
+            imagepng($new, $newFileName);
+        }
+        imagedestroy($new);
+        imagedestroy($src);
+    }
 }
