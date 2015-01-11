@@ -1,0 +1,76 @@
+<div ng-controller="planCtrl" class="row admin">
+    <h3>Plans management</h3>
+
+    <div class="alert alert-danger" ng-class="{hidden:hideError}" role="alert">
+        <strong>Warning!</strong> Something wrong. Try again later.
+    </div>
+
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+        <tr>
+            <th st-sort="login" class="col-md-8">Name</th>
+            <th st-sort="email" class="col-md-1">Price</th>
+            <th st-sort="status" class="col-md-1">Posts</th>
+            <th st-sort="status" class="col-md-1">Term</th>
+            <th st-sort="status" class="col-md-1">
+                <div ng-hide="editorEnabled">
+                    Edit
+                </div>
+                <div ng-show="editorEnabled">
+                    Save
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="5">
+                <div class="form-group search-only">
+                    <i class="search-icon glyphicon glyphicon-search"></i>
+                    <input st-search="" class="form-control search-query"
+                           placeholder="Search ..." type="text"/>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in displayedCollection">
+            <td>
+                <div ng-hide="editingData[row.id]">{{row.name}}</div>
+                <div ng-show="editingData[row.id]">
+                    <input class="form-control" type="text" ng-model="row.name"/>
+                </div>
+            </td>
+            <td>
+                <div ng-hide="editingData[row.id]">${{row.price}}</div>
+                <div ng-show="editingData[row.id]">
+                    <input class="form-control" type="text" ng-model="row.price"/>
+                </div>
+            </td>
+            <td>
+                <div ng-hide="editingData[row.id]">{{row.posts}}</div>
+                <div ng-show="editingData[row.id]">
+                    <input class="form-control" type="text" ng-model="row.posts"/>
+                </div>
+            </td>
+            <td>
+                <div ng-hide="editingData[row.id]">{{row.term}} day</div>
+                <div ng-show="editingData[row.id]">
+                    <input class="form-control" type="text" ng-model="row.term"/>
+                </div>
+            </td>
+
+            <td>
+                <button class="btn btn-info" ng-hide="editingData[row.id]" ng-click="edit(row.id)">Edit</button>
+                <button class="btn btn-success" ng-show="editingData[row.id]" ng-click="save(row)">Save</button>
+                <button class="btn btn-link" ng-show="editingData[row.id]" ng-click="cancelEditing(row.id)">Cancel</button>
+                <button class="btn btn-danger" ng-hide="editingData[row.id]" ng-click="deletePlan(row)">Remove</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-default" ng-click="addPlan()">Add plan</button>
+
+</div>
+
+<script src="/application/assets/js/controllers/adminPlans.js"></script>
+<script src="/application/assets/js/controllers/commonFunctions.js"></script>
