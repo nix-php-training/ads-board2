@@ -12,7 +12,7 @@ class UserController extends BaseController
             $email = $_POST['email'];
             $password = $_POST['password'];
             if ($this->getModel()->login($email, $password)) {
-//                $this->redirect('/');
+                $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
             }
