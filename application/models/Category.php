@@ -13,13 +13,54 @@ class Category extends Model
         return $this->db->fetchAll($this->table, ['*']);
     }
 
-    public function addCategory($title, $desc)
+    function addCategory($data)
     {
-        $data = [
-            'title' =>$title,
-            'description' => $desc
-        ];
-        $this->db->insert($this->table, $data);
+        $this->db->insert($this->table,$data);
     }
 
+
+    /**
+     * Update category row if category exist
+     * or
+     * create new row in db
+     *
+     * @param $params Array('id', 'title', 'description')
+     */
+    public function saveCategory($params)
+    {
+        $data = [
+            'title' => $params['title'],
+            'description' => $params['description']
+        ];
+        $id = $params['id'];
+
+
+        $exist = $this->db->query("SELECT id FROM {$this->table} WHERE id={$id}")->fetch(PDO::FETCH_ASSOC);
+        if ($exist) {
+            $this->updateCategory($data, $id);
+        } else {
+            $this->addCategory($data);
+        }
+    }
+
+    /**
+     * Update exits category
+     *
+     * @param $data Array('title', 'description')
+     * @param $id
+     */
+    private function updateCategory($data, $id)
+    {
+        $this->db->update('categories', $data, ['id' => $id]);
+    }
+
+    /**
+     * Delete category from db by id
+     *
+     * @param $id
+     */
+    public function removeCategory($id)
+    {
+        $this->db->delete('categories', ['id' => $id]);
+    }
 }
