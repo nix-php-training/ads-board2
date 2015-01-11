@@ -12,7 +12,7 @@ class UserController extends BaseController
             $email = $_POST['email'];
             $password = $_POST['password'];
             if ($this->getModel()->login($email, $password)) {
-                $this->redirect('/');
+//                $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
             }
@@ -150,5 +150,17 @@ class UserController extends BaseController
     function editProfileAction()
     {
         $this->view('content/editProfile');
+    }
+
+    function confirmAction()
+    {
+        $link = $this->getParams('link');
+
+        if($this->getModel()->checkStatus($link)){
+            header("Location: " . Config::get('site')['host'] . 'user/login');
+        }else{
+            $this->getModel()->changeStatus($link);
+            $this->view('content/confirm');
+        }
     }
 }
