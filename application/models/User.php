@@ -3,21 +3,22 @@
 class User extends Model
 {
     protected $table = 'users';
-
+    protected $linksTable = 'confirmationLinks';
     protected $rules = [
         'login' => ['login', 'min_length(3)', 'max_length(32)'],
         'email' => ['email'],
         'password' => ['min_length(3)', 'max_length(32)']
     ];
 
-    function getBy($field, $value)
+    function getBy($field, $value, $table='users')
     {
         $where = [":$field" => $value];
-        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status
+        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
-                                  WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
+                                  JOIN confirmationLinks ON users.id=confirmationLinks.userId
+                                  WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
 
     function setCookie($id, $expire = 0)
@@ -118,10 +119,45 @@ class User extends Model
                 'roleId' => $this->db->fetchOne('roles', 'id', ['name' => 'user']),
             ];
             $this->db->insert($this->table, $data);
+            Registry::set('email', $data['email']);
             return true;
         } else {
             return $valid;
         }
+    }
+
+    function putLink($link)
+    {
+        $userEmail = Registry::get('email');
+        $temp = $this->db->query("SELECT id FROM users WHERE email LIKE '$userEmail'")->fetch(PDO::FETCH_OBJ);
+        $data = [
+            'link' => $link,
+            'userId' => $temp->id,
+        ];
+        $this->db->insert($this->linksTable, $data);
+    }
+
+    function checkStatus($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');
+        switch($user->status){
+            case 'registered'://implement constants!
+                return true;break;
+            case 'unconfirmed':
+                return false;break;
+            default:
+                echo "Your link is invalid";
+        }
+    }
+
+    function changeStatus($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');
+//        echo '<pre>';
+//        var_dump($user);
+//        echo '</pre>';
+//        die();
+        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");
     }
 
     /**

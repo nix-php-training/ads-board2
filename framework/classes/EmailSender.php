@@ -16,18 +16,14 @@ class EmailSender
             'M','N','O','P','R','S',
             'T','U','V','X','Y','Z',
             '1','2','3','4','5','6',
-            '7','8','9','0','.',',',
-            '(',')','[',']','!','?',
-            '&','^','%','@','*','$',
-            '<','>','/','|','+','-',
-            '{','}','`','~');
+            '7','8','9','0',);
 
         for($i = 1; $i <= $num; $i++){
             $index = mt_rand(0, count($arr) - 1);
             $unique .= $arr[$index];
         }
         $this->unique = $unique;
-        $uniqueQuery = Config::get('site')['host'] . "user/login?link=" . urlencode($unique);
+        $uniqueQuery = Config::get('site')['host'] . "user/confirm?link=$unique";
 
         $link ="<a href = $uniqueQuery>" . $uniqueQuery . "</a>";
 

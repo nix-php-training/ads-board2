@@ -38,7 +38,7 @@ return [
             '/profile' => '/user/profile',
             '/edit' => '/user/editprofile',
             '/registration' => '/user/registration',
-            '/confirmation' => '',
+            '/confirm' => '/user/confirm',
             '/restore' => '/user/restore',
             '/error404' => '/error/error404',
             '/error403' => '/error/error403',
