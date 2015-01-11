@@ -60,7 +60,7 @@ GROUP BY id")->fetchAll(PDO::FETCH_ASSOC);
      *
      * @param $id
      */
-    public function removeAds($id)
+    public function removeAdvertisement($id)
     {
         $this->db->query("DELETE advertisements, advertisementsImages
 FROM advertisements

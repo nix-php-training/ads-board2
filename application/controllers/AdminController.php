@@ -180,6 +180,6 @@ class AdminController extends BaseController
     public function removeAdvertisementAction()
     {
         $id = $_POST['id'];
-        $this->advertisementModel->removeAds($id);
+        $this->advertisementModel->removeAdvertisement($id);
     }
 } 
