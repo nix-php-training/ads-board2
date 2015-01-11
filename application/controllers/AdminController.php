@@ -84,4 +84,10 @@ class AdminController extends BaseController
     {
         echo json_encode($this->getModel()->getAds());
     }
+
+    public function removeAdvertisementAction()
+    {
+        $id = $_POST['id'];
+        $this->getModel()->removeAds($id);
+    }
 } 

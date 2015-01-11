@@ -5,14 +5,15 @@ class Admin extends Model
     //--------- User functions--------------
     public function getUsers()
     {
-        return $this->db->query("SELECT users.id AS id,
-       users.login AS login,
-       users.email AS email,
-       roles.name AS role,
-       statuses.name AS status
+        return $this->db->query("SELECT
+  users.id      AS id,
+  users.login   AS login,
+  users.email   AS email,
+  roles.name    AS role,
+  statuses.name AS status
 FROM users
-  JOIN statuses ON users.statusId=statuses.id
-  JOIN roles ON users.roleId=roles.id")->fetchAll(PDO::FETCH_ASSOC);
+  JOIN statuses ON users.statusId = statuses.id
+  JOIN roles ON users.roleId = roles.id")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function banUser($id)
@@ -108,12 +109,25 @@ FROM users
 
     public function getAds()
     {
-        return $this->db->query("SELECT subject, price, creationDate, userId,
-  advertisements.id AS id,
-  categories.title AS category,
-  users.login AS userLogin
+        return $this->db->query("SELECT
+  subject,
+  price,
+  creationDate,
+  userId,
+  advertisements.id         AS id,
+  categories.title          AS category,
+  users.login               AS userLogin,
+  advertisementsImages.link AS link
 FROM advertisements
-  JOIN categories ON categoryId=categories.id
-  JOIN users ON userId=users.id")->fetchAll(PDO::FETCH_ASSOC);
+  JOIN categories ON categoryId = categories.id
+  JOIN users ON userId = users.id
+  JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
+GROUP BY id")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function removeAds($id)
+    {
+        $this->db->delete('advertisementsImages', ['advertisementId' => $id]);
+        $this->db->delete('advertisements', ['id' => $id]);
     }
 }
