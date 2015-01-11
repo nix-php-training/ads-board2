@@ -38,6 +38,9 @@ return [
             'saveplan' => ['admin'],
             'removeplan' => ['admin'],
             'getplans' => ['admin'],
+            'removecategory' => ['admin'],
+            'savecategory' => ['admin'],
+            'getcategories' =>['admin']
         ]
     ],
 ];
