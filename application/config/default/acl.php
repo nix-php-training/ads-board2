@@ -17,6 +17,7 @@ return [
             'logout' => ['user', 'admin'],
             'plan' => ['all'],
             'paypal' => ['all'],
+            'confirm' => ['all'],
             'restore' => ['guest'],
             'profile' => ['all'],
             'editprofile' => ['user', 'admin'],
