@@ -144,17 +144,13 @@ class UserController extends BaseController
 
     function confirmAction()
     {
-        $this->view('content/confirm');
-
-        $loginAdress = Config::get('site')['host'] . "user/login";
-
         $link = $this->getParams('link');
 
         if($this->getModel()->checkStatus($link)){
-            echo "You already registered on ads-board2.zone, plz<a href=$loginAdress>login</a>";
+            header("Location: " . Config::get('site')['host'] . 'user/login');
         }else{
-            echo 'U r unconfirmed for now, admin must change ur status to registered';
             $this->getModel()->changeStatus($link);
+            $this->view('content/confirm');
         }
     }
 }

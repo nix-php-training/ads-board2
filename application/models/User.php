@@ -142,7 +142,7 @@ class User extends Model
     {
         $user = $this->getBy('link', $link,'confirmationLinks');
         switch($user->status){
-            case 'registered'://implements constants!
+            case 'registered'://implement constants!
                 return true;break;
             case 'unconfirmed':
                 return false;break;
@@ -151,8 +151,13 @@ class User extends Model
         }
     }
 
-    function changeStatus()
+    function changeStatus($link)
     {
         $user = $this->getBy('link', $link,'confirmationLinks');
+//        echo '<pre>';
+//        var_dump($user);
+//        echo '</pre>';
+//        die();
+        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");
     }
 }
