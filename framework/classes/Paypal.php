@@ -63,10 +63,8 @@ class Paypal
 
         // Проверяем наличие ошибок в инициализации cURL
         if (curl_errno($ch)) {
-            $this->errors = curl_error($ch);
             curl_close($ch);
-            var_dump($this->errors);
-            return false;
+            throw new CurleException(curl_error($ch));
         } else {
             curl_close($ch);
             $responseArray = array();

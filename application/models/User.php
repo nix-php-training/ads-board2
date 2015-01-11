@@ -64,7 +64,6 @@ class User extends Model
     function login($email, $password)
     {
         $user = $this->getBy('email', $email);
-        var_dump($user);
         if ($user && password_verify($password, $user->password)) {
             if (isset($_POST['remember'])) {
                 $expire = 30;
