@@ -74,8 +74,20 @@ class AdminController extends BaseController
         $this->view('admin/categories', [], 'admin');
     }
 
+    //--------- Advertisements functions--------------
     public function advertisementsAction()
     {
         $this->view('admin/advertisements', [], 'admin');
+    }
+
+    public function getAdvertisementsAction()
+    {
+        echo json_encode($this->getModel()->getAds());
+    }
+
+    public function removeAdvertisementAction()
+    {
+        $id = $_POST['id'];
+        $this->getModel()->removeAds($id);
     }
 } 

@@ -19,13 +19,11 @@ app.controller('categoriesCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get('/admin/getcategories').success(function (data) {
 
         $scope.hideError = true;
-
         $scope.rowCollection = data.sort(byId);
 
     }).error(function () {
         $scope.hideError = false;
     });
-
 
     $scope.edit = function (id) {
         $scope.editingData[id] = true;
