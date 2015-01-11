@@ -127,7 +127,9 @@ GROUP BY id")->fetchAll(PDO::FETCH_ASSOC);
 
     public function removeAds($id)
     {
-        $this->db->delete('advertisementsImages', ['advertisementId' => $id]);
-        $this->db->delete('advertisements', ['id' => $id]);
+        return $this->db->query("DELETE advertisements, advertisementsImages
+FROM advertisements
+  JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
+WHERE advertisements.id={$id}");
     }
 }
