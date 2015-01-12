@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 CREATE TABLE IF NOT EXISTS `advertisementsImages` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `link` varchar(256) NOT NULL ,
+  `imageName` varchar(256) NOT NULL ,
   `advertisementId` BIGINT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -94,7 +94,8 @@ CREATE TABLE IF NOT EXISTS `plans` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL ,
   `price` DECIMAL NOT NULL ,
-  `term` VARCHAR(32) NOT NULL ,
+  `term` VARCHAR(32) NOT NULL,
+  `posts` INT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -110,7 +111,7 @@ ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KE
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
 ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_plans` FOREIGN KEY (planId) REFERENCES plans(id);
-ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY (advertisementId) REFERENCES advertisements(id);
+ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY (advertisementId) REFERENCES advertisements(id) ON DELETE CASCADE;
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_statuses` FOREIGN KEY (statusId) REFERENCES statuses(id);
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (roleId) REFERENCES roles(id);
 ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users(id);
@@ -130,6 +131,15 @@ INSERT INTO `users` ( `login`, `email`, `password`, `confrimDate`, `statusId`, `
   ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  1, NULL),
   ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
 
+INSERT INTO `categories` ( `title`, `description`) VALUES
+  ('Automobiles', 'Description'),
+  ('Toys', 'Description'),
+  ('Furniture', 'Description');
+
+# INSERT INTO `profiles` ( `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`,) VALUES
+#   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
+
+INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99,99','month','100'),('business','999,99','month','100000');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

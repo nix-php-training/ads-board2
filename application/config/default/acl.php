@@ -15,8 +15,11 @@ return [
             'login' => ['all'],
             'registration' => ['guest'],
             'logout' => ['user', 'admin'],
-            'plan' => ['all'],
-            'paypal' => ['all'],
+            'plan' => ['user'],
+            'paypal' => ['user'],
+            'success' => ['user'],
+            'cancelled' => ['user'],
+            'confirm' => ['all'],
             'restore' => ['guest'],
             'profile' => ['all'],
             'editprofile' => ['user', 'admin'],
@@ -26,5 +29,31 @@ return [
             'error404' => ['all'],
             'error403' => ['all'],
         ],
+        'admin' => [
+            'index' => ['admin'],
+            'users' => ['admin'],
+            'plans' => ['admin'],
+            'categories' => ['admin'],
+            'advertisements' => ['admin'],
+
+            // user management
+            'getusers' => ['admin'],
+            'banuser' => ['admin'],
+            'unbanuser' => ['admin'],
+
+            // plan management
+            'saveplan' => ['admin'],
+            'removeplan' => ['admin'],
+            'getplans' => ['admin'],
+
+            // category management
+            'removecategory' => ['admin'],
+            'savecategory' => ['admin'],
+            'getcategories' =>['admin'],
+
+            // advertisement management
+            'removeadvertisement' => ['admin'],
+            'getadvertisements' => ['admin']
+        ]
     ],
 ];

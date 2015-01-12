@@ -39,8 +39,6 @@ class Controller
     }
 
 
-
-
     public function __construct($params, $model)
     {
         $this->acl = new Acl();

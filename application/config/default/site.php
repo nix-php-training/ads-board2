@@ -3,6 +3,7 @@ return [
     "site" => [
         'name' => 'Site',
         'emailAdmin' => 'test@example.com',
-        'language' => 'en'
+        'language' => 'en',
+        'imagePath' => '/application/demoimg/'
     ]
 ];
