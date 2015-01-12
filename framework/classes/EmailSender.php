@@ -1,31 +1,83 @@
 <?php
+
 class EmailSender
 {
     public $unique;
+
     public function sendMail($to)
     {
         $num = 44;
         $unique = '';
 
-        $arr= array('a','b','c','d','e','f',
-            'g','h','i','j','k','l',
-            'm','n','o','p','r','s',
-            't','u','v','x','y','z',
-            'A','B','C','D','E','F',
-            'G','H','I','J','K','L',
-            'M','N','O','P','R','S',
-            'T','U','V','X','Y','Z',
-            '1','2','3','4','5','6',
-            '7','8','9','0',);
+        $arr = array(
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'x',
+            'y',
+            'z',
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'L',
+            'M',
+            'N',
+            'O',
+            'P',
+            'R',
+            'S',
+            'T',
+            'U',
+            'V',
+            'X',
+            'Y',
+            'Z',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '0',
+        );
 
-        for($i = 1; $i <= $num; $i++){
+        for ($i = 1; $i <= $num; $i++) {
             $index = mt_rand(0, count($arr) - 1);
             $unique .= $arr[$index];
         }
         $this->unique = $unique;
         $uniqueQuery = Config::get('site')['host'] . "user/confirm?link=$unique";
 
-        $link ="<a href = $uniqueQuery>" . $uniqueQuery . "</a>";
+        $link = "<a href = $uniqueQuery>" . $uniqueQuery . "</a>";
 
         $mail = new PHPMailer(); // create a new object
         $mail->IsSMTP(); // enable SMTP
