@@ -154,6 +154,7 @@ class User extends Model
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
+        $this->db->query("UPDATE users SET confirmDate = NOW() WHERE id LIKE '{$user->id}'");
     }
 
     function freePayment($link)

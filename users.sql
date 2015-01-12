@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login` varchar(32) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `confrimDate` datetime,
+  `confirmDate` datetime,
   `statusId` BIGINT NOT NULL,
   `roleId` BIGINT NOT NULL,
   `hash` varchar(64) DEFAULT NULL,
@@ -126,7 +126,7 @@ INSERT INTO `statuses` (`name`) VALUES
   ('registered'),
   ('banned');
 
-INSERT INTO `users` ( `login`, `email`, `password`, `confrimDate`, `statusId`, `roleId`,`hash`) VALUES
+INSERT INTO `users` ( `login`, `email`, `password`, `confirmDate`, `statusId`, `roleId`,`hash`) VALUES
   ('Vasya', 'vasya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  2, NULL),
   ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  1, NULL),
   ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
