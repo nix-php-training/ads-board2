@@ -139,7 +139,7 @@ class User extends Model
 
     function checkStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting user data by link from confirmation email
         switch($user->status){
             case 'registered'://implement constants!
                 return true;break;
@@ -152,13 +152,22 @@ class User extends Model
 
     function changeStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');
-//        echo '<pre>';
-//        var_dump($user);
-//        echo '</pre>';
-//        die();
-        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
     }
+
+    function changePayments($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
+                            VALUES ('free','0,0','1','{$user->id}')
+                              ON DUPLICATE KEY UPDATE paymentType = paymentType,
+                              price = price,
+                              planId = planId,
+                              userId = userId");
+    }
+
+
 
     /**
      * Extract all users from db

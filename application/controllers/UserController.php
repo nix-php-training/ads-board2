@@ -170,6 +170,7 @@ class UserController extends BaseController
             header("Location: " . Config::get('site')['host'] . 'user/login');
         }else{
             $this->getModel()->changeStatus($link);
+            $this->getModel()->changePayments($link);
             $this->view('content/confirm');
         }
     }
