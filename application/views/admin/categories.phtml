@@ -1,0 +1,62 @@
+<div ng-controller="categoriesCtrl" class="row admin">
+    <h3>Categories management</h3>
+
+    <div class="alert alert-danger" ng-class="{hidden:hideError}" role="alert">
+        <strong>Warning!</strong> Something wrong. Try again later.
+    </div>
+
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+        <tr>
+            <th st-sort="login" class="col-md-3">Name</th>
+            <th st-sort="status" class="col-md-8">Description</th>
+            <th st-sort="status" class="col-md-1">
+                <div ng-hide="editorEnabled">
+                    Edit
+                </div>
+                <div ng-show="editorEnabled">
+                    Save
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="3">
+                <div class="form-group search-only">
+                    <i class="search-icon glyphicon glyphicon-search"></i>
+                    <input st-search="" class="form-control search-query"
+                           placeholder="Search ..." type="text"/>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in displayedCollection">
+            <td>
+                <div ng-hide="editingData[row.id]">{{row.title}}</div>
+                <div ng-show="editingData[row.id]">
+                    <input class="form-control" type="text" ng-model="row.title"/>
+                </div>
+            </td>
+            <td>
+                <div ng-hide="editingData[row.id]">{{row.description}}</div>
+                <div ng-show="editingData[row.id]">
+                    <textarea class="form-control" ng-model="row.description"></textarea>
+                </div>
+            </td>
+
+            <td>
+                <button class="btn btn-info" ng-hide="editingData[row.id]" ng-click="edit(row.id)">Edit</button>
+                <button class="btn btn-success" ng-show="editingData[row.id]" ng-click="save(row)">Save</button>
+                <button class="btn btn-link" ng-show="editingData[row.id]" ng-click="cancelEditing(row.id)">Cancel</button>
+                <button class="btn btn-danger" ng-hide="editingData[row.id]" ng-click="deleteCategory(row)">Remove</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-default" ng-click="addCategory()">Add category</button>
+
+</div>
+
+<script src="/application/assets/js/controllers/adminCategories.js"></script>
+<script src="/application/assets/js/controllers/commonFunctions.js"></script>

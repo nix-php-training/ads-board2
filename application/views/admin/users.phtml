@@ -1,0 +1,58 @@
+<div ng-controller="userCtrl" class="row admin">
+    <h3>Users management</h3>
+
+    <div class="alert alert-danger" ng-class="{hidden:hideError}" role="alert">
+        <strong>Warning!</strong> Something wrong. Try again later.
+    </div>
+
+    <div class="alert alert-success alert-dismissable" ng-class="{hidden:hideSuccess}">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><span
+                class="pull-right">&Cross;</span></button>
+        <strong>Success!</strong> User status was changed successfully.
+    </div>
+
+    <h5>Users statistics</h5>
+    <ul class="list-inline">
+        <li>All: {{userAmount}}</li>
+        <li>Unconfirmed: {{unconfirmedUser}}</li>
+        <li>Registered: {{registeredUser}}</li>
+        <li>Banned: {{bannedUser}}</li>
+    </ul>
+
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+        <tr>
+            <th st-sort="id" class="col-md-1">Id</th>
+            <th st-sort="login" class="col-md-4">Login</th>
+            <th st-sort="email" class="col-md-4">Email</th>
+            <th st-sort="status" class="col-md-1">Status</th>
+            <th st-sort="role" class="col-md-1">Role</th>
+            <th class="col-md-1">Ban</th>
+        </tr>
+        <tr>
+            <th colspan="6">
+                <div class="form-group search-only">
+                    <i class="search-icon glyphicon glyphicon-search"></i>
+                    <input st-search="" class="form-control search-query"
+                           placeholder="Search ..." type="text"/>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in displayedCollection">
+            <td>{{row.id}}</td>
+            <td>{{row.login}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.status}}</td>
+            <td>{{row.role}}</td>
+            <td>
+                <button ng-click="banUnban(row)" class="btn {{row.btnType}}">{{row.btnTitle}}</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="/application/assets/js/controllers/adminUsers.js"></script>
+<script src="/application/assets/js/controllers/commonFunctions.js"></script>

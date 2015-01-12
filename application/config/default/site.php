@@ -4,6 +4,7 @@ return [
         'name' => 'Site',
         'emailAdmin' => 'test@example.com',
         'language' => 'en',
-        'imagePath' => '/application/demoimg/'
+        'imagePath' => '../ads_images/',
+        'tempImagePath' => '../ads_images/temp/',
     ]
 ];
