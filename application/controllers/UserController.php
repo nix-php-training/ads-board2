@@ -47,7 +47,7 @@ class UserController extends BaseController
 
                 /*end of mail section*/
 
-                echo 'Вы зарегистрированы';
+                $this->view('content/registrationmessage');
             } else {
                 var_dump($valid);
             }

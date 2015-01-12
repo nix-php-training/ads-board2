@@ -21,6 +21,7 @@ return [
             'restore' => ['guest'],
             'profile' => ['all'],
             'editprofile' => ['user', 'admin'],
+            'registrationmessage' => ['guest']
         ],
         'error' => [
             'index' => ['all'],
