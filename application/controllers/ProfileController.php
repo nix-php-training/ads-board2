@@ -19,13 +19,30 @@ class ProfileController extends BaseController
 
     public function editProfileAction()
     {
+        $post['user'] = $this->getPost([
+                'login',
+                'email',
+                'old-password',
+                'new-password',
+            ]);
+
+        $post['profile'] = $this->getPost([
+            'firstname',
+            'lastname',
+            'phone',
+            'skype'
+        ]);
+var_dump($post);
         $this->userId = $_SESSION['userId'];
         $users = new User();
         $profile = $this->getModel()->getProfile($this->userId);
         $user = $users->getBy('id', $this->userId);
+
+        $users->update($post['user']);
+
         $data['user'] = $user;
         $data['profile'] = $profile;
         var_dump($data);
-            $this->view('content/editProfile', $data);
+        $this->view('content/editProfile', $data);
     }
 } 

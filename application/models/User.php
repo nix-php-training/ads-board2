@@ -123,4 +123,15 @@ class User extends Model
             return $valid;
         }
     }
+
+    public function update($fields = [])
+    {
+        $user = $this->getBy('id', $_SESSION['userId']);
+        var_dump($fields['old-password']);
+        if (!empty($fields['old-password']) && password_verify($fields['old-password'], $user['password'])) {
+            if($this->validator->validate([$fields['new-password'])], 'password' => ['min_length(3)', 'max_length(32)'])
+            $data = ['password']
+        }
+//        $this->db->update($this->table, $query, ['id' => $_SESSION['userId']]);
+    }
 }

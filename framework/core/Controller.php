@@ -29,16 +29,15 @@ class Controller
     /**
      * @return mixed
      */
-    public function getParams($key=null)
+    public function getParams($key = null)
     {
-        if(isset($key))
-            return array_key_exists($key, $this->_params) ? $this->_params[$key]:false ;
-        else
+        if (isset($key)) {
+            return array_key_exists($key, $this->_params) ? $this->_params[$key] : false;
+        } else {
             return $this->_params;
+        }
 
     }
-
-
 
 
     public function __construct($params, $model)
@@ -61,5 +60,24 @@ class Controller
     public function redirect($host)
     {
         header('Location:' . $host);
+    }
+
+    public function getPost($names = [])
+    {
+        $result = '';
+        if (empty($names)) {
+            return $_POST;
+        } elseif (is_array($names)) {
+            foreach ($names as $key => $val) {
+                if (isset($_POST[$val])) {
+                    $result[$val] = $_POST[$val];
+                }
+            }
+            if (is_array($result)) {
+                return $result;
+            } else {
+                return false;
+            }
+        }
     }
 }
