@@ -12,7 +12,7 @@ class UserController extends BaseController
             $email = $_POST['email'];
             $password = $_POST['password'];
             if ($this->getModel()->login($email, $password)) {
-//                $this->redirect('/');
+                $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
             }
@@ -61,6 +61,22 @@ class UserController extends BaseController
         $this->view('content/plan');//Отрисовуем страницу с формами для отправки данных на Paypal
     }
 
+    function successAction()
+    {
+        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
+        echo '<pre>';
+        echo '<hr />';
+        var_dump(Registry::get('response'));
+        echo '<hr />';
+        echo '</pre>';
+//        $this->getModel()->changePayments();
+    }
+
+    function cancelledAction()
+    {
+        $this->view('content/cancelled');//Отрисовуем страницу на которую прийдет пользователь в случае отмены оплаты на Paypal
+    }
+
     function paypalAction()//action for Express Checkout on Paypal
     {
         $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
@@ -77,7 +93,8 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );break;
+                );
+                break;
             case 'business':
                 $orderParams = array(
                     'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
@@ -89,7 +106,8 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '999.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
-                );break;
+                );
+                break;
         }
 
         $requestParams = array(
@@ -98,32 +116,41 @@ class UserController extends BaseController
         );
 
         $paypal = new Paypal();
-        $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
+        try {
+            $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
-        if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
-            $token = $response['TOKEN'];//получаем токен из ответа апи
-            header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
-        }
-
-        //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном
-
-        if (isset($_GET['token']) && !empty($_GET['token'])) { // Токен присутствует
-            // Получаем детали оплаты, включая информацию о покупателе.
-            // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
-            $paypal = new Paypal();
-            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
-
-            // Завершаем транзакцию
-            $requestParams = array(
-                'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-                'PAYERID' => $_GET['PayerID']
-            );
-
-            $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
-            if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
-                // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
-                $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+            if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
+                $token = $response['TOKEN'];//получаем токен из ответа апи
+                header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
             }
+
+            //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном
+
+            if (isset($_GET['token']) && !empty($_GET['token'])) { // Токен присутствует
+                // Получаем детали оплаты, включая информацию о покупателе.
+                // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
+                $paypal = new Paypal();
+                $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
+
+                // Завершаем транзакцию
+                $requestParams = array(
+                    'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
+                    'PAYERID' => $_GET['PayerID']
+                );
+
+                $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
+                if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
+                    // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
+                    $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+                    Registry::set('response', $response);
+                }
+            }
+            /**
+             * Expects
+             * @var $e CurleException
+             */
+        } catch (CurleException $e) {
+            $this->view('error/error', $data = array('message' => $e->getMessage()));
         }
     }
 
@@ -144,17 +171,14 @@ class UserController extends BaseController
 
     function confirmAction()
     {
-        $this->view('content/confirm');
-
-        $loginAdress = Config::get('site')['host'] . "user/login";
-
         $link = $this->getParams('link');
 
         if($this->getModel()->checkStatus($link)){
-            echo "You already registered on ads-board2.zone, plz<a href=$loginAdress>login</a>";
+            header("Location: " . Config::get('site')['host'] . 'user/login');
         }else{
-            echo 'U r unconfirmed for now, admin must change ur status to registered';
             $this->getModel()->changeStatus($link);
+            $this->getModel()->freePayment($link);
+            $this->view('content/confirm');
         }
     }
 }

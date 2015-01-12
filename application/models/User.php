@@ -13,11 +13,12 @@ class User extends Model
     function getBy($field, $value, $table='users')
     {
         $where = [":$field" => $value];
-        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
+        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link, payments.price
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
                                   JOIN confirmationLinks ON users.id=confirmationLinks.userId
+                                  JOIN payments ON users.id = payments.userId
                                   WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
 
@@ -65,7 +66,6 @@ class User extends Model
     function login($email, $password)
     {
         $user = $this->getBy('email', $email);
-//        var_dump($user);
         if ($user && password_verify($password, $user->password)) {
             if (isset($_POST['remember'])) {
                 $expire = 30;
@@ -140,9 +140,13 @@ class User extends Model
 
     function checkStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting user data by link from confirmation email
+        echo '<pre>';
+        var_dump($user);
+        echo '</pre>';
+        die();
         switch($user->status){
-            case 'registered'://implements constants!
+            case 'registered'://implement constants!
                 return true;break;
             case 'unconfirmed':
                 return false;break;
@@ -151,8 +155,62 @@ class User extends Model
         }
     }
 
-    function changeStatus()
+    function changeStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
     }
+
+    function freePayment($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
+                            VALUES ('free','0,0','1','{$user->id}')
+                              ON DUPLICATE KEY UPDATE paymentType = paymentType,
+                              price = price,
+                              planId = planId,
+                              userId = userId");
+    }
+
+
+
+    /**
+     * Extract all users from db
+     *
+     * @return mixed Array('id', 'login', 'email, 'role', 'status')
+     */
+    public function getUsers()
+    {
+        return $this->db->query("SELECT
+  users.id      AS id,
+  users.login   AS login,
+  users.email   AS email,
+  roles.name    AS role,
+  statuses.name AS status
+FROM users
+  JOIN statuses ON users.statusId = statuses.id
+  JOIN roles ON users.roleId = roles.id")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Set status 'banned' for user by id
+     *
+     * @param $id
+     */
+    public function banUser($id)
+    {
+        $this->db->update('users', ['statusId' => '3'], ['id' => $id]);
+    }
+
+    /**
+     * Set status 'registered' for user by id
+     * Don't pass user with status 'unregistered'
+     *
+     * @param $id
+     */
+    public function unbanUser($id)
+    {
+        $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
+    }
+
 }

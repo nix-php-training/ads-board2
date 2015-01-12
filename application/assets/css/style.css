@@ -29,6 +29,18 @@ footer {
     padding: 1%;
 }
 
+.admin-footer {
+    background-color: #264348;
+}
+
+.st-sort-descent:before {
+    content: '▴ ';
+}
+
+.st-sort-ascent:before {
+    content: '▾ ';
+}
+
 a:link, a:visited {
     color: #656D78;
 }
@@ -470,4 +482,30 @@ table#plans td, th {
 .btn-iris:hover, .btn-iris:focus {
     background-color: #8D608C;
     border: 1px solid #8D608C;
+}
+
+/* Edit profile
+-------------------------------------------------- */
+
+.admin {
+    margin-bottom: 5%;
+}
+
+.admin th {
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin button {
+    width: 100%;
+    margin: 1px;
+}
+
+.admin .post-list {
+    background-color: #F9F9F9;
+
+}
+
+.admin .post-list td {
+    vertical-align: middle;
 }
