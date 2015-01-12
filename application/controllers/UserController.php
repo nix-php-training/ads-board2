@@ -5,6 +5,26 @@ class UserController extends BaseController
 
     function loginAction()
     {
+        $emailInput = [
+            'type' => 'email',
+            'class' => 'form-control',
+            'id' => 'email',
+            'name' => 'email',
+            'placeholder' => 'Enter email',
+            'required' => ''
+        ];
+
+        $passwordInput = [
+            'type' => 'password',
+            'class' => 'form-control',
+            'id' => 'password',
+            'name' => 'password',
+            'placeholder' => 'Enter password',
+            'required' => ''
+        ];
+
+
+
         if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
@@ -14,10 +34,23 @@ class UserController extends BaseController
             if ($this->getModel()->login($email, $password)) {
                 $this->redirect('/');
             } else {
-                echo 'Введены не верные данные';
+
+                $data = [
+                    'email' => $this->getView()->generateInput($emailInput, $email),
+                    'password' => $this->getView()->generateInput($passwordInput),
+                    'hidden' => ''
+                ];
+
+                $this->view('content/login', $data);
             }
         } else {
-            $this->view('content/login');
+            $data = [
+                'email' => $this->getView()->generateInput($emailInput),
+                'password' => $this->getView()->generateInput($passwordInput),
+                'hidden' => 'hidden'
+            ];
+
+            $this->view('content/login', $data);
         }
     }
 
@@ -34,7 +67,8 @@ class UserController extends BaseController
             'class' => 'form-control',
             'id' => 'login',
             'name' => 'login',
-            'placeholder' => 'Enter login'
+            'placeholder' => 'Enter login',
+            'required' => ''
         ];
 
         $emailInput = [
@@ -42,7 +76,8 @@ class UserController extends BaseController
             'class' => 'form-control',
             'id' => 'email',
             'name' => 'email',
-            'placeholder' => 'Enter email'
+            'placeholder' => 'Enter email',
+            'required' => ''
         ];
 
         $passwordInput = [
@@ -50,7 +85,8 @@ class UserController extends BaseController
             'class' => 'form-control',
             'id' => 'password',
             'name' => 'password',
-            'placeholder' => 'Enter password'
+            'placeholder' => 'Enter password',
+            'required' => ''
         ];
 
         if (isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])) {
@@ -73,8 +109,6 @@ class UserController extends BaseController
 
                 $this->view('content/registrationmessage');
             } else {
-
-                ChromePhp::log($login);
 
                 $data = [
                     'hidden' => '',
