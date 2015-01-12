@@ -23,8 +23,6 @@ class UserController extends BaseController
             'required' => ''
         ];
 
-
-
         if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
@@ -222,7 +220,48 @@ class UserController extends BaseController
 
     function restoreAction()
     {
-        $this->view('content/restore');
+        $emailInput = [
+            'type' => 'email',
+            'class' => 'form-control',
+            'id' => 'email',
+            'name' => 'email',
+            'placeholder' => 'Enter email',
+            'required' => ''
+        ];
+
+        if (isset($_POST['email'])) {
+            $email = $_POST['email'];
+
+            $valid = $this->getModel()->restore($email);
+            if (!is_array($valid)) {
+
+                /*mail section*/
+
+                $letter = new EmailSender();//Creating object EmailSender
+
+                $letter->sendMail($_POST['email']);//Sending Email with unique-link to user email
+
+                /*end of mail section*/
+
+                $this->view('content/restoremessage');
+            } else {
+
+                $data = [
+                    'hidden' => '',
+                    'email' => $this->getView()->generateInput($emailInput, $email),
+                ];
+
+                $this->view('content/restore', $data);
+            }
+        } else {
+
+            $data = [
+                'hidden' => 'hidden',
+                'email' => $this->getView()->generateInput($emailInput),
+            ];
+
+            $this->view('content/restore', $data);
+        }
     }
 
     function profileAction()
