@@ -10,6 +10,16 @@ class DatabaseConnectException extends Exception
     }
 }
 
+class DatabaseErrorException extends Exception
+{
+    protected $message = "Some error happens during database script execution, please contact administrator.";
+
+    public function __toString()
+    {
+        return $this->message;
+    }
+}
+
 class ConfigLoadException extends Exception
 {
     protected $message = "Cannot find configs's folder. Set right path and try again.";

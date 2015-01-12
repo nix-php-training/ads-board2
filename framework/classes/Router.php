@@ -108,6 +108,8 @@ class Router
                         if ($param[0] == "{") {//if $param is dynamic
 
                             $this->params = $this->getQueryParamsFromURL($matches[$param[1]]);
+                        } elseif ($param[0] == "[") {
+                            $this->params[$paramName] = $matches[$param[1]];
                         } else {
                             $this->params[$paramName] = $param;
                         }
