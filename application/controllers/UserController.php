@@ -5,6 +5,26 @@ class UserController extends BaseController
 
     function loginAction()
     {
+        $emailInput = [
+            'type' => 'email',
+            'class' => 'form-control',
+            'id' => 'email',
+            'name' => 'email',
+            'placeholder' => 'Enter email',
+            'required' => ''
+        ];
+
+        $passwordInput = [
+            'type' => 'password',
+            'class' => 'form-control',
+            'id' => 'password',
+            'name' => 'password',
+            'placeholder' => 'Enter password',
+            'required' => ''
+        ];
+
+
+
         if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
@@ -14,10 +34,23 @@ class UserController extends BaseController
             if ($this->getModel()->login($email, $password)) {
                 $this->redirect('/');
             } else {
-                echo 'Введены не верные данные';
+
+                $data = [
+                    'email' => $this->getView()->generateInput($emailInput, $email),
+                    'password' => $this->getView()->generateInput($passwordInput),
+                    'hidden' => ''
+                ];
+
+                $this->view('content/login', $data);
             }
         } else {
-            $this->view('content/login');
+            $data = [
+                'email' => $this->getView()->generateInput($emailInput),
+                'password' => $this->getView()->generateInput($passwordInput),
+                'hidden' => 'hidden'
+            ];
+
+            $this->view('content/login', $data);
         }
     }
 
@@ -29,6 +62,33 @@ class UserController extends BaseController
 
     function registrationAction()
     {
+        $loginInput = [
+            'type' => 'text',
+            'class' => 'form-control',
+            'id' => 'login',
+            'name' => 'login',
+            'placeholder' => 'Enter login',
+            'required' => ''
+        ];
+
+        $emailInput = [
+            'type' => 'email',
+            'class' => 'form-control',
+            'id' => 'email',
+            'name' => 'email',
+            'placeholder' => 'Enter email',
+            'required' => ''
+        ];
+
+        $passwordInput = [
+            'type' => 'password',
+            'class' => 'form-control',
+            'id' => 'password',
+            'name' => 'password',
+            'placeholder' => 'Enter password',
+            'required' => ''
+        ];
+
         if (isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])) {
             $login = $_POST['login'];
             $email = $_POST['email'];
@@ -49,10 +109,26 @@ class UserController extends BaseController
 
                 $this->view('content/registrationmessage');
             } else {
-                var_dump($valid);
+
+                $data = [
+                    'hidden' => '',
+                    'login' => $this->getView()->generateInput($loginInput, $login),
+                    'email' => $this->getView()->generateInput($emailInput, $email),
+                    'password' => $this->getView()->generateInput($passwordInput, $password)
+                ];
+
+                $this->view('content/registration', $data);
             }
         } else {
-            $this->view('content/registration');
+
+            $data = [
+                'hidden' => 'hidden',
+                'login' => $this->getView()->generateInput($loginInput),
+                'email' => $this->getView()->generateInput($emailInput),
+                'password' => $this->getView()->generateInput($passwordInput)
+            ];
+
+            $this->view('content/registration', $data);
         }
     }
 
@@ -68,8 +144,10 @@ class UserController extends BaseController
         switch ($this->getParams('type')) {
             case 'pro':
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '99.99'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                    'PAYMENTREQUEST_0_AMT' => '99.99',
+                    //цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '99.99'
+                    //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
@@ -81,8 +159,10 @@ class UserController extends BaseController
                 break;
             case 'business':
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                    'PAYMENTREQUEST_0_AMT' => '999.9',
+                    //цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'
+                    //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
@@ -95,8 +175,10 @@ class UserController extends BaseController
         }
 
         $requestParams = array(
-            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
-            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
+            'RETURNURL' => Config::get('site')['host'] . 'user/success',
+            //user will return to this page when payment success
+            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'
+            //user will return to this page when payment cancelled
         );
 
         $paypal = new Paypal();
@@ -114,7 +196,8 @@ class UserController extends BaseController
                 // Получаем детали оплаты, включая информацию о покупателе.
                 // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
                 $paypal = new Paypal();
-                $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
+                $checkoutDetails = $paypal->request('GetExpressCheckoutDetails',
+                    array('TOKEN' => $this->getParams('token')));
 
                 // Завершаем транзакцию
                 $requestParams = array(
@@ -156,9 +239,9 @@ class UserController extends BaseController
     {
         $link = $this->getParams('link');
 
-        if($this->getModel()->checkStatus($link)){
+        if ($this->getModel()->checkStatus($link)) {
             header("Location: " . Config::get('site')['host'] . 'user/login');
-        }else{
+        } else {
             $this->getModel()->changeStatus($link);
             $this->view('content/confirm');
         }
