@@ -127,11 +127,63 @@ class User extends Model
     public function update($fields = [])
     {
         $user = $this->getBy('id', $_SESSION['userId']);
-        var_dump($fields['old-password']);
-        if (!empty($fields['old-password']) && password_verify($fields['old-password'], $user['password'])) {
-            if($this->validator->validate([$fields['new-password'])], 'password' => ['min_length(3)', 'max_length(32)'])
-            $data = ['password']
+
+        $valid = [];
+
+        if (isset($fields['login']) && $fields['login'] !== $user['login']) {
+            $loginExists = $this->inputExists('login', $fields['login']);
+            if ($loginExists !== false) {
+                $valid['login'] = $fields['login'] . ' is already exists';
+            } else {
+                $input ['login'] = $fields['login'];
+            }
         }
-//        $this->db->update($this->table, $query, ['id' => $_SESSION['userId']]);
+
+        if (isset($fields['email']) && $fields['email'] !== $user['email']) {
+            $emailExists = $this->inputExists('email', $fields['email']);
+            if ($emailExists !== false) {
+                $valid['email'] = $fields['email'] . ' is already exists';
+            } else {
+                $input ['email'] = $fields['email'];
+            }
+        }
+
+
+        if (!empty($fields['old-password'])) {
+            if (password_verify($fields['old-password'], $user['password'])) {
+                if (isset($fields['new-password'])) {
+                    $input ['password'] = $fields['new-password'];
+                }
+            } else {
+                $valid['old-password'] = ['Old password password is not correctly'];
+            }
+        }
+        if (isset($input)){
+            $rules = $this->getRulesFields($input);
+            var_dump($rules);
+
+            var_dump('!!!!!!!!!!!!!');
+            var_dump($input);
+            $validate = $this->validator->validate($input, $rules);
+            var_dump($validate);
+        }
+
+        if ($validate!==true){
+            $valid = array_merge_recursive($valid, $validate);
+        }
+        var_dump($valid);
+//        if (isset($valid)) {echo 'valid '; var_dump($valid);}
+//        if (isset($fields['login']) && $this->validator->validate([$fields['new-password']], ['password' => $this->rules['password']]))
+        //        $this->db->update($this->table, $query, ['id' => $_SESSION['userId']]);
+
+    }
+
+    public function getRulesFields($field = [])
+    {
+        $rule = [];
+        foreach ($field as $k => $v) {
+            $rule[$k] = $this->rules[$k];
+        }
+        return $rule;
     }
 }

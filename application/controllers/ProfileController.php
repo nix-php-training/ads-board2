@@ -33,16 +33,20 @@ class ProfileController extends BaseController
             'skype'
         ]);
 var_dump($post);
+
         $this->userId = $_SESSION['userId'];
         $users = new User();
         $profile = $this->getModel()->getProfile($this->userId);
         $user = $users->getBy('id', $this->userId);
 
-        $users->update($post['user']);
+//        $users->update($post['user']);
 
         $data['user'] = $user;
         $data['profile'] = $profile;
-        var_dump($data);
+        $aaa = $users->update($post['user']);
+//        if (is_array($aaa)){
+//            var_dump($aaa);
+//        }
         $this->view('content/editProfile', $data);
     }
 } 
