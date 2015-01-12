@@ -64,6 +64,12 @@ class UserController extends BaseController
     function successAction()
     {
         $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
+        echo '<pre>';
+        echo '<hr />';
+        var_dump(Registry::get('response'));
+        echo '<hr />';
+        echo '</pre>';
+//        $this->getModel()->changePayments();
     }
 
     function cancelledAction()
@@ -136,6 +142,7 @@ class UserController extends BaseController
                 if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
                     // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
                     $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+                    Registry::set('response', $response);
                 }
             }
             /**
@@ -170,7 +177,7 @@ class UserController extends BaseController
             header("Location: " . Config::get('site')['host'] . 'user/login');
         }else{
             $this->getModel()->changeStatus($link);
-            $this->getModel()->changePayments($link);
+            $this->getModel()->freePayment($link);
             $this->view('content/confirm');
         }
     }

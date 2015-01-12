@@ -13,11 +13,12 @@ class User extends Model
     function getBy($field, $value, $table='users')
     {
         $where = [":$field" => $value];
-        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
+        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link, payments.price
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
                                   JOIN confirmationLinks ON users.id=confirmationLinks.userId
+                                  JOIN payments ON users.id = payments.userId
                                   WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
 
@@ -140,6 +141,10 @@ class User extends Model
     function checkStatus($link)
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting user data by link from confirmation email
+        echo '<pre>';
+        var_dump($user);
+        echo '</pre>';
+        die();
         switch($user->status){
             case 'registered'://implement constants!
                 return true;break;
@@ -156,7 +161,7 @@ class User extends Model
         $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
     }
 
-    function changePayments($link)
+    function freePayment($link)
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
