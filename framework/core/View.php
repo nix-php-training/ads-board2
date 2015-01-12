@@ -5,6 +5,8 @@
  */
 class View
 {
+    use ViewHelper;
+
     private $_tpl;
     private $_layout;
     private $_data;
