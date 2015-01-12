@@ -137,6 +137,22 @@ class UserController extends BaseController
         $this->view('content/plan');//Отрисовуем страницу с формами для отправки данных на Paypal
     }
 
+    function successAction()
+    {
+        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
+        echo '<pre>';
+        echo '<hr />';
+        var_dump(Registry::get('response'));
+        echo '<hr />';
+        echo '</pre>';
+//        $this->getModel()->changePayments();
+    }
+
+    function cancelledAction()
+    {
+        $this->view('content/cancelled');//Отрисовуем страницу на которую прийдет пользователь в случае отмены оплаты на Paypal
+    }
+
     function paypalAction()//action for Express Checkout on Paypal
     {
         $orderParams['PAYMENTREQUEST_0_SHIPPINGAMT'] = '0';//расході на доставку
@@ -209,6 +225,7 @@ class UserController extends BaseController
                 if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
                     // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
                     $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+                    Registry::set('response', $response);
                 }
             }
             /**
@@ -243,6 +260,7 @@ class UserController extends BaseController
             header("Location: " . Config::get('site')['host'] . 'user/login');
         } else {
             $this->getModel()->changeStatus($link);
+            $this->getModel()->freePayment($link);
             $this->view('content/confirm');
         }
     }
