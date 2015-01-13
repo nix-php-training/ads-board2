@@ -35,6 +35,31 @@ class UserController extends BaseController
         if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
+
+        if (isset($_GET['link'])) {
+
+            ChromePhp::log("get");
+
+            $mailLink = $_GET['link'];
+
+            $regLink = $_SESSION['restoreLink'];
+            $regPassword = $_SESSION['restoredPassword'];
+            $userId = $_SESSION['userId'];
+
+            ChromePhp::log($regLink);
+            ChromePhp::log($regPassword);
+            ChromePhp::log($userId);
+
+            if ($regLink === $mailLink) {
+
+                ChromePhp::log("equals");
+                $this->getModel()->changePassword($userId, $regPassword);
+                unset($_SESSION['restoreLink']);
+                unset($_SESSION['restoredPassword']);
+                unset($_SESSION['userId']);
+            }
+        }
+
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -76,15 +101,15 @@ class UserController extends BaseController
             $password = $_POST['password'];
 
 
-//            $valid = $this->getModel()->registration($login, $email, $password);
-//            if (!is_array($valid)) {
+            $valid = $this->getModel()->registration($login, $email, $password);
+            if (!is_array($valid)) {
 
                 /*mail section*/
 
                 $letter = new RegistrationEmail($email);//Creating object EmailSender
 
                 $letter->send();//Sending Email with unique-link to user email
-//                $this->getModel()->putLink($letter->getUnique());//Unique part of link writing in DB table confirmationLinks
+                $this->getModel()->putLink($letter->getUnique());//Unique part of link writing in DB table confirmationLinks
 
                 /*end of mail section*/
 
@@ -100,17 +125,17 @@ class UserController extends BaseController
 
                 $this->view('content/registration', $data);
             }
-//        } else {
-//
-//            $data = [
-//                'hidden' => 'hidden',
-//                'login' => $this->getView()->generateInput($this->loginInput),
-//                'email' => $this->getView()->generateInput($this->emailInput),
-//                'password' => $this->getView()->generateInput($this->passwordInput)
-//            ];
-//
-//            $this->view('content/registration', $data);
-//        }
+        } else {
+
+            $data = [
+                'hidden' => 'hidden',
+                'login' => $this->getView()->generateInput($this->loginInput),
+                'email' => $this->getView()->generateInput($this->emailInput),
+                'password' => $this->getView()->generateInput($this->passwordInput)
+            ];
+
+            $this->view('content/registration', $data);
+        }
     }
 
     function planAction()
@@ -206,16 +231,26 @@ class UserController extends BaseController
         if (isset($_POST['email'])) {
             $email = $_POST['email'];
 
-            $valid = $this->getModel()->restore($email);
-            if (!is_array($valid)) {
+            $valid = $this->getModel()->getBy('email', $email);
+
+            if ($valid) {
+
+                $newPassword = Tools::generatePassword();
 
                 /*mail section*/
-
-                $letter = new RegistrationEmail($email); //Creating object EmailSender
-
+                $letter = new RestoreEmail($email, $newPassword); //Creating object EmailSender
                 $letter->send();
-
                 /*end of mail section*/
+
+                // memorize new password
+                $_SESSION['restoredPassword'] = $newPassword;
+
+                // memorize unique link
+                $_SESSION['restoreLink'] = $letter->getUnique();
+
+
+                // memorize user id
+                $_SESSION['userId'] = $valid->id;
 
                 $this->view('content/restoremessage');
             } else {

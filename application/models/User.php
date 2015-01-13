@@ -10,7 +10,7 @@ class User extends Model
         'password' => ['min_length(3)', 'max_length(32)']
     ];
 
-    function getBy($field, $value, $table='users')
+    function getBy($field, $value, $table = 'users')
     {
         $where = [":$field" => $value];
         return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
@@ -139,12 +139,14 @@ class User extends Model
 
     function checkStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');
-        switch($user->status){
+        $user = $this->getBy('link', $link, 'confirmationLinks');
+        switch ($user->status) {
             case 'registered'://implement constants!
-                return true;break;
+                return true;
+                break;
             case 'unconfirmed':
-                return false;break;
+                return false;
+                break;
             default:
                 echo "Your link is invalid";
         }
@@ -152,7 +154,7 @@ class User extends Model
 
     function changeStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');
+        $user = $this->getBy('link', $link, 'confirmationLinks');
 //        echo '<pre>';
 //        var_dump($user);
 //        echo '</pre>';
@@ -185,7 +187,7 @@ FROM users
      */
     public function banUser($id)
     {
-        $this->db->update('users', ['statusId' => '3'], ['id' => $id]);
+        $this->db->update($this->table, ['statusId' => '3'], ['id' => $id]);
     }
 
     /**
@@ -196,7 +198,18 @@ FROM users
      */
     public function unbanUser($id)
     {
-        $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
+        $this->db->update($this->table, ['statusId' => '2'], ['id' => $id]);
     }
 
+    /**
+     * Change password for user by id
+     *
+     * @param $id
+     * @param $password
+     */
+    public function changePassword($id, $password)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $this->db->update($this->table, ['password' => $password], ['id' => $id]);
+    }
 }

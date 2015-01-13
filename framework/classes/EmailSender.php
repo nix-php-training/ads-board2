@@ -52,6 +52,7 @@ class EmailSender
     {
         $this->mail->SetFrom($this->from);
         $this->mail->Subject = $this->subject;
+//        $this->mail->Body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/application/views/email/layout.phtml');
         $this->mail->Body = '
 <!DOCTYPE html>
 <html>
@@ -60,28 +61,14 @@ class EmailSender
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <style>
-        .wrap {
-            text-align: center;
-        }
-
-        h1, h5 {
+        h1, h4 {
             color: #ec6851;
-        }
-
-        a:link, a:visited {
-            color: #656D78;
-        }
-
-        a:hover, a:active {
-            color: #434A54;
         }
     </style>
 </head>
 <body>
-<div class="wrap">
     ' . $this->content . '
-    <h5>See you at the <a href="' . $this->serverHost . '">ADS BOARD</a></h5>
-</div>
+    <h4>See you at the <a href="' . $this->serverHost . '">ADS BOARD</a></h4>
 </body>
 </html>
 ';
@@ -166,7 +153,7 @@ class EmailSender
         return $unique;
     }
 
-    protected function getUnique()
+    public function getUnique()
     {
         return $this->unique;
     }
@@ -179,7 +166,7 @@ class RegistrationEmail extends EmailSender
         parent::__construct($to);
 
         $this->unique = $this->generateUnique();
-        $link = $this->serverHost . "user/confirm?link=' . $this->unique . '";
+        $link = $this->serverHost . "user/confirm?link=" . $this->unique;
 
         $this->subject = "Registration";
 
@@ -191,21 +178,19 @@ class RegistrationEmail extends EmailSender
 
 class RestoreEmail extends EmailSender
 {
-    public function __construct($to)
+    public function __construct($to, $password)
     {
         parent::__construct($to);
 
         $this->unique = $this->generateUnique();
-        $link = $this->serverHost . "user/login?link=' . $this->unique . '";
+        $link = $this->serverHost . "user/login?link=" . $this->unique;
 
         $this->subject = "Restore password";
 
         $this->content = '<h1>Greetings!</h1>
-<p>We have prepared the new password for you.</p>
-<p>You can use it for sign in to your account.</p>
-<p>After sign in, we recommend change the password on your own.</p>
-<p>So, your new password is: </p>
-<p>For use the new password you must activate it using this <a href="' . $link . '">link</a></p>
+<p>We have prepared the new password for you. You can use it for sign in to your account. After sign in, we recommend change the password on your own.
+<p>So, your new password is: ' . $password . '</p>
+<p>For use the new password you must activate it using this <a href="' . $link . '">' . $link . '</a></p>
 <br/>
 <p>If you didn\'t do request for change your password, just ignore this message.</p>';
     }
