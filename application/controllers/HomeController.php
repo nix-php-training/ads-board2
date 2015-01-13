@@ -47,7 +47,7 @@ class HomeController extends BaseController
     {
         $arr = Config::get('site');
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'];
-        var_dump($_SESSION);
+
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
@@ -65,16 +65,23 @@ class HomeController extends BaseController
                 $userDir = $arr['imagePath'] . $_SESSION['userId'] . '/' . $adsId;
                 $tempImages = glob($tempUserDir . '/*.{png,jpg}', GLOB_BRACE);
 
-                mkdir($userDir, 0777, true);
+                //create folder for images + folder for images preview
+                mkdir($userDir . '/preview', 0777, true);
 
                 foreach ($tempImages as $image) {
                     $temp = explode('/', $image);
                     $imageName = end($temp);
-                    $finalImageName = $userDir . '/' . $_SESSION['userId'] . '_' . $adsId . '_' . $imageName;
+                    $targetImageName = $_SESSION['userId'] . '_' . $adsId . '_' . $imageName;
+                    $finalImageName = $userDir . '/' . $targetImageName;
+
+                    $data = [
+                        'imageName' => $targetImageName,
+                        'advertisementId' => $adsId,
+                    ];
+                    (new AdvertisementImages())->saveAdsImages($data);
 
                     rename($image, $finalImageName);
-                    var_dump($finalImageName);
-                  (new AdvertisementImages())->makeThumb($finalImageName);
+                    (new AdvertisementImages())->makeThumb($finalImageName);
                 }
 
                 rmdir($tempUserDir);
@@ -114,9 +121,9 @@ class HomeController extends BaseController
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
 
         mkdir($tempUserDir, 0777, true);
-        $extention = explode('.', $_FILES['file']['name']);
+        $extension = explode('.', $_FILES['file']['name']);
 
-        move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . time() . '.' . $extention[1]);
+        move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));
 
         ChromePhp::log($_FILES);
 
