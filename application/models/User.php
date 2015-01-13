@@ -13,12 +13,11 @@ class User extends Model
     function getBy($field, $value, $table='users')
     {
         $where = [":$field" => $value];
-        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link, payments.price
+        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
                                   JOIN confirmationLinks ON users.id=confirmationLinks.userId
-                                  JOIN payments ON users.id = payments.userId
                                   WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
 
@@ -141,10 +140,6 @@ class User extends Model
     function checkStatus($link)
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting user data by link from confirmation email
-        echo '<pre>';
-        var_dump($user);
-        echo '</pre>';
-        die();
         switch($user->status){
             case 'registered'://implement constants!
                 return true;break;
@@ -159,17 +154,14 @@ class User extends Model
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
+        $this->db->query("UPDATE users SET confirmDate = NOW() WHERE id LIKE '{$user->id}'");
     }
 
     function freePayment($link)
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
-                            VALUES ('free','0,0','1','{$user->id}')
-                              ON DUPLICATE KEY UPDATE paymentType = paymentType,
-                              price = price,
-                              planId = planId,
-                              userId = userId");
+                            VALUES ('free','0,0','1','{$user->id}')");
     }
 
 
