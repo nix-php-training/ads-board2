@@ -68,8 +68,10 @@ class UserController extends BaseController
         switch ($this->getParams('type')) {
             case 'pro':
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '99.99',//цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '99.99'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                    'PAYMENTREQUEST_0_AMT' => '99.99',
+                    //цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '99.99'
+                    //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
@@ -81,8 +83,10 @@ class UserController extends BaseController
                 break;
             case 'business':
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '999.9',//цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'//цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
+                    'PAYMENTREQUEST_0_AMT' => '999.9',
+                    //цена услуги
+                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'
+                    //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
@@ -95,8 +99,10 @@ class UserController extends BaseController
         }
 
         $requestParams = array(
-            'RETURNURL' => Config::get('site')['host'] . 'user/success',//user will return to this page when payment success
-            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'//user will return to this page when payment cancelled
+            'RETURNURL' => Config::get('site')['host'] . 'user/success',
+            //user will return to this page when payment success
+            'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'
+            //user will return to this page when payment cancelled
         );
 
         $paypal = new Paypal();
@@ -114,7 +120,8 @@ class UserController extends BaseController
                 // Получаем детали оплаты, включая информацию о покупателе.
                 // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
                 $paypal = new Paypal();
-                $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
+                $checkoutDetails = $paypal->request('GetExpressCheckoutDetails',
+                    array('TOKEN' => $this->getParams('token')));
 
                 // Завершаем транзакцию
                 $requestParams = array(
@@ -156,9 +163,9 @@ class UserController extends BaseController
     {
         $link = $this->getParams('link');
 
-        if($this->getModel()->checkStatus($link)){
+        if ($this->getModel()->checkStatus($link)) {
             header("Location: " . Config::get('site')['host'] . 'user/login');
-        }else{
+        } else {
             $this->getModel()->changeStatus($link);
             $this->view('content/confirm');
         }

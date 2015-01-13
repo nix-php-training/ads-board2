@@ -15,8 +15,7 @@ class HomeController extends BaseController
 
         $data['categories'] = $categories;
 
-        foreach ($ads as &$v)
-        {
+        foreach ($ads as &$v) {
             $temp = strtotime($v['creationDate']);
             $v['creationDate'] = $temp;
         }
@@ -32,15 +31,13 @@ class HomeController extends BaseController
 
     function postDetailAction()
     {
-        try
-        {
+        try {
             $data = array();
             $id = $this->getParams('adsId');
             $ads = (new Advertisement())->getAdvertisementById($id);
             $data['ads'] = $ads;
             $this->view('content/postDetail', $data);
-        }
-        catch (DatabaseErrorException $e) {
+        } catch (DatabaseErrorException $e) {
             $this->view('error/error', $data = array('message' => $e->getMessage()));
         }
 
@@ -49,7 +46,8 @@ class HomeController extends BaseController
     function addPostAction()
     {
         $arr = Config::get('site');
-        $tempUserDir = $arr['tempImagePath'].$_SESSION['userId'];
+        $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'];
+        var_dump($_SESSION);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
@@ -64,30 +62,32 @@ class HomeController extends BaseController
             if (isset($subject) && isset($description) && isset($price) && isset($category)) {
 
                 $adsId = (new Advertisement())->addAdvertisement($data);
-                $userDir = $arr['imagePath'].$_SESSION['userId'].'/'.$adsId.'/';
-                $tempImages = glob($tempUserDir.'/*.{png,jpg}',GLOB_BRACE);
+                $userDir = $arr['imagePath'] . $_SESSION['userId'] . '/' . $adsId;
+                $tempImages = glob($tempUserDir . '/*.{png,jpg}', GLOB_BRACE);
 
-                mkdir($userDir);
+                mkdir($userDir, 0777, true);
 
-                foreach ($tempImages as $image)
-                {
-                    $temp = explode('/',$image);
+                foreach ($tempImages as $image) {
+                    $temp = explode('/', $image);
                     $imageName = end($temp);
-                    $finalImageName = $userDir.'/'.$_SESSION['userId'].'_'.$adsId.'_'.$imageName;
-
-                    $extension = explode('.',end($temp));
+                    $finalImageName = $userDir . '/' . $_SESSION['userId'] . '_' . $adsId . '_' . $imageName;
 
                     rename($image, $finalImageName);
-                    (new AdvertisementImages())->makeThumb($finalImageName,$extension[1]);
+                    var_dump($finalImageName);
+                  (new AdvertisementImages())->makeThumb($finalImageName);
                 }
 
                 rmdir($tempUserDir);
 
                 $this->redirect('/postlist');
-            } else $this->view('content/addPost');
+            } else {
+                $this->view('content/addPost');
+            }
 
         } else {
-            if (is_dir($tempUserDir)) rmdir($tempUserDir);
+            if (is_dir($tempUserDir)) {
+                $this->rrmdir($tempUserDir);
+            }
             $categories = (new Category())->getCategoriesBy(['id', 'title']);
             $data['categories'] = $categories;
             $this->view('content/addPost', $data);
@@ -111,14 +111,32 @@ class HomeController extends BaseController
     {
         $arr = Config::get('site');
 
-        $tempUserDir = $arr['tempImagePath'].$_SESSION['userId'].'/';
-        var_dump($_FILES);
-        mkdir($tempUserDir, 0777, true);
-        $extention = explode('.',$_FILES['file']['name']);
+        $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
 
-        move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir.'/'.time().'.'.$extention[1]);
+        mkdir($tempUserDir, 0777, true);
+        $extention = explode('.', $_FILES['file']['name']);
+
+        move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . time() . '.' . $extention[1]);
 
         ChromePhp::log($_FILES);
 
+    }
+
+    function rrmdir($dir)
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir . "/" . $object) == "dir") {
+                        rrmdir($dir . "/" . $object);
+                    } else {
+                        unlink($dir . "/" . $object);
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($dir);
+        }
     }
 }
