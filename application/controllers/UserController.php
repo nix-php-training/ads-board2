@@ -93,7 +93,8 @@ class UserController extends BaseController
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            if ($this->getModel()->login($email, $password)) {
+            $user = $this->getModel()->getBy('email',$email);
+            if ($this->getModel()->login($email, $password) and ($user->status == 'registered')) {
                 $this->redirect('/');
             } else {
 
@@ -171,11 +172,6 @@ class UserController extends BaseController
     function successAction()
     {
         $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
-        echo '<pre>';
-        echo '<hr />';
-        var_dump(Registry::get('response'));
-        echo '<hr />';
-        echo '</pre>';
 //        $this->getModel()->changePayments();
     }
 
@@ -254,9 +250,8 @@ class UserController extends BaseController
 
                 $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
                 if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
-                    // Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете
+                    /* Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете*/
                     $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
-                    Registry::set('response', $response);
                 }
             }
             /**
