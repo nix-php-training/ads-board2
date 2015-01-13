@@ -25,4 +25,18 @@ trait ViewHelper
         return $tag;
     }
 
+    /**
+     * Generate error message
+     *
+     * @param $text
+     * @param $type
+     * @return string
+     */
+    public function generateMessage($text, $type = 'info')
+    {
+        $alerts = ['danger', 'success', 'info', 'warning'];
+        $type = (in_array($type, $alerts)) ? $type : 'info';
+        return '<div class="alert alert-' . $type . '" role="alert">' . $text . '</div>';
+    }
+
 }

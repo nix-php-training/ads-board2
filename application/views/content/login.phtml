@@ -5,9 +5,7 @@
     </div>
     <div class="panel-body">
 
-        <div class="alert alert-danger <?= $data['hidden']; ?>" role="alert">
-            <strong>Attention!</strong> User with this email/password not found.
-        </div>
+        <?= $data['message']; ?>
 
         <!-- Login form start -->
         <form action="/login" method="post">

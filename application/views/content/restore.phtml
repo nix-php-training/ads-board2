@@ -5,9 +5,7 @@
     </div>
     <div class="panel-body">
 
-        <div class="alert alert-danger <?= $data['hidden']; ?>" role="alert">
-            <strong>Attention!</strong> User with this login/email already exist.
-        </div>
+        <?= $data['message']; ?>
 
         <p class="text-info">
             On your email will be sent letter with instructions how to restore access to your account.
