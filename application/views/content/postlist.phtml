@@ -21,14 +21,15 @@
             </div>
 
             <div class="col-md-2">
-                <a href="/application/demoimg/1.jpg" data-lightbox="image-1" data-title="My caption">
-                    <img src="/application/demoimg/preview/1.jpg" alt="slider1" class="thumbnail img-responsive"/>
+
+                <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>" data-lightbox="image-1" data-title="My caption">
+                    <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="slider1" class="thumbnail img-responsive"/>
                 </a>
 
                 <div class="hidden">
-                    <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                    <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                    <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
+                    <?php foreach ($v['images'] as $k => $i) : ?>
+                    <a href="<?= htmlspecialchars($i['imageName']) ?>" data-lightbox="image-1" data-title="My caption"></a>
+                   <?php endforeach; ?>
                 </div>
             </div>
 

@@ -28,4 +28,38 @@ class AdvertisementImages extends Model
 
 
     }
+
+    public function getImagesByAdsId($id)
+    {
+        try {
+            return $this->db->query('select imageName from ' . $this->table . '
+            WHERE advertisementId=' . $id)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
+
+    public function createImagePath($images, $userId, $adsId)
+    {
+        $path = Config::get('site');
+        foreach ($images as &$image)
+        {
+            $imageTemp = $path['imagePath'].$userId.'/'.$adsId.'/'.$image['imageName'];
+            $image['imageName'] = $imageTemp;
+        }
+        return $images;
+    }
+
+    public function createPreviewImagePath($images, $userId, $adsId)
+    {
+        $path = Config::get('site');
+        foreach ($images as &$image)
+        {
+            $imageTemp = $path['imagePath'].$userId.'/'.$adsId.'/preview/thumb_'.$image['imageName'];
+            $image['imageName'] = $imageTemp;
+        }
+        return $images;
+
+    }
+
 }

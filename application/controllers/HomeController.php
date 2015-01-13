@@ -18,8 +18,20 @@ class HomeController extends BaseController
         foreach ($ads as &$v) {
             $temp = strtotime($v['creationDate']);
             $v['creationDate'] = $temp;
+
+            //get images from DB
+            $imagesArray = (new AdvertisementImages())->getImagesByAdsId($v['id']);
+
+            if(!is_null($imagesArray)) {
+                $v['images'] = (new AdvertisementImages())->createImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+                $v['imagesPreview'] = (new AdvertisementImages())->createPreviewImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+            }
+            else {
+                $v['images'] = [];
+                $v['imagesPreview'] = [];
+            }
         }
-        //var_dump($ads); die();
+
         $data['advertisements'] = $ads;
         $this->view('content/postList', $data);
     }
