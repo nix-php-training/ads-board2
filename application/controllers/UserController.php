@@ -3,26 +3,35 @@
 class UserController extends BaseController
 {
 
+    private $loginInput = [
+        'type' => 'text',
+        'class' => 'form-control',
+        'id' => 'login',
+        'name' => 'login',
+        'placeholder' => 'Enter login',
+        'required' => ''
+    ];
+
+    private $emailInput = [
+        'type' => 'email',
+        'class' => 'form-control',
+        'id' => 'email',
+        'name' => 'email',
+        'placeholder' => 'Enter email',
+        'required' => ''
+    ];
+
+    private $passwordInput = [
+        'type' => 'password',
+        'class' => 'form-control',
+        'id' => 'password',
+        'name' => 'password',
+        'placeholder' => 'Enter password',
+        'required' => ''
+    ];
+
     function loginAction()
     {
-        $emailInput = [
-            'type' => 'email',
-            'class' => 'form-control',
-            'id' => 'email',
-            'name' => 'email',
-            'placeholder' => 'Enter email',
-            'required' => ''
-        ];
-
-        $passwordInput = [
-            'type' => 'password',
-            'class' => 'form-control',
-            'id' => 'password',
-            'name' => 'password',
-            'placeholder' => 'Enter password',
-            'required' => ''
-        ];
-
         if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
@@ -34,8 +43,8 @@ class UserController extends BaseController
             } else {
 
                 $data = [
-                    'email' => $this->getView()->generateInput($emailInput, $email),
-                    'password' => $this->getView()->generateInput($passwordInput),
+                    'email' => $this->getView()->generateInput($this->emailInput, $email),
+                    'password' => $this->getView()->generateInput($this->passwordInput),
                     'hidden' => ''
                 ];
 
@@ -43,8 +52,8 @@ class UserController extends BaseController
             }
         } else {
             $data = [
-                'email' => $this->getView()->generateInput($emailInput),
-                'password' => $this->getView()->generateInput($passwordInput),
+                'email' => $this->getView()->generateInput($this->emailInput),
+                'password' => $this->getView()->generateInput($this->passwordInput),
                 'hidden' => 'hidden'
             ];
 
@@ -60,32 +69,6 @@ class UserController extends BaseController
 
     function registrationAction()
     {
-        $loginInput = [
-            'type' => 'text',
-            'class' => 'form-control',
-            'id' => 'login',
-            'name' => 'login',
-            'placeholder' => 'Enter login',
-            'required' => ''
-        ];
-
-        $emailInput = [
-            'type' => 'email',
-            'class' => 'form-control',
-            'id' => 'email',
-            'name' => 'email',
-            'placeholder' => 'Enter email',
-            'required' => ''
-        ];
-
-        $passwordInput = [
-            'type' => 'password',
-            'class' => 'form-control',
-            'id' => 'password',
-            'name' => 'password',
-            'placeholder' => 'Enter password',
-            'required' => ''
-        ];
 
         if (isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])) {
             $login = $_POST['login'];
@@ -93,15 +76,15 @@ class UserController extends BaseController
             $password = $_POST['password'];
 
 
-            $valid = $this->getModel()->registration($login, $email, $password);
-            if (!is_array($valid)) {
+//            $valid = $this->getModel()->registration($login, $email, $password);
+//            if (!is_array($valid)) {
 
                 /*mail section*/
 
-                $letter = new EmailSender();//Creating object EmailSender
+                $letter = new RegistrationEmail($email);//Creating object EmailSender
 
-                $letter->sendMail($_POST['email']);//Sending Email with unique-link to user email
-                $this->getModel()->putLink($letter->unique);//Unique part of link writing in DB table confirmationLinks
+                $letter->send();//Sending Email with unique-link to user email
+//                $this->getModel()->putLink($letter->getUnique());//Unique part of link writing in DB table confirmationLinks
 
                 /*end of mail section*/
 
@@ -110,24 +93,24 @@ class UserController extends BaseController
 
                 $data = [
                     'hidden' => '',
-                    'login' => $this->getView()->generateInput($loginInput, $login),
-                    'email' => $this->getView()->generateInput($emailInput, $email),
-                    'password' => $this->getView()->generateInput($passwordInput, $password)
+                    'login' => $this->getView()->generateInput($this->loginInput, $login),
+                    'email' => $this->getView()->generateInput($this->emailInput, $email),
+                    'password' => $this->getView()->generateInput($this->passwordInput, $password)
                 ];
 
                 $this->view('content/registration', $data);
             }
-        } else {
-
-            $data = [
-                'hidden' => 'hidden',
-                'login' => $this->getView()->generateInput($loginInput),
-                'email' => $this->getView()->generateInput($emailInput),
-                'password' => $this->getView()->generateInput($passwordInput)
-            ];
-
-            $this->view('content/registration', $data);
-        }
+//        } else {
+//
+//            $data = [
+//                'hidden' => 'hidden',
+//                'login' => $this->getView()->generateInput($this->loginInput),
+//                'email' => $this->getView()->generateInput($this->emailInput),
+//                'password' => $this->getView()->generateInput($this->passwordInput)
+//            ];
+//
+//            $this->view('content/registration', $data);
+//        }
     }
 
     function planAction()
@@ -220,15 +203,6 @@ class UserController extends BaseController
 
     function restoreAction()
     {
-        $emailInput = [
-            'type' => 'email',
-            'class' => 'form-control',
-            'id' => 'email',
-            'name' => 'email',
-            'placeholder' => 'Enter email',
-            'required' => ''
-        ];
-
         if (isset($_POST['email'])) {
             $email = $_POST['email'];
 
@@ -237,9 +211,9 @@ class UserController extends BaseController
 
                 /*mail section*/
 
-                $letter = new EmailSender();//Creating object EmailSender
+                $letter = new RegistrationEmail($email); //Creating object EmailSender
 
-                $letter->sendMail($_POST['email']);//Sending Email with unique-link to user email
+                $letter->send();
 
                 /*end of mail section*/
 
@@ -248,7 +222,7 @@ class UserController extends BaseController
 
                 $data = [
                     'hidden' => '',
-                    'email' => $this->getView()->generateInput($emailInput, $email),
+                    'email' => $this->getView()->generateInput($this->emailInput, $email),
                 ];
 
                 $this->view('content/restore', $data);
@@ -257,7 +231,7 @@ class UserController extends BaseController
 
             $data = [
                 'hidden' => 'hidden',
-                'email' => $this->getView()->generateInput($emailInput),
+                'email' => $this->getView()->generateInput($this->emailInput),
             ];
 
             $this->view('content/restore', $data);
