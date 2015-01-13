@@ -59,10 +59,16 @@ class Tools
         );
     }
 
-    public static function generatePassword($length = 8)
+    /**
+     * Generate unique string
+     *
+     * @param int $length
+     * @return string
+     */
+    public static function generateUniqueString($length = 8)
     {
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.";
-        $password = substr(str_shuffle($chars), 0, $length);
-        return $password;
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $unique = substr(str_shuffle($chars), 0, $length);
+        return $unique;
     }
 }

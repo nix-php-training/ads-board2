@@ -21,6 +21,11 @@ class EmailSender
 
     protected $unique;
 
+    /**
+     * Prepared PHPMailer instance
+     *
+     * @param $to
+     */
     protected function __construct($to)
     {
         // get configs
@@ -48,6 +53,12 @@ class EmailSender
         $this->from = "ads@gmail.com";
     }
 
+    /**
+     * Send email
+     *
+     * @throws Exception
+     * @throws phpmailerException
+     */
     public function send()
     {
         $this->mail->SetFrom($this->from);
@@ -75,82 +86,8 @@ class EmailSender
         $this->mail->AddAddress($this->to);
         $result = $this->mail->Send();//sending mail
         if (!$result) {
-            throw new  Exception("Mailer Error: " . $this->mail->ErrorInfo);
+            throw new  phpmailerException("Mailer Error: " . $this->mail->ErrorInfo);
         }
-    }
-
-    protected function generateUnique()
-    {
-        $num = 44;
-        $unique = '';
-
-        $arr = array(
-            'a',
-            'b',
-            'c',
-            'd',
-            'e',
-            'f',
-            'g',
-            'h',
-            'i',
-            'j',
-            'k',
-            'l',
-            'm',
-            'n',
-            'o',
-            'p',
-            'r',
-            's',
-            't',
-            'u',
-            'v',
-            'x',
-            'y',
-            'z',
-            'A',
-            'B',
-            'C',
-            'D',
-            'E',
-            'F',
-            'G',
-            'H',
-            'I',
-            'J',
-            'K',
-            'L',
-            'M',
-            'N',
-            'O',
-            'P',
-            'R',
-            'S',
-            'T',
-            'U',
-            'V',
-            'X',
-            'Y',
-            'Z',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '0',
-        );
-
-        for ($i = 1; $i <= $num; $i++) {
-            $index = mt_rand(0, count($arr) - 1);
-            $unique .= $arr[$index];
-        }
-
-        return $unique;
     }
 
     public function getUnique()
@@ -159,13 +96,18 @@ class EmailSender
     }
 }
 
+/**
+ * Class RegistrationEmail
+ *
+ * Sends mail for registration
+ */
 class RegistrationEmail extends EmailSender
 {
     public function __construct($to)
     {
         parent::__construct($to);
 
-        $this->unique = $this->generateUnique();
+        $this->unique = Tools::generateUniqueString(44);
         $link = $this->serverHost . "user/confirm?link=" . $this->unique;
 
         $this->subject = "Registration";
@@ -176,13 +118,18 @@ class RegistrationEmail extends EmailSender
     }
 }
 
+/**
+ * Class RestoreEmail
+ *
+ * Sends mail for restore access to account
+ */
 class RestoreEmail extends EmailSender
 {
     public function __construct($to, $password)
     {
         parent::__construct($to);
 
-        $this->unique = $this->generateUnique();
+        $this->unique = Tools::generateUniqueString(44);
         $link = $this->serverHost . "user/login?link=" . $this->unique;
 
         $this->subject = "Restore password";

@@ -32,33 +32,63 @@ class UserController extends BaseController
 
     function loginAction()
     {
+        // create inputs for page 'login'
+        $data = [
+            'email' => $this->getView()->generateInput($this->emailInput),
+            'password' => $this->getView()->generateInput($this->passwordInput),
+            'message' => ''
+        ];
+
         if ($_SESSION['userRole'] != 'guest') {
             $this->redirect('/');
         }
 
+        // for restore password
+        //--------------- start----------------
         if (isset($_GET['link'])) {
 
-            ChromePhp::log("get");
-
+            // get restore link from email
             $mailLink = $_GET['link'];
 
-            $regLink = $_SESSION['restoreLink'];
-            $regPassword = $_SESSION['restoredPassword'];
-            $userId = $_SESSION['userId'];
+            // if session variables not empty
+            if (isset($_SESSION['restoreLink']) && isset($_SESSION['restoredPassword']) && isset($_SESSION['userId'])) {
 
-            ChromePhp::log($regLink);
-            ChromePhp::log($regPassword);
-            ChromePhp::log($userId);
+                // get generated link
+                $regLink = $_SESSION['restoreLink'];
 
-            if ($regLink === $mailLink) {
+                // get generated password
+                $regPassword = $_SESSION['restoredPassword'];
 
-                ChromePhp::log("equals");
-                $this->getModel()->changePassword($userId, $regPassword);
-                unset($_SESSION['restoreLink']);
-                unset($_SESSION['restoredPassword']);
-                unset($_SESSION['userId']);
+                // get user id
+                $userId = $_SESSION['userId'];
+
+                // if link from email equals to generated
+                if ($regLink === $mailLink) {
+
+                    // change password
+                    $this->getModel()->changePassword($userId, $regPassword);
+
+                    // delete used variables
+                    unset($_SESSION['restoreLink']);
+                    unset($_SESSION['restoredPassword']);
+                    unset($_SESSION['userId']);
+
+                    $data['message'] = $this->getView()->generateMessage('Password was successfully changed.',
+                        'success');
+
+                    // show login page
+                    $this->view('content/login', $data);
+                    exit();
+                }
+            } else { // if session variables empty
+                $data['message'] = $this->getView()->generateMessage('Password already has been changed. Sign in, please.', 'danger');
+
+                // show login page
+                $this->view('content/login', $data);
+                exit();
             }
         }
+        //--------------- end----------------
 
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
@@ -67,20 +97,16 @@ class UserController extends BaseController
                 $this->redirect('/');
             } else {
 
+                // fill inputs with values
                 $data = [
                     'email' => $this->getView()->generateInput($this->emailInput, $email),
                     'password' => $this->getView()->generateInput($this->passwordInput),
-                    'hidden' => ''
+                    'message' => $this->getView()->generateMessage('Incorrect username or password.', 'danger')
                 ];
 
                 $this->view('content/login', $data);
             }
         } else {
-            $data = [
-                'email' => $this->getView()->generateInput($this->emailInput),
-                'password' => $this->getView()->generateInput($this->passwordInput),
-                'hidden' => 'hidden'
-            ];
 
             $this->view('content/login', $data);
         }
@@ -94,6 +120,13 @@ class UserController extends BaseController
 
     function registrationAction()
     {
+        // create inputs for page 'registration'
+        $data = [
+            'message' => '',
+            'login' => $this->getView()->generateInput($this->loginInput),
+            'email' => $this->getView()->generateInput($this->emailInput),
+            'password' => $this->getView()->generateInput($this->passwordInput)
+        ];
 
         if (isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])) {
             $login = $_POST['login'];
@@ -117,23 +150,15 @@ class UserController extends BaseController
             } else {
 
                 $data = [
-                    'hidden' => '',
                     'login' => $this->getView()->generateInput($this->loginInput, $login),
                     'email' => $this->getView()->generateInput($this->emailInput, $email),
-                    'password' => $this->getView()->generateInput($this->passwordInput, $password)
+                    'password' => $this->getView()->generateInput($this->passwordInput, $password),
+                    'message' => $this->getView()->generateMessage('Login/email is invalid or already taken.', 'danger')
                 ];
 
                 $this->view('content/registration', $data);
             }
         } else {
-
-            $data = [
-                'hidden' => 'hidden',
-                'login' => $this->getView()->generateInput($this->loginInput),
-                'email' => $this->getView()->generateInput($this->emailInput),
-                'password' => $this->getView()->generateInput($this->passwordInput)
-            ];
-
             $this->view('content/registration', $data);
         }
     }
@@ -231,11 +256,14 @@ class UserController extends BaseController
         if (isset($_POST['email'])) {
             $email = $_POST['email'];
 
+            // search user by email
             $valid = $this->getModel()->getBy('email', $email);
 
             if ($valid) {
+                // if found
 
-                $newPassword = Tools::generatePassword();
+                // generate password
+                $newPassword = Tools::generateUniqueString();
 
                 /*mail section*/
                 $letter = new RestoreEmail($email, $newPassword); //Creating object EmailSender
@@ -252,12 +280,13 @@ class UserController extends BaseController
                 // memorize user id
                 $_SESSION['userId'] = $valid->id;
 
+                // show message
                 $this->view('content/restoremessage');
             } else {
 
                 $data = [
-                    'hidden' => '',
                     'email' => $this->getView()->generateInput($this->emailInput, $email),
+                    'message' => $this->getView()->generateMessage('User with this email not found.', 'danger')
                 ];
 
                 $this->view('content/restore', $data);
@@ -265,8 +294,8 @@ class UserController extends BaseController
         } else {
 
             $data = [
-                'hidden' => 'hidden',
                 'email' => $this->getView()->generateInput($this->emailInput),
+                'message' => '',
             ];
 
             $this->view('content/restore', $data);
