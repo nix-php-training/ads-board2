@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login` varchar(32) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `confrimDate` datetime,
+  `confirmDate` datetime,
   `statusId` BIGINT NOT NULL,
   `roleId` BIGINT NOT NULL,
   `hash` varchar(64) DEFAULT NULL,
@@ -114,7 +114,7 @@ ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_plans` FOREIGN KEY (planId) R
 ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY (advertisementId) REFERENCES advertisements(id) ON DELETE CASCADE;
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_statuses` FOREIGN KEY (statusId) REFERENCES statuses(id);
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (roleId) REFERENCES roles(id);
-ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users(id);
+ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
 
 
 INSERT INTO `roles` (`name`) VALUES
@@ -126,7 +126,7 @@ INSERT INTO `statuses` (`name`) VALUES
   ('registered'),
   ('banned');
 
-INSERT INTO `users` ( `login`, `email`, `password`, `confrimDate`, `statusId`, `roleId`,`hash`) VALUES
+INSERT INTO `users` ( `login`, `email`, `password`, `confirmDate`, `statusId`, `roleId`,`hash`) VALUES
   ('Vasya', 'vasya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  2, NULL),
   ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  1, NULL),
   ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
@@ -138,6 +138,8 @@ INSERT INTO `categories` ( `title`, `description`) VALUES
 
 # INSERT INTO `profiles` ( `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`,) VALUES
 #   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
+
+INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99,99','month','100'),('business','999,99','month','100000');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
