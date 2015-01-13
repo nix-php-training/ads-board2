@@ -11,7 +11,8 @@ class UserController extends BaseController
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            if ($this->getModel()->login($email, $password)) {
+            $user = $this->getModel()->getBy('email',$email);
+            if ($this->getModel()->login($email, $password) and ($user->status == 'registered')) {
                 $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
