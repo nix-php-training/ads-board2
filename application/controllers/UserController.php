@@ -204,6 +204,7 @@ class UserController extends BaseController
 
     function cancelledAction()
     {
+        unset($_SESSION['planType']);
         $this->view('content/cancelled');//Отрисовуем страницу на которую прийдет пользователь в случае отмены оплаты на Paypal
     }
 
