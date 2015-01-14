@@ -32,7 +32,7 @@ class AdvertisementImages extends Model
     public function getImagesByAdsId($id)
     {
         try {
-            return $this->db->query('select imageName from ' . $this->table . '
+            return $this->db->query('select id, imageName from ' . $this->table . '
             WHERE advertisementId=' . $id)->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new DatabaseErrorException();
@@ -44,7 +44,7 @@ class AdvertisementImages extends Model
         $path = Config::get('site');
         foreach ($images as &$image)
         {
-            $imageTemp = $path['imagePath'].$userId.'/'.$adsId.'/'.$image['imageName'];
+            $imageTemp = $path['imageLink'].$userId.'/'.$adsId.'/'.$image['imageName'];
             $image['imageName'] = $imageTemp;
         }
         return $images;
@@ -55,7 +55,7 @@ class AdvertisementImages extends Model
         $path = Config::get('site');
         foreach ($images as &$image)
         {
-            $imageTemp = $path['imagePath'].$userId.'/'.$adsId.'/preview/thumb_'.$image['imageName'];
+            $imageTemp = $path['imageLink'].$userId.'/'.$adsId.'/preview/thumb_'.$image['imageName'];
             $image['imageName'] = $imageTemp;
         }
         return $images;
