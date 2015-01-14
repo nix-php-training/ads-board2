@@ -157,11 +157,16 @@ class User extends Model
         $this->db->query("UPDATE users SET confirmDate = NOW() WHERE id LIKE '{$user->id}'");
     }
 
-    function freePayment($link)
+    function getFreePlan($link)
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
                             VALUES ('free','0,0','1','{$user->id}')");
+    }
+
+    function changePlan()
+    {
+
     }
 
 

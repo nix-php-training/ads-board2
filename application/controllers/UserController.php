@@ -65,22 +65,17 @@ class UserController extends BaseController
     function successAction()
     {
         //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами(user/success) адресс с токеном
-
-        if (isset($_GET['token']) && !empty($_GET['token'])) { // If Токен присутствует
+        $token = $this->getParams('token');
+        if (isset($token) && !empty($token)) { // If Токен присутствует
             // Получаем детали оплаты, включая информацию о покупателе.
             // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
             $paypal = new Paypal();
-            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
-            echo '<pre>';
-            var_dump($this->getParams('token'));
-            echo '<hr />';
-            var_dump($checkoutDetails);
-            echo '<pre><hr />';
+            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $token));
             // Завершаем транзакцию
             $requestParams = array(
                 'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
                 'PAYERID' => $_GET['PayerID'],
-                'TOKEN' => $this->getParams('token'),
+                'TOKEN' => $token,
                 'PAYMENTREQUEST_0_AMT' => '99.99',
             );
 
@@ -91,10 +86,12 @@ class UserController extends BaseController
             }
         }
         echo '<pre>';
+        var_dump($_SESSION['planType']);
+        echo '<hr />';
         var_dump($response);
         echo '<pre>';
 //        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
-//        $this->getModel()->changePayments();
+//        $this->getModel()->changePlan();
     }
 
     function cancelledAction()
@@ -119,6 +116,7 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
+                $_SESSION['planType'] = 'pro';
                 break;
             case 'business':
                 $orderParams = array(
@@ -132,6 +130,7 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_AMT0' => '999.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
+                $_SESSION['planType'] = 'business';
                 break;
         }
 
@@ -173,7 +172,7 @@ class UserController extends BaseController
             header("Location: " . Config::get('site')['host'] . 'user/login');
         }else{
             $this->getModel()->changeStatus($link);
-            $this->getModel()->freePayment($link);
+            $this->getModel()->getFreePlan($link);
             $this->view('content/confirm');
         }
     }
