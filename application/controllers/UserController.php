@@ -11,7 +11,8 @@ class UserController extends BaseController
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            if ($this->getModel()->login($email, $password)) {
+            $user = $this->getModel()->getBy('email',$email);
+            if ($this->getModel()->login($email, $password) and ($user->status == 'registered')) {
                 $this->redirect('/');
             } else {
                 echo 'Введены не верные данные';
@@ -63,8 +64,35 @@ class UserController extends BaseController
 
     function successAction()
     {
+        //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами(user/success) адресс с токеном
+        $token = $this->getParams('token');
+        if (isset($token) && !empty($token)) { // If Токен присутствует
+            // Получаем детали оплаты, включая информацию о покупателе.
+            // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
+            $paypal = new Paypal();
+            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $token));
+            // Завершаем транзакцию
+            $requestParams = array(
+                'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
+                'PAYERID' => $_GET['PayerID'],
+                'TOKEN' => $token,
+                'PAYMENTREQUEST_0_AMT' => '99.99',
+            );
+
+            $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
+            if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
+                /* Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете*/
+                $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+            }
+        }
+        $planType = $_SESSION['planType'];
+//        echo '<pre>';
+//        var_dump($planType);
+//        echo '<hr />';
+//        var_dump($response);
+//        echo '<pre>';
         $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
-//        $this->getModel()->changePayments();
+        $this->getModel()->changePlan($planType);
     }
 
     function cancelledAction()
@@ -89,6 +117,7 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
+                $_SESSION['planType'] = 'pro';
                 break;
             case 'business':
                 $orderParams = array(
@@ -102,6 +131,7 @@ class UserController extends BaseController
                     'L_PAYMENTREQUEST_0_AMT0' => '999.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
+                $_SESSION['planType'] = 'business';
                 break;
         }
 
@@ -111,40 +141,12 @@ class UserController extends BaseController
         );
 
         $paypal = new Paypal();
-        try {
-            $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
-            if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
-                $token = $response['TOKEN'];//получаем токен из ответа апи
-                header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
-            }
+        $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
 
-            //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами адресс с токеном
-
-            if (isset($_GET['token']) && !empty($_GET['token'])) { // Токен присутствует
-                // Получаем детали оплаты, включая информацию о покупателе.
-                // Эти данные могут пригодиться в будущем для создания, к примеру, базы постоянных покупателей
-                $paypal = new Paypal();
-                $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $this->getParams('token')));
-
-                // Завершаем транзакцию
-                $requestParams = array(
-                    'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-                    'PAYERID' => $_GET['PayerID']
-                );
-
-                $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
-                if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
-                    /* Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете*/
-                    $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
-                }
-            }
-            /**
-             * Expects
-             * @var $e CurleException
-             */
-        } catch (CurleException $e) {
-            $this->view('error/error', $data = array('message' => $e->getMessage()));
+        if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
+            $token = $response['TOKEN'];//получаем токен из ответа апи
+            header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
         }
     }
 
@@ -171,7 +173,7 @@ class UserController extends BaseController
             header("Location: " . Config::get('site')['host'] . 'user/login');
         }else{
             $this->getModel()->changeStatus($link);
-            $this->getModel()->freePayment($link);
+            $this->getModel()->getFreePlan($link);
             $this->view('content/confirm');
         }
     }
