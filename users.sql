@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `paymentType` varchar(128) NOT NULL ,
   `endDate` DATETIME,
-  `price` DECIMAL NOT NULL ,
+  `price` DOUBLE(10,2) NOT NULL ,
   `planId` BIGINT NOT NULL,
   `userId` BIGINT NOT NULL,
   PRIMARY KEY (`id`)
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `advertisementsImages` (
 CREATE TABLE IF NOT EXISTS `plans` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL ,
-  `price` DECIMAL NOT NULL ,
+  `price` DOUBLE(10,2) NOT NULL ,
   `term` VARCHAR(32) NOT NULL,
   `posts` INT NOT NULL,
   PRIMARY KEY (`id`)
@@ -144,7 +144,7 @@ INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
 # INSERT INTO `profiles` ( `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`,) VALUES
 #   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
 
-INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99,99','month','100'),('business','999,99','month','100000');
+INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99.99','month','100'),('business','999.99','month','100000');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

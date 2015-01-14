@@ -2,8 +2,7 @@
     <label for="categories">Categories</label>
     <select name="categories" id="categories" class="form-control">
         <?php foreach ($data['categories'] as $v) : ?>
-            <option
-                value="<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['title']) ?></option>
+            <option value="<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['title']) ?></option>
         <?php endforeach; ?>
 
     </select>
