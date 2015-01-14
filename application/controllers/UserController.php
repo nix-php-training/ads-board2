@@ -85,13 +85,14 @@ class UserController extends BaseController
                 $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
             }
         }
-        echo '<pre>';
-        var_dump($_SESSION['planType']);
-        echo '<hr />';
-        var_dump($response);
-        echo '<pre>';
-//        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
-//        $this->getModel()->changePlan();
+        $planType = $_SESSION['planType'];
+//        echo '<pre>';
+//        var_dump($planType);
+//        echo '<hr />';
+//        var_dump($response);
+//        echo '<pre>';
+        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
+        $this->getModel()->changePlan($planType);
     }
 
     function cancelledAction()
