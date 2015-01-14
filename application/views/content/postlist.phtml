@@ -21,9 +21,13 @@
 
             <div class="col-md-2">
 
+                <?php if(!empty($v['images'])) : ?>
+
                 <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
                     <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="slider1" class="thumbnail img-responsive" />
                 </a>
+
+                <?php endif; ?>
 
                 <div class="hidden">
 

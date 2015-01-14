@@ -17,14 +17,16 @@
     </div>
     <div class="row body">
         <div class="col-md-8">
-            <div class="post-thumbnail thumbnail">
 
+            <?php if(!empty($v['images'])) : ?>
+            <div class="post-thumbnail thumbnail">
                 <a href="<?= htmlspecialchars($data['images'][0]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][0]['id']) ?>">
                     <img src="<?= htmlspecialchars($data['images'][0]['imageName']) ?>" alt="slider1" class="img-responsive"/>
                 </a>
 
                 <div class="photo-amount"><?= htmlspecialchars(count($data['images'])) ?> photo</div>
             </div>
+            <?php endif; ?>
 
             <div class="hidden">
                 <?php for( $i = 1 ; $i < count($data['images']); $i++) : ?>
