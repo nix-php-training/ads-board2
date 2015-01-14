@@ -136,6 +136,11 @@ INSERT INTO `categories` ( `title`, `description`) VALUES
   ('Toys', 'Description'),
   ('Furniture', 'Description');
 
+INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
+  ('somelink', 1),
+  ('somelink', 2),
+  ('somelink', 3);
+
 # INSERT INTO `profiles` ( `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`,) VALUES
 #   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
 

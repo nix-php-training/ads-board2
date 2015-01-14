@@ -125,8 +125,9 @@ class Router
     public function getQueryParamsFromURL($string)
     {
         $queryParams = array();
-        if ($string == '') return array();
-        else {
+        if ($string == '') {
+            return array();
+        } else {
             $devidedByAnd = explode('&', $string);
             foreach ($devidedByAnd as $v) {
                 $devidedByEquil = explode('=', $v);
