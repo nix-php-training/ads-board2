@@ -47,7 +47,20 @@ class HomeController extends BaseController
             $data = array();
             $id = $this->getParams('adsId');
             $ads = (new Advertisement())->getAdvertisementById($id);
-            $data['ads'] = $ads;
+
+            $imagesArray = (new AdvertisementImages())->getImagesByAdsId($id);
+
+            if(!is_null($imagesArray)) {
+                $ads[0]['images'] = (new AdvertisementImages())->createImagePath($imagesArray, $_SESSION['userId'], $id);
+                $ads[0]['imagesPreview'] = (new AdvertisementImages())->createPreviewImagePath($imagesArray, $_SESSION['userId'], $id);
+            }
+            else {
+                $ads[0]['images'] = [];
+                $ads[0]['imagesPreview'] = [];
+            }
+
+            $data = $ads[0];
+
             $this->view('content/postDetail', $data);
         } catch (DatabaseErrorException $e) {
             $this->view('error/error', $data = array('message' => $e->getMessage()));
