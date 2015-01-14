@@ -106,6 +106,17 @@ CREATE TABLE IF NOT EXISTS `confirmationLinks` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `operations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `date` DATETIME ,
+  `paymentType` VARCHAR(128) NOT NULL ,
+  `planName` VARCHAR(128) NOT NULL ,
+  `planCost` DOUBLE(10,2) NOT NULL ,
+  `transactionId` VARCHAR(128)  NOT NULL,
+  `userId` BIGINT NOT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
