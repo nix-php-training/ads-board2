@@ -171,7 +171,7 @@ class UserController extends BaseController
 
     function successAction()
     {
-        //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами(user/success) адресс с токеном
+        //Если пользователь подтвердил перевод средств, то Paypal отправит пользователя на указанный нами(/user/success) адресс с токеном
         $token = $this->getParams('token');
         if (isset($token) && !empty($token)) { // If Токен присутствует
             // Получаем детали оплаты, включая информацию о покупателе.
