@@ -98,19 +98,24 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/postlist"><i class="glyphicon glyphicon-eye-open"></i> Watch ads</a></li>
-                    <?php
-                    if ($_SESSION['userRole'] == 'guest') {
-                        echo '<li class="btn btn-xs btn-primary"><a href="/registration" ><i class="icon-user-add"></i> Sing up</a></li>
-                              <li class="btn btn-xs btn-success"><a href="/login"><i class="icon-sign-in"></i> Sing in</a></li>';
-                    } else {
-                        echo '<li><a href="/addpost"><i class="glyphicon glyphicon-plus-sign"></i> Create new ads <span class="badge">1</span></a></li>
-                              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' . $_SESSION["userLogin"] . ' <span class="caret"></span></a>
-                              <ul class="dropdown-menu" role="menu">
+                    <?php if ($_SESSION['userRole'] === 'guest') { ?>
+                        <li class="btn btn-xs btn-primary"><a href="/registration"><i class="icon-user-add"></i> Sing up</a>
+                        </li>
+                        <li class="btn btn-xs btn-success"><a href="/login"><i class="icon-sign-in"></i> Sing in</a>
+                        </li>
+                    <?php } else { ?>
+                        <li><a href="/addpost"><i class="glyphicon glyphicon-plus-sign"></i> Create new ads<!-- <span
+                                    class="badge">1</span>--></a></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                                aria-expanded="false"><?= $_SESSION["userLogin"] ?><span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
                                 <li><a href="/profile"><i class="icon-widget"></i> Profile</a></li>
-                                <li class="divider"></li><li><a href="/logout"><i class="icon-sign-out"></i> Logout</a></li>
-                              </ul></li>';
-                    }
-                    ?>
+                                <li class="divider"></li>
+                                <li><a href="/logout"><i class="icon-sign-out"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
 
                 </ul>
             </div>
