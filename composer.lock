@@ -66,6 +66,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-imagick": "*",
+        "ext-mysql": "*"
+    },
     "platform-dev": []
 }

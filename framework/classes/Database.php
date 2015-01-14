@@ -205,6 +205,7 @@ class Database
             $stmt->bindValue(":$key", $value);
         }
         $stmt->execute();
+        return $db->lastInsertId();
     }
 
     /**
