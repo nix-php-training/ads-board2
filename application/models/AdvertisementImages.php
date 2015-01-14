@@ -4,36 +4,62 @@ class AdvertisementImages extends Model
 {
     protected $table = 'advertisementsImages';
 
-    public function saveAdsImages($adsId)
+    public function saveAdsImages($data)
     {
-        // $this->db->insert($this->table, $data);
+        $this->db->insert($this->table, $data);
     }
 
     function makeThumb($filename)
     {
         $image = new Imagick($filename);
-        $width  = $image->getImageWidth();
-        $height = $image->getImageHeight();
-        $thumb_width = min($width, $height);
 
-        var_dump($thumb_width);
         $temp = explode('/', $filename);
-        var_dump($temp);
-        $imageName = 'thumb_' . end($temp);
-        var_dump($imageName);
-
+        $imageName = 'preview/thumb_' . end($temp);
         $key = key($temp);
         reset($temp);
-
+//
         $temp[$key] = $imageName;
         $newFileName = implode('/', $temp);
-        var_dump($newFileName);
 
-        $image->thumbnailImage(150, 150);
+        $image->cropThumbnailImage(150, 150);
+
         $image->writeImage($newFileName);
         $image->destroy();
 
 
+    }
+
+    public function getImagesByAdsId($id)
+    {
+        try {
+            return $this->db->query('select imageName from ' . $this->table . '
+            WHERE advertisementId=' . $id)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
+
+    public function createImagePath($images, $userId, $adsId)
+    {
+        $path = Config::get('site');
+        foreach ($images as &$image)
+        {
+            $imageTemp = $path['imagePath'].$userId.'/'.$adsId.'/'.$image['imageName'];
+            $image['imageName'] = $imageTemp;
+        }
+        return $images;
+    }
+
+    public function createPreviewImagePath($images, $userId, $adsId)
+    {
+        $path = Config::get('site');
+        foreach ($images as &$image)
+        {
+            $imageTemp = $path['imagePath'].$userId.'/'.$adsId.'/preview/thumb_'.$image['imageName'];
+            $image['imageName'] = $imageTemp;
+        }
+        return $images;
 
     }
+
 }
