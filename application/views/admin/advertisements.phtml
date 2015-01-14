@@ -1,0 +1,63 @@
+<div ng-controller="adsCtrl" class="row admin">
+    <h3>Advertisement management</h3>
+
+    <div class="alert alert-danger" ng-class="{hidden:hideError}" role="alert">
+        <strong>Warning!</strong> Something wrong. Try again later.
+    </div>
+
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+        <tr>
+            <th st-sort="creationDate" class="col-md-2">Post date</th>
+            <th class="col-md-2">Preview image</th>
+            <th st-sort="category" class="col-md-2">Category</th>
+            <th st-sort="subject" class="col-md-2">Subject</th>
+            <th st-sort="userLogin" class="col-md-2">Owner</th>
+            <th st-sort="price" class="col-md-1">Price</th>
+            <th class="col-md-1">Delete</th>
+        </tr>
+        <tr>
+            <th colspan="7">
+                <div class="form-group search-only">
+                    <i class="search-icon glyphicon glyphicon-search"></i>
+                    <input st-search="" class="form-control search-query"
+                           placeholder="Search ..." type="text"/>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="post-list" ng-repeat="row in displayedCollection">
+            <td>
+                <h1>{{getDate(row.creationDate)}}</h1>
+
+                <h2>{{getTime(row.creationDate)}}</h2>
+            </td>
+
+            <td>
+                <img src="/application/demoimg/preview/img_{{row.link}}.jpg" alt="img_{{row.link}}" class="thumbnail img-responsive"/>
+            </td>
+
+            <td>
+                <h2><a href="/postlist">{{row.category}}</a></h2>
+            </td>
+            <td>
+                <h1><a href="/postdetail/{{row.id}}">{{row.subject}}</a></h1>
+            </td>
+            <td>
+                <a href="/profile">{{row.userLogin}}</a>
+
+            </td>
+            <td>
+                <h1>${{row.price}}</h1>
+            </td>
+            <td>
+                <button class="btn btn-danger" ng-click="deleteAds(row)">Remove</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="/application/assets/js/controllers/adminAdvertisements.js"></script>
+<script src="/application/assets/js/controllers/commonFunctions.js"></script>

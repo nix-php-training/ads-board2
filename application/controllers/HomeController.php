@@ -9,10 +9,20 @@ class HomeController extends BaseController
 
     function postListAction()
     {
+        $data = array();
         $categories = (new Category())->getCategoriesBy(['id', 'title']);
-        $data['categories'] = $categories;
-        $this->view('content/postList', $data);
+        $ads = (new Advertisement())->getAllAdvertisements();
 
+        $data['categories'] = $categories;
+
+        foreach ($ads as &$v)
+        {
+            $temp = strtotime($v['creationDate']);
+            $v['creationDate'] = $temp;
+        }
+        //var_dump($ads); die();
+        $data['advertisements'] = $ads;
+        $this->view('content/postList', $data);
     }
 
     function pricingAction()
@@ -22,7 +32,18 @@ class HomeController extends BaseController
 
     function postDetailAction()
     {
-        $this->view('content/postDetail');
+        try
+        {
+            $data = array();
+            $id = $this->getParams('adsId');
+            $ads = (new Advertisement())->getAdvertisementById($id);
+            $data['ads'] = $ads;
+            $this->view('content/postDetail', $data);
+        }
+        catch (DatabaseErrorException $e) {
+            $this->view('error/error', $data = array('message' => $e->getMessage()));
+        }
+
     }
 
     function addPostAction()
@@ -43,7 +64,7 @@ class HomeController extends BaseController
                 $this->redirect('/postlist');
             } else $this->view('content/addPost');
 
-        }else{
+        } else {
             $categories = (new Category())->getCategoriesBy(['id', 'title']);
             $data['categories'] = $categories;
             $this->view('content/addPost', $data);
@@ -51,20 +72,20 @@ class HomeController extends BaseController
         }
     }
 
-        function termsAction()
-        {
-            $this->view('content/terms');
-        }
-
-        function aboutAction()
-        {
-            $this->view('content/about');
-        }
-
-        // for image download example
-        // will be moved to correct controller
-        function imageDownloadAction()
-        {
-            ChromePhp::log($_FILES);
-        }
+    function termsAction()
+    {
+        $this->view('content/terms');
     }
+
+    function aboutAction()
+    {
+        $this->view('content/about');
+    }
+
+    // for image download example
+    // will be moved to correct controller
+    function imageDownloadAction()
+    {
+        ChromePhp::log($_FILES);
+    }
+}

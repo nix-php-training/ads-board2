@@ -29,17 +29,15 @@ class Controller
     /**
      * @return mixed
      */
-    public function getParams($key=null)
+    public function getParams($key = null)
     {
-        if(isset($key))
-            return array_key_exists($key, $this->_params) ? $this->_params[$key]:false ;
-        else
+        if (isset($key)) {
+            return array_key_exists($key, $this->_params) ? $this->_params[$key] : false;
+        } else {
             return $this->_params;
+        }
 
     }
-
-
-
 
     public function __construct($params, $model)
     {

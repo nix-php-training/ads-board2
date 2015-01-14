@@ -3,21 +3,22 @@
 class User extends Model
 {
     protected $table = 'users';
-
+    protected $linksTable = 'confirmationLinks';
     protected $rules = [
         'login' => ['login', 'min_length(3)', 'max_length(32)'],
         'email' => ['email'],
         'password' => ['min_length(3)', 'max_length(32)']
     ];
 
-    function getBy($field, $value)
+    function getBy($field, $value, $table = 'users')
     {
         $where = [":$field" => $value];
-        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status
+        return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
                                   FROM users
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
-                                  WHERE users.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
+                                  JOIN confirmationLinks ON users.id=confirmationLinks.userId
+                                  WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
     }
 
     function setCookie($id, $expire = 0)
@@ -64,7 +65,7 @@ class User extends Model
     function login($email, $password)
     {
         $user = $this->getBy('email', $email);
-        if ($user && password_verify($password, $user->password)) {
+        if ($user && password_verify($password, $user->password) && $user->status === 'registered') {
             if (isset($_POST['remember'])) {
                 $expire = 30;
             } else {
@@ -118,9 +119,110 @@ class User extends Model
                 'roleId' => $this->db->fetchOne('roles', 'id', ['name' => 'user']),
             ];
             $this->db->insert($this->table, $data);
+            Registry::set('email', $data['email']);
             return true;
         } else {
             return $valid;
         }
+    }
+
+    function putLink($link)
+    {
+        $userEmail = Registry::get('email');
+        $temp = $this->db->query("SELECT id FROM users WHERE email LIKE '$userEmail'")->fetch(PDO::FETCH_OBJ);
+        $data = [
+            'link' => $link,
+            'userId' => $temp->id,
+        ];
+        $this->db->insert($this->linksTable, $data);
+    }
+
+    function checkStatus($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting user data by link from confirmation email
+        switch($user->status){
+
+            case 'registered'://implement constants!
+                return true;
+                break;
+            case 'unconfirmed':
+                return false;
+                break;
+            default:
+                echo "Your link is invalid";
+        }
+    }
+
+    function changeStatus($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
+        $this->db->query("UPDATE users SET confirmDate = NOW() WHERE id LIKE '{$user->id}'");
+        $user = $this->getBy('link', $link, 'confirmationLinks');
+//        echo '<pre>';
+//        var_dump($user);
+//        echo '</pre>';
+//        die();
+        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");
+    }
+
+    function freePayment($link)
+    {
+        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
+                            VALUES ('free','0,0','1','{$user->id}')");
+    }
+
+
+
+    /**
+     * Extract all users from db
+     *
+     * @return mixed Array('id', 'login', 'email, 'role', 'status')
+     */
+    public function getUsers()
+    {
+        return $this->db->query("SELECT
+  users.id      AS id,
+  users.login   AS login,
+  users.email   AS email,
+  roles.name    AS role,
+  statuses.name AS status
+FROM users
+  JOIN statuses ON users.statusId = statuses.id
+  JOIN roles ON users.roleId = roles.id")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Set status 'banned' for user by id
+     *
+     * @param $id
+     */
+    public function banUser($id)
+    {
+        $this->db->update($this->table, ['statusId' => '3'], ['id' => $id]);
+    }
+
+    /**
+     * Set status 'registered' for user by id
+     * Don't pass user with status 'unregistered'
+     *
+     * @param $id
+     */
+    public function unbanUser($id)
+    {
+        $this->db->update($this->table, ['statusId' => '2'], ['id' => $id]);
+    }
+
+    /**
+     * Change password for user by id
+     *
+     * @param $id
+     * @param $password
+     */
+    public function changePassword($id, $password)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $this->db->update($this->table, ['password' => $password], ['id' => $id]);
     }
 }
