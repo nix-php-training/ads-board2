@@ -6,13 +6,10 @@ class HomeController extends BaseController
     {
 
         $s = new SphinxClient();
-        $s->setServer("localhost", 6712);
-        $s->setMatchMode(SPH_MATCH_ANY);
-        $s->setMaxQueryTime(3);
 
         $result = $s->query("stas");
 
-        ChromePhp::log($result);
+        ChromePhp::log($s->GetLastError());
 
         $this->view('content/index');
     }
