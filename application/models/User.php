@@ -139,8 +139,8 @@ class User extends Model
 
     function checkStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');//getting user data by link from confirmation email
-        switch($user->status){
+        $user = $this->getBy('link', $link, 'confirmationLinks');//getting user data by link from confirmation email
+        switch ($user->status) {
 
             case 'registered'://implement constants!
                 return true;
@@ -155,7 +155,8 @@ class User extends Model
 
     function changeStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $user = $this->getBy('link', $link,
+            'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
         $this->db->query("UPDATE users SET confirmDate = NOW() WHERE id LIKE '{$user->id}'");
         $user = $this->getBy('link', $link, 'confirmationLinks');
@@ -168,14 +169,15 @@ class User extends Model
 
     function getFreePlan($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $user = $this->getBy('link', $link,
+            'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
                             VALUES ('free','0,0','1','{$user->id}')");
     }
 
     function changePlan($planType)
     {
-        switch($planType){
+        switch ($planType) {
             case 'pro':
                 $price = '99.99';
                 $planId = '2';//table plans : 2-pro-Plan(1- Free Plan, user got it by default when confirmed his acc)
@@ -186,10 +188,9 @@ class User extends Model
                 break;
         }
         $hash = $_COOKIE['hash'];
-        $user = $this->getBy('hash',$hash);
+        $user = $this->getBy('hash', $hash);
         $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = '{$user->id}'");
     }
-
 
 
     /**

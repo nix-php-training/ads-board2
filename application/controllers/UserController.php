@@ -81,7 +81,8 @@ class UserController extends BaseController
                     exit();
                 }
             } else { // if session variables empty
-                $data['message'] = $this->getView()->generateMessage('Password already has been changed. Sign in, please.', 'danger');
+                $data['message'] = $this->getView()->generateMessage('Password already has been changed. Sign in, please.',
+                    'danger');
 
                 // show login page
                 $this->view('content/login', $data);

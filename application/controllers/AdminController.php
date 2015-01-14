@@ -58,7 +58,7 @@ class AdminController extends BaseController
     /**
      * Ban user
      *
-     * @var $_POST['id'] is user id from user management page
+     * @var $_POST ['id'] is user id from user management page
      */
     public function banUserAction()
     {
@@ -69,7 +69,7 @@ class AdminController extends BaseController
     /**
      * Unban user
      *
-     * @var $_POST['id'] is user id from user management page
+     * @var $_POST ['id'] is user id from user management page
      */
     public function unbanUserAction()
     {
@@ -92,7 +92,7 @@ class AdminController extends BaseController
     /**
      * Delete plan from db
      *
-     * @var $_POST['id'] is plan id from plan management page
+     * @var $_POST ['id'] is plan id from plan management page
      */
     public function removePlanAction()
     {
@@ -131,7 +131,7 @@ class AdminController extends BaseController
     /**
      * Delete category from db
      *
-     * @var $_POST['id'] is category id from category management page
+     * @var $_POST ['id'] is category id from category management page
      */
     public function removeCategoryAction()
     {
@@ -175,7 +175,7 @@ class AdminController extends BaseController
     /**
      * Delete advertisement from db
      *
-     * @var $_POST['id'] is advertisement id from advertisement management page
+     * @var $_POST ['id'] is advertisement id from advertisement management page
      */
     public function removeAdvertisementAction()
     {
