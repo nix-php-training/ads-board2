@@ -157,11 +157,28 @@ class User extends Model
         $this->db->query("UPDATE users SET confirmDate = NOW() WHERE id LIKE '{$user->id}'");
     }
 
-    function freePayment($link)
+    function getFreePlan($link)
     {
         $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
                             VALUES ('free','0,0','1','{$user->id}')");
+    }
+
+    function changePlan($planType)
+    {
+        switch($planType){
+            case 'pro':
+                $price = '99.99';
+                $planId = '2';//table plans : 2-pro-Plan(1- Free Plan, user got it by default when confirmed his acc)
+                break;
+            case 'business':
+                $price = '999.9';
+                $planId = '3';//table plans : 3- business plan
+                break;
+        }
+        $hash = $_COOKIE['hash'];
+        $user = $this->getBy('hash',$hash);
+        $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = '{$user->id}'");
     }
 
 
