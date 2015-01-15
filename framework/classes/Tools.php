@@ -59,4 +59,16 @@ class Tools
         );
     }
 
+    /**
+     * Generate unique string
+     *
+     * @param int $length
+     * @return string
+     */
+    public static function generateUniqueString($length = 8)
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $unique = substr(str_shuffle($chars), 0, $length);
+        return $unique;
+    }
 }

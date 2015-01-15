@@ -61,7 +61,8 @@
             <td>
                 <button class="btn btn-info" ng-hide="editingData[row.id]" ng-click="edit(row.id)">Edit</button>
                 <button class="btn btn-success" ng-show="editingData[row.id]" ng-click="save(row)">Save</button>
-                <button class="btn btn-link" ng-show="editingData[row.id]" ng-click="cancelEditing(row.id)">Cancel</button>
+                <button class="btn btn-link" ng-show="editingData[row.id]" ng-click="cancelEditing(row.id)">Cancel
+                </button>
                 <button class="btn btn-danger" ng-hide="editingData[row.id]" ng-click="deletePlan(row)">Remove</button>
             </td>
         </tr>
