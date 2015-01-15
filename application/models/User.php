@@ -195,6 +195,27 @@ class User extends Model
         $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),'paypal','{$planType}','{$price}','{$transactionId}','{$user->id}')");
     }
 
+    function checkCurrentPlan()
+    {
+        $hash = $_COOKIE['hash'];
+        $user = $this->getBy('hash',$hash);
+        $currentPlan = $this->db->fetchOne('payments','planId',['userId' => $user->id]);
+        $disableFree = '';
+        $disableBusiness = '';
+        $disablePro = '';
+        switch($currentPlan){
+            case '1':
+                $disableFree = 'disabled';break;
+            case '2';
+                $disablePro = 'disabled';break;
+            case '3':
+                $disableBusiness = 'disabled';break;
+        }
+        $currentPlan = $this->db->fetchOne('plans','name',['id' => $currentPlan]);
+        $planData = ['currentPlan' => $currentPlan, 'disableFree' => $disableFree, 'disablePro' =>  $disablePro, 'disableBusiness' => $disableBusiness];
+        return $planData;
+    }
+
 
     /**
      * Extract all users from db

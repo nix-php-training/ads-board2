@@ -1,4 +1,8 @@
+<?php
+$planData = $this->_data;
+?>
 <div class="pricing text-center margin-t7p">
+    <h2>Greetings, you now on <i><?php echo $planData['currentPlan']?></i> plan. You can change your subscribe by available buttons below.</h2>
     <ul>
         <li class="unit price-primary">
             <div class="price-title"><h3>$0</h3>
@@ -12,7 +16,7 @@
                 </ul>
             </div>
             <div class="price-foot">
-                <button type="button" class="btn btn-primary disabled">Try Now</button>
+                <button type="button" class="btn btn-primary <?php echo $planData['disableFree'];?>">Try Now</button>
             </div>
         </li>
         <li class="unit price-success active">
@@ -26,7 +30,7 @@
                 </ul>
             </div>
             <div class="price-foot">
-                <a href="/user/paypal?type=business"><button type="button" class="btn btn-success">Buy Now</button></a>
+                <a href="/user/paypal?type=business"><button type="button" class="btn btn-success <?php echo $planData['disableBusiness'];?>">Buy Now</button></a>
             </div>
         </li>
         <li class="unit price-warning">
@@ -40,7 +44,7 @@
                 </ul>
             </div>
             <div class="price-foot">
-                <a href="/user/paypal?type=pro"><button type="button" class="btn btn-warning">Buy Now</button></a>
+                <a href="/user/paypal?type=pro"><button type="button" class="btn btn-warning <?php echo $planData['disablePro'];?>">Buy Now</button></a>
             </div>
         </li>
     </ul>
