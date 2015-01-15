@@ -1,7 +1,7 @@
 <?php
 
 //
-// $Id: sphinxapi.php 3782 2013-04-06 18:22:58Z kevg $
+// $Id: sphinxapi.php 3087 2012-01-30 23:07:35Z shodan $
 //
 
 //
@@ -511,11 +511,11 @@ class SphinxClient
 			return;
 		}
 				
+		assert ( is_int($port) );
 		$this->_host = $host;
-		$port = intval($port);
-		assert ( 0<=$port && $port<65536 );
-		$this->_port = ( $port==0 ) ? 9312 : $port;
+		$this->_port = $port;
 		$this->_path = '';
+
 	}
 
 	/// set server connection timeout (0 to remove)
@@ -741,7 +741,7 @@ class SphinxClient
 	/// set ranking mode
 	function SetRankingMode ( $ranker, $rankexpr="" )
 	{
-		assert ( $ranker===0 || $ranker>=1 && $ranker<SPH_RANK_TOTAL );
+		assert ( $ranker>=0 && $ranker<SPH_RANK_TOTAL );
 		assert ( is_string($rankexpr) );
 		$this->_ranker = $ranker;
 		$this->_rankexpr = $rankexpr;
@@ -1258,7 +1258,7 @@ class SphinxClient
 						$nvalues = $val;
 						while ( $nvalues>0 && $p<$max )
 						{
-							$attrvals[$attr][] = sphUnpackI64 ( substr ( $response, $p, 8 ) ); $p += 8;
+							$attrvals[$attr][] = sphUnpackU64 ( substr ( $response, $p, 8 ) ); $p += 8;
 							$nvalues -= 2;
 						}
 					} else if ( $type==SPH_ATTR_STRING )
@@ -1708,5 +1708,5 @@ class SphinxClient
 }
 
 //
-// $Id: sphinxapi.php 3782 2013-04-06 18:22:58Z kevg $
+// $Id: sphinxapi.php 3087 2012-01-30 23:07:35Z shodan $
 //
