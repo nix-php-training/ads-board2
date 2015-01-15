@@ -187,11 +187,12 @@ class User extends Model
                 $planId = '3';//table plans : 3- business plan
                 break;
         }
+        $transactionId = $_SESSION['transactionId'];
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash', $hash);
         $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = '{$user->id}'");
-        $endDate = $this->db->fetchOne('payment','endDate',['userId' => $user->id]);
-        $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),)");
+        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user->id]);
+        $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),'paypal','{$planType}','{$price}','{$transactionId}','{$user->id}')");
     }
 
 
