@@ -15,8 +15,7 @@ class HomeController extends BaseController
 
         $data['categories'] = $categories;
 
-        foreach ($ads as &$v)
-        {
+        foreach ($ads as &$v) {
             $temp = strtotime($v['creationDate']);
             $v['creationDate'] = $temp;
         }
@@ -32,15 +31,13 @@ class HomeController extends BaseController
 
     function postDetailAction()
     {
-        try
-        {
+        try {
             $data = array();
             $id = $this->getParams('adsId');
             $ads = (new Advertisement())->getAdvertisementById($id);
             $data['ads'] = $ads;
             $this->view('content/postDetail', $data);
-        }
-        catch (DatabaseErrorException $e) {
+        } catch (DatabaseErrorException $e) {
             $this->view('error/error', $data = array('message' => $e->getMessage()));
         }
 
@@ -62,7 +59,9 @@ class HomeController extends BaseController
             if (isset($subject) && isset($description) && isset($price) && isset($category)) {
                 (new Advertisement())->addAdvertisement($data);
                 $this->redirect('/postlist');
-            } else $this->view('content/addPost');
+            } else {
+                $this->view('content/addPost');
+            }
 
         } else {
             $categories = (new Category())->getCategoriesBy(['id', 'title']);

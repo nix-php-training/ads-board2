@@ -203,12 +203,12 @@ img.logo {
     margin-top: 7%;
 }
 
-.width60p {
+.panel-wrap {
     width: 60%;
 }
 
 @media screen and (max-width: 900px) {
-    .width60p {
+    .panel-wrap {
         width: 100%;
     }
 }

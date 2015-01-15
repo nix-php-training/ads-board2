@@ -10,7 +10,7 @@ class User extends Model
         'password' => ['min_length(3)', 'max_length(32)']
     ];
 
-    function getBy($field, $value, $table='users')
+    function getBy($field, $value, $table = 'users')
     {
         $where = [":$field" => $value];
         return $this->db->query("SELECT users.*, roles.name AS role, statuses.name AS status, confirmationLinks.link
@@ -65,7 +65,7 @@ class User extends Model
     function login($email, $password)
     {
         $user = $this->getBy('email', $email);
-        if ($user && password_verify($password, $user->password)) {
+        if ($user && password_verify($password, $user->password) && $user->status === 'registered') {
             if (isset($_POST['remember'])) {
                 $expire = 30;
             } else {
@@ -139,12 +139,15 @@ class User extends Model
 
     function checkStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');//getting user data by link from confirmation email
-        switch($user->status){
+        $user = $this->getBy('link', $link, 'confirmationLinks');//getting user data by link from confirmation email
+        switch ($user->status) {
+
             case 'registered'://implement constants!
-                return true;break;
+                return true;
+                break;
             case 'unconfirmed':
-                return false;break;
+                return false;
+                break;
             default:
                 echo "Your link is invalid";
         }
@@ -152,21 +155,29 @@ class User extends Model
 
     function changeStatus($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $user = $this->getBy('link', $link,
+            'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");//changing user status on 2 - registered(by default: 1-unconfirmed), also available 3- banned
         $this->db->query("UPDATE users SET confirmDate = NOW() WHERE id LIKE '{$user->id}'");
+        $user = $this->getBy('link', $link, 'confirmationLinks');
+//        echo '<pre>';
+//        var_dump($user);
+//        echo '</pre>';
+//        die();
+        $this->db->query("UPDATE users SET statusId = '2' WHERE id LIKE '$user->id'");
     }
 
     function getFreePlan($link)
     {
-        $user = $this->getBy('link', $link,'confirmationLinks');//getting object with user data by confirmation link from email
+        $user = $this->getBy('link', $link,
+            'confirmationLinks');//getting object with user data by confirmation link from email
         $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
                             VALUES ('free','0,0','1','{$user->id}')");
     }
 
     function changePlan($planType)
     {
-        switch($planType){
+        switch ($planType) {
             case 'pro':
                 $price = '99.99';
                 $planId = '2';//table plans : 2-pro-Plan(1- Free Plan, user got it by default when confirmed his acc)
@@ -177,10 +188,11 @@ class User extends Model
                 break;
         }
         $hash = $_COOKIE['hash'];
-        $user = $this->getBy('hash',$hash);
+        $user = $this->getBy('hash', $hash);
         $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = '{$user->id}'");
+        $endDate = $this->db->fetchOne('payment','endDate',['userId' => $user->id]);
+        $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),)");
     }
-
 
 
     /**
@@ -208,7 +220,7 @@ FROM users
      */
     public function banUser($id)
     {
-        $this->db->update('users', ['statusId' => '3'], ['id' => $id]);
+        $this->db->update($this->table, ['statusId' => '3'], ['id' => $id]);
     }
 
     /**
@@ -219,7 +231,18 @@ FROM users
      */
     public function unbanUser($id)
     {
-        $this->db->update('users', ['statusId' => '2'], ['id' => $id]);
+        $this->db->update($this->table, ['statusId' => '2'], ['id' => $id]);
     }
 
+    /**
+     * Change password for user by id
+     *
+     * @param $id
+     * @param $password
+     */
+    public function changePassword($id, $password)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $this->db->update($this->table, ['password' => $password], ['id' => $id]);
+    }
 }

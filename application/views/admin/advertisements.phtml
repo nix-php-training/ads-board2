@@ -35,14 +35,15 @@
             </td>
 
             <td>
-                <img src="/application/demoimg/preview/img_{{row.link}}.jpg" alt="img_{{row.link}}" class="thumbnail img-responsive"/>
+                <img src="/application/demoimg/preview/img_{{row.link}}.jpg" alt="img_{{row.link}}"
+                     class="thumbnail img-responsive"/>
             </td>
 
             <td>
                 <h2><a href="/postlist">{{row.category}}</a></h2>
             </td>
             <td>
-                <h1><a href="/postdetail">{{row.subject}}</a></h1>
+                <h1><a href="/postdetail/{{row.id}}">{{row.subject}}</a></h1>
             </td>
             <td>
                 <a href="/profile">{{row.userLogin}}</a>
