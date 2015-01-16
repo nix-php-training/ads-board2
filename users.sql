@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(64) NOT NULL,
   `confrimDate` datetime,
-  `statusId` BIGINT NOT NULL,
-  `roleId` BIGINT NOT NULL,
+  `statusId` BIGINT(1) NOT NULL,
+  `roleId` BIGINT(2) NOT NULL,
   `hash` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`,`email`)
@@ -55,9 +55,6 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-/*Data for the table `profiles` */
-
-insert  into `profiles`(`id`,`firstname`,`lastname`,`birthdate`,`phone`,`skype`,`userId`) values (1,'Vasiliy','Lee','2000-01-21 01:09:59','+380505556677','Lee',1),(4,'Vladimir','Den','2015-01-19 01:22:16','+80501112233','Denchik',2),(7,'Nikolay','Popov','2008-01-11 01:23:24','+380679998877','PopovN',3);
 
 CREATE TABLE IF NOT EXISTS `advertisements` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -127,6 +124,12 @@ INSERT INTO `users` ( `login`, `email`, `password`, `confrimDate`, `statusId`, `
   ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
 
 
+/*Data for the table `profiles` */
+
+insert  into `profiles`(`id`,`firstname`,`lastname`,`birthdate`,`phone`,`skype`,`userId`)
+values (1,'Vasiliy','Lee','2000-01-21','+380505556677','Lee',1),
+  (4,'Vladimir','Den','2015-01-19','+80501112233','Denchik',2),
+  (7,'Nikolay','Popov','2008-01-11','+380679998877','PopovN',3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

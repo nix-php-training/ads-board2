@@ -14,7 +14,7 @@ return [
         'user' => [
             'login' => ['all'],
             'registration' => ['guest'],
-            'logout' => ['user', 'admin'],
+            'logout' => ['all'],
             'plan' => ['all'],
             'paypal' => ['all'],
             'restore' => ['guest'],
@@ -28,7 +28,7 @@ return [
         ],
         'profile' => [
             'profile' => ['all'],
-            'editprofile' => ['all'],
+            'editprofile' => ['user', 'admin'],
         ],
     ],
 ];

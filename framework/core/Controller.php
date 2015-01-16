@@ -73,7 +73,7 @@ class Controller
                     $result[$val] = $_POST[$val];
                 }
             }
-            if (is_array($result)) {
+            if (is_array($result) && count($result)==count($names)) {
                 return $result;
             } else {
                 return false;

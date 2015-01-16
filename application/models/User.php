@@ -98,18 +98,18 @@ class User extends Model
         ];
         $result = $this->validator->validate($input, $this->rules);
         if ($result !== true) {
-            $valid = $result;
+            $error = $result;
         }
 
         $loginExists = $this->inputExists('login', $input['login']);
         $emailExists = $this->inputExists('email', $input['email']);
         if ($loginExists !== false) {
-            $valid['login'] = $input['login'] . ' is already exists';
+            $error['login'] = $input['login'] . ' is already exists';
         }
         if ($emailExists !== false) {
-            $valid['email'] = $input['email'] . ' is already exists';
+            $error['email'] = $input['email'] . ' is already exists';
         }
-        if (empty($valid)) {
+        if (empty($error)) {
             $data = [
                 'login' => $input['login'],
                 'email' => $input['email'],
@@ -120,20 +120,20 @@ class User extends Model
             $this->db->insert($this->table, $data);
             return true;
         } else {
-            return $valid;
+            return $error;
         }
     }
 
     public function update($fields = [])
     {
         $user = $this->getBy('id', $_SESSION['userId']);
-
-        $valid = [];
+        $error = [];
+        $validate = true;
 
         if (isset($fields['login']) && $fields['login'] !== $user['login']) {
             $loginExists = $this->inputExists('login', $fields['login']);
             if ($loginExists !== false) {
-                $valid['login'] = $fields['login'] . ' is already exists';
+                $error['login'] = $fields['login'] . ' is already exists';
             } else {
                 $input ['login'] = $fields['login'];
             }
@@ -142,7 +142,7 @@ class User extends Model
         if (isset($fields['email']) && $fields['email'] !== $user['email']) {
             $emailExists = $this->inputExists('email', $fields['email']);
             if ($emailExists !== false) {
-                $valid['email'] = $fields['email'] . ' is already exists';
+                $error['email'] = $fields['email'] . ' is already exists';
             } else {
                 $input ['email'] = $fields['email'];
             }
@@ -155,35 +155,24 @@ class User extends Model
                     $input ['password'] = $fields['new-password'];
                 }
             } else {
-                $valid['old-password'] = ['Old password password is not correctly'];
+                $error['old-password'] = 'Old password password is not correctly';
             }
         }
         if (isset($input)){
-            $rules = $this->getRulesFields($input);
-            var_dump($rules);
-
-            var_dump('!!!!!!!!!!!!!');
-            var_dump($input);
+            $rules = $this->getCutRules($input, $this->rules);
             $validate = $this->validator->validate($input, $rules);
-            var_dump($validate);
         }
 
         if ($validate!==true){
-            $valid = array_merge_recursive($valid, $validate);
+            $error = array_merge_recursive($error, $validate);
         }
-        var_dump($valid);
-//        if (isset($valid)) {echo 'valid '; var_dump($valid);}
-//        if (isset($fields['login']) && $this->validator->validate([$fields['new-password']], ['password' => $this->rules['password']]))
-        //        $this->db->update($this->table, $query, ['id' => $_SESSION['userId']]);
-
-    }
-
-    public function getRulesFields($field = [])
-    {
-        $rule = [];
-        foreach ($field as $k => $v) {
-            $rule[$k] = $this->rules[$k];
+        if (empty($error) && !empty($input)){
+            $this->db->update($this->table, $input, ['id'=> $user['id']]);
+            return true;
+        } elseif (empty($error)){
+            return true;
+        } else {
+            return $error;
         }
-        return $rule;
     }
 }

@@ -20,33 +20,45 @@ class ProfileController extends BaseController
     public function editProfileAction()
     {
         $post['user'] = $this->getPost([
-                'login',
-                'email',
-                'old-password',
-                'new-password',
-            ]);
+                        'login',
+                        'email',
+                        'old-password',
+                        'new-password',
+                        ]);
 
         $post['profile'] = $this->getPost([
-            'firstname',
-            'lastname',
-            'phone',
-            'skype'
-        ]);
-var_dump($post);
+                        'firstname',
+                        'lastname',
+                        'phone',
+                        'skype'
+                        ]);
+
 
         $this->userId = $_SESSION['userId'];
         $users = new User();
         $profile = $this->getModel()->getProfile($this->userId);
         $user = $users->getBy('id', $this->userId);
 
-//        $users->update($post['user']);
-
         $data['user'] = $user;
         $data['profile'] = $profile;
-        $aaa = $users->update($post['user']);
-//        if (is_array($aaa)){
-//            var_dump($aaa);
-//        }
-        $this->view('content/editProfile', $data);
+
+        if (!empty($post['user']) && !empty($post['profile'])){
+            $validateProfile = $this->getModel()->validate($post['profile']);
+            if ($validateProfile==true){
+                $userSave = $users->update($post['user']);
+                if ($userSave!==true){
+                    var_dump($userSave);
+                } elseif ($userSave==true){
+                    $this->getModel()->update($post['profile'], $data['profile']['id']);
+                    echo 'Save changes';
+                }
+            } else {
+                var_dump($validateProfile);
+            }
+        }
+
+        if ($post['user']==false || $post['profile']==false){
+            $this->view('content/editProfile', $data);
+        }
     }
 } 
