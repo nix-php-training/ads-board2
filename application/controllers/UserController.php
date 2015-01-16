@@ -108,7 +108,6 @@ class UserController extends BaseController
                 $this->view('content/login', $data);
             }
         } else {
-
             $this->view('content/login', $data);
         }
     }

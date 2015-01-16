@@ -18,7 +18,7 @@ class User extends Model
                                   JOIN statuses ON users.statusId=statuses.id
                                   JOIN roles ON users.roleId=roles.id
                                   JOIN confirmationLinks ON users.id=confirmationLinks.userId
-                                  WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_OBJ);
+                                  WHERE $table.$field=:$field", $where)->fetch(PDO::FETCH_ASSOC);
     }
 
     function setCookie($id, $expire = 0)
@@ -65,13 +65,13 @@ class User extends Model
     function login($email, $password)
     {
         $user = $this->getBy('email', $email);
-        if ($user && password_verify($password, $user->password) && $user->status === 'registered') {
+        if ($user && password_verify($password, $user['password']) && $user['status'] === 'registered') {
             if (isset($_POST['remember'])) {
                 $expire = 30;
             } else {
                 $expire = 0;
             }
-            $this->setCookie($user->id, $expire);
+            $this->setCookie($user['id'], $expire);
             return true;
         } else {
             return false;
@@ -99,18 +99,18 @@ class User extends Model
         ];
         $result = $this->validator->validate($input, $this->rules);
         if ($result !== true) {
-            $valid = $result;
+            $error = $result;
         }
 
         $loginExists = $this->inputExists('login', $input['login']);
         $emailExists = $this->inputExists('email', $input['email']);
         if ($loginExists !== false) {
-            $valid['login'] = $input['login'] . ' is already exists';
+            $error['login'] = $input['login'] . ' is already exists';
         }
         if ($emailExists !== false) {
-            $valid['email'] = $input['email'] . ' is already exists';
+            $error['email'] = $input['email'] . ' is already exists';
         }
-        if (empty($valid)) {
+        if (empty($error)) {
             $data = [
                 'login' => $input['login'],
                 'email' => $input['email'],
@@ -122,7 +122,59 @@ class User extends Model
             Registry::set('email', $data['email']);
             return true;
         } else {
-            return $valid;
+            return $error;
+        }
+    }
+
+    public function update($fields = [])
+    {
+        $user = $this->getBy('id', $_SESSION['userId']);
+        $error = [];
+        $validate = true;
+
+        if (isset($fields['login']) && $fields['login'] !== $user['login']) {
+            $loginExists = $this->inputExists('login', $fields['login']);
+            if ($loginExists !== false) {
+                $error['login'] = $fields['login'] . ' is already exists';
+            } else {
+                $input ['login'] = $fields['login'];
+            }
+        }
+
+        if (isset($fields['email']) && $fields['email'] !== $user['email']) {
+            $emailExists = $this->inputExists('email', $fields['email']);
+            if ($emailExists !== false) {
+                $error['email'] = $fields['email'] . ' is already exists';
+            } else {
+                $input ['email'] = $fields['email'];
+            }
+        }
+
+
+        if (!empty($fields['old-password'])) {
+            if (password_verify($fields['old-password'], $user['password'])) {
+                if (isset($fields['new-password'])) {
+                    $input ['password'] = $fields['new-password'];
+                }
+            } else {
+                $error['old-password'] = 'Old password password is not correctly';
+            }
+        }
+        if (isset($input)){
+            $rules = $this->getCutRules($input, $this->rules);
+            $validate = $this->validator->validate($input, $rules);
+        }
+
+        if ($validate!==true){
+            $error = array_merge_recursive($error, $validate);
+        }
+        if (empty($error) && !empty($input)){
+            $this->db->update($this->table, $input, ['id'=> $user['id']]);
+            return true;
+        } elseif (empty($error)){
+            return true;
+        } else {
+            return $error;
         }
     }
 
