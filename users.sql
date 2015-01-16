@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `firstname` varchar(32),
   `lastname` varchar(32),
-  `birthdate`DATETIME,
+  `birthdate`DATE,
   `phone` varchar(32),
   `skype` VARCHAR(16),
   `userId` BIGINT NOT NULL,
@@ -106,6 +106,17 @@ CREATE TABLE IF NOT EXISTS `confirmationLinks` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `operations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `date` DATETIME ,
+  `paymentType` VARCHAR(128) NOT NULL ,
+  `planName` VARCHAR(128) NOT NULL ,
+  `planCost` DOUBLE(10,2) NOT NULL ,
+  `transactionId` VARCHAR(128)  NOT NULL,
+  `userId` BIGINT NOT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
@@ -115,6 +126,7 @@ ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_statuses` FOREIGN KEY (statusId) REFERENCES statuses(id);
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (roleId) REFERENCES roles(id);
 ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE `operations` ADD CONSTRAINT `fk_operations_users` FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
 
 
 INSERT INTO `roles` (`name`) VALUES
@@ -146,6 +158,12 @@ INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
 
 INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99.99','month','100'),('business','999.99','month','100000');
 
+/*Data for the table `profiles` */
+
+insert  into `profiles`(`id`,`firstname`,`lastname`,`birthdate`,`phone`,`skype`,`userId`)
+values (1,'Vasiliy','Lee','2000-01-21','+380505556677','Lee',1),
+  (4,'Vladimir','Den','2015-01-19','+80501112233','Denchik',2),
+  (7,'Nikolay','Popov','2008-01-11','+380679998877','PopovN',3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

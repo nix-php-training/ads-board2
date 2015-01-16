@@ -108,7 +108,6 @@ class UserController extends BaseController
                 $this->view('content/login', $data);
             }
         } else {
-
             $this->view('content/login', $data);
         }
     }
@@ -190,6 +189,7 @@ class UserController extends BaseController
             if (is_array($response) && $response['ACK'] == 'Success') { // Оплата успешно проведена
                 /* Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете*/
                 $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
+                $_SESSION['transactionId'] = $transactionId;
             }
         }
         $planType = $_SESSION['planType'];
