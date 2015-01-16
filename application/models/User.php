@@ -263,6 +263,11 @@ class User extends Model
         return $planData;
     }
 
+    function resetPlan()
+    {
+
+    }
+
 
     /**
      * Extract all users from db
