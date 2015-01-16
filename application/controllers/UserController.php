@@ -108,8 +108,7 @@ class UserController extends BaseController
                 $this->view('content/login', $data);
             }
         } else {
-
-            $this->view('content/login', $data);
+            $this->view('content/login');
         }
     }
 
@@ -337,5 +336,9 @@ class UserController extends BaseController
             $this->getModel()->getFreePlan($link);
             $this->view('content/confirm');
         }
+    }
+    function restoreAction()
+    {
+        $this->view('content/restore');
     }
 }

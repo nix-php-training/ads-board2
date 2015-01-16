@@ -14,7 +14,8 @@ class Validator
         'max_length' => ':attribute can be maximum :params character long',
         'min_length' => ':attribute must be minimum :params character long',
         'exact_length' => ':attribute field must :params character long',
-        'login' => ':attribute can contain only letters, numbers, hyphens (-), and underscores (_)'
+        'login' => ':attribute can contain only letters, numbers, hyphens (-), and underscores (_)',
+        'date' => ':attribute must be date in format YYYY-MM-DD'
     ];
 
     private function getErrorMessage($error, $attribute, $params = '')
@@ -164,5 +165,12 @@ class Validator
     {
         return preg_match('/^[a-zA-Z0-9_-]+$/', $input);
     }
+
+    protected function date($input)
+    {
+        return preg_match('/^[\d]{4}[-/][\d]{2}[-/][\d]{2}', $input);
+    }
+
+
 
 } 
