@@ -12,3 +12,11 @@ var byId = function (a, b) {
         return 1;
     return 0;
 };
+
+$(function() {
+    var select =$('#categories');
+    select.change(function(){
+        alert(select.val());
+        $.post("/home/adsload?value",{value: select.val()});
+    });
+});

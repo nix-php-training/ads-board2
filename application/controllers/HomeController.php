@@ -10,8 +10,11 @@ class HomeController extends BaseController
     function postListAction()
     {
         $data = array();
+
         $categories = (new Category())->getCategoriesBy(['id', 'title']);
+//        var_dump($categories[0]['id']);
         $ads = (new Advertisement())->getAllAdvertisements();
+//        $ads = (new Advertisement())->getAdvertisementsByCategory($categories[0]['id']);
 
         $data['categories'] = $categories;
 
@@ -36,6 +39,12 @@ class HomeController extends BaseController
         $this->view('content/postList', $data);
     }
 
+    function adsLoad()
+    {
+        $postParams = $this->getPost('value');
+        var_dump($postParams);
+    }
+
     function pricingAction()
     {
         $this->view('content/pricing');
@@ -46,6 +55,7 @@ class HomeController extends BaseController
         try {
             $data = array();
             $id = $this->getParams('adsId');
+
             $ads = (new Advertisement())->getAdvertisementById($id);
 
             $imagesArray = (new AdvertisementImages())->getImagesByAdsId($id);
@@ -53,6 +63,7 @@ class HomeController extends BaseController
             if(!is_null($imagesArray)) {
                 $ads[0]['images'] = (new AdvertisementImages())->createImagePath($imagesArray, $_SESSION['userId'], $id);
                 $ads[0]['imagesPreview'] = (new AdvertisementImages())->createPreviewImagePath($imagesArray, $_SESSION['userId'], $id);
+
             }
             else {
                 $ads[0]['images'] = [];
