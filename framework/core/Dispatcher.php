@@ -4,56 +4,54 @@ class Dispatcher
 {
     private static $pureControllerName;
     private static $pureActionName;
+    private static $parameters;
 
     static function start()
     {
+        /**
+         * @var $controller Controller
+         */
 
-        $router = new Router();
-        $router->initRoutes();
-        $router->getActiveRoute();
+        try {
+            $router = new Router();
+            $router->getActiveRoute();
 
-        self::$pureControllerName = ucfirst($router->getControllerName());
-        self::$pureActionName = strtolower($router->getActionName());
+            self::$pureControllerName = ucfirst($router->getControllerName());
+            self::$pureActionName = strtolower($router->getActionName());
+            self::$parameters = $router->getParams();
 
-        $actionName = self::$pureActionName . 'Action';
-        $controllerName = self::$pureControllerName . 'Controller';
+            $actionName = self::$pureActionName . 'Action';
+            $controllerName = self::$pureControllerName . 'Controller';
 
+            if (class_exists($controllerName)) {
+                $controller = new $controllerName(self::$parameters, self::$pureControllerName);
+                $action = $actionName;
 
-        $controllerFile = $controllerName . '.php';
-        $controllerPath = "application/controllers/" . $controllerFile;
-        if (file_exists($controllerPath)) {
-            include $controllerPath;
-        } else {
-            self::ErrorPage404();
-        }
+                if (method_exists($controller, $action)) {
 
-        $modelFile = self::$pureControllerName . '.php';
-        $modelPath = "application/models/" . $modelFile;
-        if (file_exists($modelPath)) {
-            include $modelPath;
-            $model = new self::$pureControllerName();
-            Registry::set('model', $model);
-        }
+                    // check if is allow action for current user
+                    if ($controller->acl->isAllow(strtolower(self::$pureControllerName), self::$pureActionName)) {
 
-        $controller = new $controllerName(self::$pureActionName);
-        $action = $actionName;
+                        // run action
+                        $controller->$action();
 
-        if (method_exists($controller, $action)) {
-            if ($controller->acl->isAllow(strtolower(self::$pureControllerName), self::$pureActionName)) {
-                $controller->$action();
+                    } else {
+                        throw new AccessDenyException();
+                    }
+                } else {
+                    throw new PageNotFoundException();
+                }
             } else {
-                echo 'Access Deny';
+                throw new PageNotFoundException();
             }
-        } else {
-            self::ErrorPage404();
+        } catch (InitRoutesException $e) {
+            $data['message'] = $e->getMessage();
+            $data['adminEmail'] = Config::get('site')['adminEmail'];
+            $controller->view('error/error', $data);
+        } catch (DatabaseConnectException $e) {
+            $data['message'] = $e->getMessage();
+            $data['adminEmail'] = Config::get('site')['adminEmail'];
+            $controller->view('error/error', $data);
         }
-    }
-
-    private static function ErrorPage404()
-    {
-        $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
-        header('HTTP/1.1 404 Not Found');
-        header("Status: 404 Not Found");
-        header('Location:' . $host . 'error404');
     }
 }

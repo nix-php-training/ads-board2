@@ -1,0 +1,57 @@
+<div class="row">
+    <label for="categories">Categories</label>
+    <select name="categories" id="categories" class="form-control">
+        <?php foreach ($data['categories'] as $v) : ?>
+            <option value="<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['title']) ?></option>
+        <?php endforeach; ?>
+
+    </select>
+</div>
+
+<div class="posts">
+
+    <?php foreach ($data['advertisements'] as $v) : ?>
+
+        <div class="row post-list vertical-align">
+            <div class="col-md-2 text-right">
+                <h1><?php echo date("Y-m-d", $v['creationDate']) ?></h1>
+
+                <h2><?php echo date("H:i", $v['creationDate']) ?></h2>
+            </div>
+
+            <div class="col-md-2">
+
+                <?php if(!empty($v['images'])) : ?>
+
+                <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
+                    <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="slider1" class="thumbnail img-responsive" />
+                </a>
+
+                <?php endif; ?>
+
+                <div class="hidden">
+
+                    <?php for ( $i = 1 ; $i < count($v['images']); $i++) : ?>
+                    <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
+                    <?php endfor; ?>
+                </div>
+            </div>
+
+            <div class="col-md-6 text">
+                <h1>
+                    <a href="/postdetail/<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['subject']) ?></a>
+                </h1>
+
+                <a href="/profile"><?php echo htmlspecialchars($v['login']) ?></a>
+
+            </div>
+            <div class="col-md-2 text-right">
+                <h1><?php echo htmlspecialchars($v['price']) ?>$</h1>
+            </div>
+        </div>
+
+    <?php endforeach; ?>
+
+</div>
+
+<script src="/application/assets/js/lightbox.min.js"></script>

@@ -1,0 +1,26 @@
+<div class="panel-wrap panel-warning center-block panel-wrap" id="login">
+    <div class="panel-heading">
+        <h3 class="panel-title">Restore password to your account <span class="panel-text-right">Or <a href="/home">return
+                    to home</a></span></h3>
+    </div>
+    <div class="panel-body">
+
+        <?= $data['message']; ?>
+
+        <p class="text-info">
+            On your email will be sent letter with instructions how to restore access to your account.
+        </p>
+
+        <!-- Restore form start -->
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <?= $data['email']; ?>
+            </div>
+
+            <input type="submit" class="btn btn-warning pull-right" value="Restore">
+        </form>
+        <!-- Restore form start -->
+
+    </div>
+</div>

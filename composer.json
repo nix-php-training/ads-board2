@@ -3,8 +3,17 @@
     "psr-4": {
       "": [
         "framework/classes",
-        "framework/core/"
+        "framework/core/",
+        "application/controllers",
+        "application/models"
       ]
     }
+  },
+  "require": {
+    "ext-imagick": "*",
+    "ext-mysql": "*",
+    "phpmailer/phpmailer": "5.2.9"
   }
 }
+
+   

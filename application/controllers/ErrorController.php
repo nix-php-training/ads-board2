@@ -3,7 +3,7 @@
 /**
  * Class ErrorController
  */
-class ErrorController extends Controller
+class ErrorController extends BaseController
 {
 
     /**
@@ -11,7 +11,7 @@ class ErrorController extends Controller
      */
     public function indexAction()
     {
-        $this->view('error/error404');
+        $this->view('error/error404', '', 'error');
     }
 
     /**
@@ -19,7 +19,15 @@ class ErrorController extends Controller
      */
     public function error404Action()
     {
-        $this->view('error/error404');
+        $this->view('error/error404', array('title' => 'Page not found!'), 'error');
+    }
+
+    /**
+     * 403 Error
+     */
+    public function error403Action()
+    {
+        $this->view('error/error403', array('title' => 'Access denied!'), 'error');
     }
 
 }
