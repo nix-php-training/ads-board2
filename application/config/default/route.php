@@ -20,6 +20,14 @@ return [
             'action' => 'index',//static
             'params' => array()
         ),
+        'postdetail' => array(
+            'template' => '^\/postdetail\/(\w+)$',
+            'controller' => 'home', //static
+            'action' => 'postdetail',//static
+            'params' => array(
+                'adsId' => '[1]'
+            )
+        ),
         'static' => array(
             '/home' => '/',
             '/terms' => '/home/terms',
@@ -29,15 +37,18 @@ return [
             '/profile' => '/user/profile',
             '/edit' => '/user/editprofile',
             '/registration' => '/user/registration',
-            '/confirmation' => '',
+            '/confirm' => '/user/confirm',
+            '/success' => '/user/success',
+            '/cancelled' => '/user/cancelled',
             '/restore' => '/user/restore',
             '/error404' => '/error/error404',
             '/error403' => '/error/error403',
             '/plan' => '/user/plan',
-            '/postlist'=>'/home/postlist',
-            '/postdetail' => '/home/postdetail',
+            '/postlist' => '/home/postlist',
+            //   '/postdetail' => '/home/postdetail',
             '/addpost' => '/home/addpost',
-            '/imagedownload' => '/home/imagedownload'
+            '/imagedownload' => '/home/imagedownload',
+            '/admin' => '/admin/index'
         )
     ]
 ];

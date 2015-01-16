@@ -1,1 +1,4 @@
-<?php var_dump($data);
+<div class="row text-center">
+    <h3 class="text-danger"><?= $data["message"]; ?></h3>
+    <h5><a href="mailto:<?= Config::get('site')['adminEmail'] ?>"><?= Config::get('site')['adminEmail'] ?></a></h5>
+</div>

@@ -26,20 +26,6 @@ class Database
     }
 
     /**
-     * @return \PDO
-     */
-    private function getDb()
-    { //Подключаемся...
-        if (!$this->db) {
-            $this->db = new PDO($this->driver . ':host=' . $this->host . '; dbname=' . $this->dbname, $this->user,
-                $this->password);
-            $this->db->query('SET NAMES ' . $this->charset);
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
-        return $this->db;
-    }
-
-    /**
      * @param $sql
      * @param array $params
      * @param array $types
@@ -51,7 +37,6 @@ class Database
         $stmt = $db->prepare($sql);
         foreach ($params as $key => $value) {
             if (!empty($types)) {
-//exit;
                 if (preg_match("~int~", $types[$key])) {
                     $types[$key] = PDO::PARAM_INT;
                 } else {
@@ -70,6 +55,23 @@ class Database
         }
         $stmt->execute();
         return $stmt;
+    }
+
+    /**
+     * @return PDO
+     * @throws DatabaseConnectException
+     */
+    private function getDb()
+    { //Подключаемся...
+        try {
+            $this->db = new PDO($this->driver . ':host=' . $this->host . '; dbname=' . $this->dbname, $this->user,
+                $this->password);
+            $this->db->query('SET NAMES ' . $this->charset);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            throw new DatabaseConnectException();
+        }
+        return $this->db;
     }
 
     /**
@@ -203,6 +205,7 @@ class Database
             $stmt->bindValue(":$key", $value);
         }
         $stmt->execute();
+        return $db->lastInsertId();
     }
 
     /**

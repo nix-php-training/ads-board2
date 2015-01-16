@@ -1,132 +1,57 @@
 <div class="row">
     <label for="categories">Categories</label>
     <select name="categories" id="categories" class="form-control">
-        <option value="1">Automobiles</option>
-        <option value="2">Furniture</option>
-        <option value="3">Toys</option>
+        <?php foreach ($data['categories'] as $v) : ?>
+            <option value="<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['title']) ?></option>
+        <?php endforeach; ?>
+
     </select>
 </div>
 
-<!-- Will be repeat in loop start -->
 <div class="posts">
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
 
-            <h2>17:51:48</h2>
-        </div>
+    <?php foreach ($data['advertisements'] as $v) : ?>
 
-        <div class="col-md-2">
-            <a href="/application/demoimg/1.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/1.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
+        <div class="row post-list vertical-align">
+            <div class="col-md-2 text-right">
+                <h1><?php echo date("Y-m-d", $v['creationDate']) ?></h1>
 
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
+                <h2><?php echo date("H:i", $v['creationDate']) ?></h2>
+            </div>
+
+            <div class="col-md-2">
+
+                <?php if(!empty($v['images'])) : ?>
+
+                <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
+                    <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="slider1" class="thumbnail img-responsive" />
+                </a>
+
+                <?php endif; ?>
+
+                <div class="hidden">
+
+                    <?php for ( $i = 1 ; $i < count($v['images']); $i++) : ?>
+                    <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
+                    <?php endfor; ?>
+                </div>
+            </div>
+
+            <div class="col-md-6 text">
+                <h1>
+                    <a href="/postdetail/<?php echo htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['subject']) ?></a>
+                </h1>
+
+                <a href="/profile"><?php echo htmlspecialchars($v['login']) ?></a>
+
+            </div>
+            <div class="col-md-2 text-right">
+                <h1><?php echo htmlspecialchars($v['price']) ?>$</h1>
             </div>
         </div>
 
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
+    <?php endforeach; ?>
 
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <!-- Will be repeat in loop end -->
-
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/2.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/3.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
-    <div class="row post-list vertical-align">
-        <div class="col-md-2 text-right">
-            <h1>2015-01-05</h1>
-
-            <h2>17:51:48</h2>
-        </div>
-
-        <div class="col-md-2">
-            <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/preview/4.jpg" alt="slider1" class="thumbnail img-responsive"/>
-            </a>
-
-            <div class="hidden">
-                <a href="/application/demoimg/2.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/3.jpg" data-lightbox="image-1" data-title="My caption"></a>
-                <a href="/application/demoimg/4.jpg" data-lightbox="image-1" data-title="My caption"></a>
-            </div>
-        </div>
-
-        <div class="col-md-6 text">
-            <h1><a href="/postdetail">Post subject</a></h1>
-            <p>Holland, Amsterdam</p>
-            <a href="/profile">Some Dude</a>
-
-        </div>
-        <div class="col-md-2 text-right">
-            <h1>$500</h1>
-        </div>
-    </div>
 </div>
 
 <script src="/application/assets/js/lightbox.min.js"></script>

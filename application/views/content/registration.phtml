@@ -1,35 +1,33 @@
-<div class="center-block width60p" id="signup">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Registration: step 1 <span class="panel-text-right">Or <a href="/home">return to
-                        home</a></span></h3>
-        </div>
-        <div class="panel-body">
+<div class="panel-wrap panel-primary center-block panel-wrap" id="signup">
+    <div class="panel-heading">
+        <h3 class="panel-title">Registration: step 1 <span class="panel-text-right">Or <a href="/home">return to
+                    home</a></span></h3>
+    </div>
+    <div class="panel-body">
 
-            <p class="text-warning">
-                All fields are required!
-            </p>
+        <?= $data['message']; ?>
 
-            <!-- Registration form start -->
-            <form action="/registration" method="post">
-                <div class="form-group">
-                    <label for="login">Login</label>
-                    <input type="text" class="form-control" id="login" name='login' placeholder="Enter login">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" name='email' placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name='password'
-                           placeholder="Password">
-                </div>
+        <p class="text-warning">
+            All fields are required!
+        </p>
 
-                <input type="submit" class="btn btn-primary pull-right" value="Sign up">
-            </form>
-            <!-- Registration form end -->
-        </div>
+        <!-- Registration form start -->
+        <form action="/registration" method="post">
+            <div class="form-group">
+                <label for="login">Login</label>
+                <?= $data['login']; ?>
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <?= $data['email']; ?>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <?= $data['password']; ?>
+            </div>
 
+            <input type="submit" class="btn btn-primary pull-right" value="Sign up">
+        </form>
+        <!-- Registration form end -->
     </div>
 </div>

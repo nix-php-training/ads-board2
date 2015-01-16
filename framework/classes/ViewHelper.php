@@ -1,32 +1,42 @@
 <?php
 
-/**
- * !!!USELESS NOW!!!
- *
- * Include error or message template
- *
- * Class ViewHelper
- */
-class ViewHelper
+
+trait ViewHelper
 {
-    /**
-     * Default path to template folder
-     *
-     * @var string
-     */
-    private static $errorPath = '/application/views/error/';
 
     /**
-     * Include error or message page according to error/message code
+     * Generate input with @var $attributes = array ('attrib' => 'value')
+     * with possibility assign value for html "value" attrib
      *
-     * @param $code
+     * @param $attributes html attributes
+     * @param string $value html attribute "value="
+     * @return string generated input
+     */
+    public function generateInput($attributes, $value = "")
+    {
+        $tag = '<input ';
+        foreach ($attributes as $attr => $val) {
+            $tag .= $attr . '="' . $val . '" ';
+        }
+        if (!empty($value)) {
+            $tag .= 'value=' . $value;
+        }
+        $tag .= ' />';
+        return $tag;
+    }
+
+    /**
+     * Generate error message
+     *
+     * @param $text
+     * @param $type
      * @return string
      */
-    public static function generateError($code)
+    public function generateMessage($text, $type = 'info')
     {
-        switch ($code) {
-            case 404:
-                return file_get_contents($_SERVER['DOCUMENT_ROOT'] . self::$errorPath . 'error404.phtml');
-        }
+        $alerts = ['danger', 'success', 'info', 'warning'];
+        $type = (in_array($type, $alerts)) ? $type : 'info';
+        return '<div class="alert alert-' . $type . '" role="alert">' . $text . '</div>';
     }
+
 }
