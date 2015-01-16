@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `firstname` varchar(32),
   `lastname` varchar(32),
-  `birthdate`DATETIME,
+  `birthdate`DATE,
   `phone` varchar(32),
   `skype` VARCHAR(16),
   `userId` BIGINT NOT NULL,
