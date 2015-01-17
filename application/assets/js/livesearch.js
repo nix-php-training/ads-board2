@@ -8,6 +8,8 @@ var Search = function () {
 
 Search.prototype = {
 
+    find: false,
+
     render: function (data) {
 
         var resultBox = $('#search-result');
@@ -36,8 +38,10 @@ Search.prototype = {
             if (data) {
                 data = JSON.parse(data);
                 Search.prototype.render(data);
+                Search.prototype.find = true;
             } else {
                 $('#search-result').slideUp(100).empty();
+                Search.prototype.find = false;
             }
         });
     }
@@ -48,6 +52,16 @@ $(function () {
 
     search.input.keyup(function () {
         search.search(search.input.val());
+    });
+
+    search.input.blur(function () {
+        $('#search-result').slideUp(100);
+    });
+
+    search.input.focus(function () {
+        if (search.find) {
+            $('#search-result').slideDown(200);
+        }
     });
 
 });
