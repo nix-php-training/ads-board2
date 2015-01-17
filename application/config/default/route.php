@@ -28,15 +28,14 @@ return [
                 'adsId' => '[1]'
             )
         ),
-
         'static' => array(
             '/home' => '/',
             '/terms' => '/home/terms',
             '/about' => '/home/about',
             '/login' => '/user/login',
             '/logout' => '/user/logout',
-            '/profile' => '/user/profile',
-            '/edit' => '/user/editprofile',
+            '/profile' => '/profile/profile',
+            '/edit' => '/profile/editprofile',
             '/registration' => '/user/registration',
             '/confirm' => '/user/confirm',
             '/success' => '/user/success',
@@ -45,8 +44,8 @@ return [
             '/error404' => '/error/error404',
             '/error403' => '/error/error403',
             '/plan' => '/user/plan',
-            '/postlist'=>'/home/postlist',
-         //   '/postdetail' => '/home/postdetail',
+            '/postlist' => '/home/postlist',
+            //   '/postdetail' => '/home/postdetail',
             '/addpost' => '/home/addpost',
             '/imagedownload' => '/home/imagedownload',
             '/admin' => '/admin/index'
