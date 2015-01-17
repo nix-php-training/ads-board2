@@ -509,3 +509,25 @@ table#plans td, th {
 .admin .post-list td {
     vertical-align: middle;
 }
+
+#search-result {
+    position: absolute;
+    /*top: 100%;*/
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 225px;
+    padding: 5px;
+    margin-top: 5px;
+    list-style: none;
+    font-size: 14px;
+    text-align: left;
+    color: #ffffff;
+    background-color: #707C8D;
+    border: 1px solid #707C8D;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
