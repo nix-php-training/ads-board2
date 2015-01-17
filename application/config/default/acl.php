@@ -52,6 +52,10 @@ return [
             // advertisement management
             'removeadvertisement' => ['admin'],
             'getadvertisements' => ['admin']
+        ],
+        'search' => [
+            'search' => ['all'],
+            'searchdetail' => ['all'],
         ]
     ],
 ];

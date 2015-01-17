@@ -46,7 +46,6 @@ return [
             '/error403' => '/error/error403',
             '/plan' => '/user/plan',
             '/postlist'=>'/home/postlist',
-         //   '/postdetail' => '/home/postdetail',
             '/addpost' => '/home/addpost',
             '/imagedownload' => '/home/imagedownload',
             '/admin' => '/admin/index'
