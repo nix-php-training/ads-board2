@@ -4,3 +4,4 @@ vendor
 application/demoimg
 application/config/dev
 cacert.pem
+sphinx.conf
