@@ -53,8 +53,9 @@ return [
             'removeadvertisement' => ['admin'],
             'getadvertisements' => ['admin']
         ],
-        'search' => [
+        'searching' => [
             'search' => ['all'],
+            'livesearch' => ['all'],
         ]
     ],
 ];

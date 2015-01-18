@@ -1,13 +1,11 @@
-var Search = function () {
+var LiveSearch = function () {
     var self = this;
-
     self.input = $('#search');
     self.button = $('#do-search');
-
     return self;
 };
 
-Search.prototype = {
+LiveSearch.prototype = {
 
     find: false,
 
@@ -47,36 +45,30 @@ Search.prototype = {
         }
 
         var more = $('<li>').attr('class', ''),
-            link = $('<a>').attr('href', '/search/' + Search.prototype.processParameter(query)).attr('class', 'btn btn-default').text('See more');
+            link = $('<a>').attr('href', '/search/' + processParameter(query)).attr('class', 'btn btn-default').text('See more');
         more.append(link);
         ul.append(more);
     },
 
     search: function (query) {
 
-        $.post('/search/search', {q: query}, function (data) {
+        $.post('/livesearch', {q: query}, function (data) {
 
-            //console.log(data);
             if (data) {
                 data = JSON.parse(data);
-                Search.prototype.render(data, query);
-                Search.prototype.find = true;
+
+                LiveSearch.prototype.render(data, query);
+                LiveSearch.prototype.find = true;
             } else {
                 $('#search-result').slideUp(100).empty();
-                Search.prototype.find = false;
+                LiveSearch.prototype.find = false;
             }
         });
-    },
-
-    // replace `-+*=\|/!@#$%^&():;'".,` ` as `_`
-    processParameter: function (val) {
-        val = val.replace(/[-+*\.,%#@!`'"\\&\^:;\(\)=$\\\|\/ ]/g, "_");
-        return val;
     }
 };
 
 $(function () {
-    var search = new Search();
+    var search = new LiveSearch();
 
     search.input.keyup(function () {
         search.search(search.input.val());
@@ -95,7 +87,7 @@ $(function () {
     });
 
     search.button.click(function () {
-        var path = (search.input.val() !== '') ? 'search' + cnst.SEPARATOR + search.processParameter(search.input.val()) : 'search';
+        var path = (search.input.val() !== '') ? 'search' + cnst.SEPARATOR + processParameter(search.input.val()) : 'search';
         window.location.href = cnst.HOST + path;
         console.log(path);
         return false;

@@ -1,19 +1,36 @@
 <?php
 
-class SearchController extends BaseController
+class SearchingController extends BaseController
 {
     private $_limit = 5;
 
     public function searchAction()
     {
-
-
         $query = str_replace("_", " ", $this->getParams('q'));
 
-        if (isset($_POST['q'])) {
-            $query = $_POST['q'];
+        if (!empty($result = $this->prepareResult($query))) {
+            $this->view('content/search', ['searchResult' => $result]);
+        } else {
+            $this->view('content/search', ['notFound' => 'Nothing found by query: ' . $query . '']);
         }
+    }
 
+    public function liveSearchAction()
+    {
+        if (isset($_POST['q'])) {
+
+            $query = $_POST['q'];
+
+            $result = $this->prepareResult($query);
+
+            if (!empty($result)) {
+                echo json_encode($result);
+            }
+        }
+    }
+
+    private function prepareResult($query)
+    {
         $advertisement = new Advertisement();
         $result = [];
 
@@ -24,7 +41,6 @@ class SearchController extends BaseController
         $s->SetMatchMode(SPH_MATCH_ALL);
         $queryResult = $s->query($query);
 
-//            ChromePhp::log($queryResult);
 
         if ($queryResult) {
             if (array_key_exists('matches', $queryResult)) {
@@ -40,9 +56,9 @@ class SearchController extends BaseController
                         $result [] = $advertisement->getFromCatalogById($match['id']);
                     }
                 }
-                // return data to js
-                echo json_encode($result);
             }
         }
+
+        return $result;
     }
 }

@@ -30,7 +30,7 @@ return [
         ),
         'search' => array(
             'template' => '^\/search\/(\w+)$',
-            'controller' => 'search', //static
+            'controller' => 'searching', //static
             'action' => 'search',//static
             'params' => array(
                 'q' => '[1]'
@@ -39,7 +39,8 @@ return [
 
         'static' => array(
             '/home' => '/',
-            '/search' => '/search/search',
+            '/livesearch' => '/searching/livesearch',
+            '/search' => '/searching/search',
             '/terms' => '/home/terms',
             '/about' => '/home/about',
             '/login' => '/user/login',
