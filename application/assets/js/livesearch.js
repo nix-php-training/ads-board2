@@ -12,23 +12,36 @@ Search.prototype = {
 
     render: function (data) {
 
-        var resultBox = $('#search-result');
-        resultBox.empty();
-        resultBox.slideDown(200);
-
-        var ul = $('<ul>');
+        var ul = $('#search-result');
         ul.empty();
+        ul.slideDown(200);
 
         for (var i = 0, l = data.length; i < l; i += 1) {
 
             var login = data[i].login,
                 email = data[i].email,
-                li = $('<li>').text(login + ' ' + email);
+                li = $('<li>').attr('class', 'media'),
+                a = $('<a>').attr('class', 'media-left').attr('href', '#'),
+                img = $('<img>').attr('src', '/application/demoimg/preview/1.jpg'),
+                mbody = $('<div>').attr('class', 'media-body'),
+                heading = $('<h4>').attr('class', 'media-heading').text(login),
+                p = $('<p>').text(email);
+
+            mbody.append(p);
+            mbody.append(heading);
+
+            a.append(img);
+            a.append(mbody);
+
+            li.append(a);
 
             ul.append(li);
         }
 
-        ul.appendTo(resultBox);
+        var more = $('<li>').attr('class', ''),
+            link = $('<a>').attr('href', '/login').attr('class', 'btn btn-default').text('See more');
+        more.append(link);
+        ul.append(more);
     },
 
     search: function (query) {

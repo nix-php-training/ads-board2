@@ -526,13 +526,22 @@ table#plans td, th {
     background-clip: padding-box;
 }
 
-#search-result ul {
-    list-style: none;
-    padding: 5px;
+#search-result .btn-default {
+    color: #434A54 !important;
+    width: 100%;
 }
 
-#search-result li {
-    padding: 5px;
+.media-left img{
+    width: 50px;
+    float: left;
     margin: 5px;
-    background-color: #ffffff;
 }
+
+.media-body {
+    margin: 5px;
+}
+
+.media {
+    margin-bottom: 10px;
+}
+
