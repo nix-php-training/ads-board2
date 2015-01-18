@@ -21,16 +21,25 @@ return [
             'params' => array()
         ),
         'postdetail' => array(
-            'template' => '^\/postdetail\/(\w+)$',
+            'template' => '^\/postdetail\/(.*)$',
             'controller' => 'home', //static
             'action' => 'postdetail',//static
             'params' => array(
                 'adsId' => '[1]'
             )
         ),
+        'search' => array(
+            'template' => '^\/search\/(\w+)$',
+            'controller' => 'search', //static
+            'action' => 'search',//static
+            'params' => array(
+                'q' => '[1]'
+            )
+        ),
 
         'static' => array(
             '/home' => '/',
+            '/search' => '/search/search',
             '/terms' => '/home/terms',
             '/about' => '/home/about',
             '/login' => '/user/login',

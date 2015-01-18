@@ -2,6 +2,7 @@ var Search = function () {
     var self = this;
 
     self.input = $('#search');
+    self.button = $('#do-search');
 
     return self;
 };
@@ -10,7 +11,7 @@ Search.prototype = {
 
     find: false,
 
-    render: function (data) {
+    render: function (data, query) {
 
         var ul = $('#search-result');
         ul.empty();
@@ -32,7 +33,7 @@ Search.prototype = {
                     cnst.PREVIEW + imgLink),
                 mbody = $('<div>').attr('class', 'media-body'),
                 heading = $('<h4>').attr('class', 'media-heading').text(subj),
-                p = $('<p>').text(price);
+                p = $('<p>').text('$' + price);
 
             mbody.append(heading);
             mbody.append(p);
@@ -46,7 +47,7 @@ Search.prototype = {
         }
 
         var more = $('<li>').attr('class', ''),
-            link = $('<a>').attr('href', '/login').attr('class', 'btn btn-default').text('See more');
+            link = $('<a>').attr('href', '/search/' + Search.prototype.processParameter(query)).attr('class', 'btn btn-default').text('See more');
         more.append(link);
         ul.append(more);
     },
@@ -58,13 +59,19 @@ Search.prototype = {
             //console.log(data);
             if (data) {
                 data = JSON.parse(data);
-                Search.prototype.render(data);
+                Search.prototype.render(data, query);
                 Search.prototype.find = true;
             } else {
                 $('#search-result').slideUp(100).empty();
                 Search.prototype.find = false;
             }
         });
+    },
+
+    // replace `-+*=\|/!@#$%^&():;'".,` ` as `_`
+    processParameter: function (val) {
+        val = val.replace(/[-+*\.,%#@!`'"\\&\^:;\(\)=$\\\|\/ ]/g, "_");
+        return val;
     }
 };
 
@@ -85,6 +92,13 @@ $(function () {
         if (search.find) {
             $('#search-result').slideDown(200);
         }
+    });
+
+    search.button.click(function () {
+        var path = (search.input.val() !== '') ? 'search' + cnst.SEPARATOR + search.processParameter(search.input.val()) : 'search';
+        window.location.href = cnst.HOST + path;
+        console.log(path);
+        return false;
     });
 
 });
