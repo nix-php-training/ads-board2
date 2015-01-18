@@ -14,7 +14,7 @@ return [
         'user' => [
             'login' => ['all'],
             'registration' => ['guest'],
-            'logout' => ['user', 'admin'],
+            'logout' => ['all'],
             'plan' => ['user'],
             'paypal' => ['user'],
             'success' => ['user'],
@@ -30,6 +30,10 @@ return [
             'index' => ['all'],
             'error404' => ['all'],
             'error403' => ['all'],
+        ],
+        'profile' => [
+            'profile' => ['all'],
+            'editprofile' => ['user', 'admin'],
         ],
         'admin' => [
             'index' => ['admin'],
@@ -52,6 +56,10 @@ return [
             // advertisement management
             'removeadvertisement' => ['admin'],
             'getadvertisements' => ['admin']
+        ],
+        'searching' => [
+            'search' => ['all'],
+            'livesearch' => ['all'],
         ]
     ],
 ];
