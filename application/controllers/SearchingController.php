@@ -2,8 +2,16 @@
 
 class SearchingController extends BaseController
 {
+    /**
+     * Limit of drop-down list's items
+     *
+     * @var int
+     */
     private $_limit = 5;
 
+    /**
+     * Do search when user clicked `see more` at drop-down list or button search at header
+     */
     public function searchAction()
     {
         $query = str_replace("_", " ", $this->getParams('q'));
@@ -15,6 +23,9 @@ class SearchingController extends BaseController
         }
     }
 
+    /**
+     * Do search while user typing search query
+     */
     public function liveSearchAction()
     {
         if (isset($_POST['q'])) {
@@ -29,6 +40,12 @@ class SearchingController extends BaseController
         }
     }
 
+    /**
+     * Find ads-info in db by query
+     *
+     * @param $query
+     * @return array
+     */
     private function prepareResult($query)
     {
         $advertisement = new Advertisement();
