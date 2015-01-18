@@ -10,8 +10,6 @@ Search.prototype = {
 
     find: false,
 
-    imgHost: 'http://img.ads.local/',
-
     render: function (data) {
 
         var ul = $('#search-result');
@@ -22,16 +20,22 @@ Search.prototype = {
 
             var desc = data[i].adsDesc,
                 price = data[i].adsPrice,
-                img = data[i].img,
+                imgLink = data[i].img,
+                userId = data[i].userId,
+                adsId = data[i].adsId,
                 li = $('<li>').attr('class', 'media'),
-                a = $('<a>').attr('class', 'media-left').attr('href', '#'),
-                img = $('<img>').attr('src', Search.prototype.imgHost + img),
+                a = $('<a>').attr('class', 'media-left').attr('href', cnst.DETAIL_LINK + adsId),
+                img = $('<img>').attr('src',
+                    cnst.IMG_HOST + cnst.SEPARATOR +
+                    userId + cnst.SEPARATOR +
+                    adsId + cnst.SEPARATOR +
+                    cnst.PREVIEW + imgLink),
                 mbody = $('<div>').attr('class', 'media-body'),
                 heading = $('<h4>').attr('class', 'media-heading').text(desc),
                 p = $('<p>').text(price);
 
-            mbody.append(p);
             mbody.append(heading);
+            mbody.append(p);
 
             a.append(img);
             a.append(mbody);

@@ -514,7 +514,7 @@ table#plans td, th {
     position: absolute;
     z-index: 1000;
     display: none;
-    min-width: 225px;
+    min-width: 20%;
     padding: 5px;
     margin-top: 5px;
     background-color: #707C8D;
