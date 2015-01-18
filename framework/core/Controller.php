@@ -60,4 +60,23 @@ class Controller
     {
         header('Location:' . $host);
     }
+
+    public function getPost($names = [])
+    {
+        $result = '';
+        if (empty($names)) {
+            return $_POST;
+        } elseif (is_array($names)) {
+            foreach ($names as $key => $val) {
+                if (isset($_POST[$val])) {
+                    $result[$val] = $_POST[$val];
+                }
+            }
+            if (is_array($result) && count($result)==count($names)) {
+                return $result;
+            } else {
+                return false;
+            }
+        }
+    }
 }

@@ -14,10 +14,10 @@ class Auth
                 $userId = $users->getIdByHash($_COOKIE['hash']);
                 if ($_COOKIE['id'] == $users->hashCoockie($userId)) {
                     $user = $users->getBy('id', $userId);
-                    $_SESSION['userLogin'] = $user->login;
-                    $_SESSION['userId'] = $user->id;
-                    $_SESSION['userRole'] = $user->role;
-                    $_SESSION['userStatus'] = $user->status;
+                    $_SESSION['userLogin'] = $user['login'];
+                    $_SESSION['userId'] = $user['id'];
+                    $_SESSION['userRole'] = $user['role'];
+                    $_SESSION['userStatus'] = $user['status'];
                 }
             }
         }
