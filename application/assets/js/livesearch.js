@@ -10,6 +10,8 @@ Search.prototype = {
 
     find: false,
 
+    imgHost: 'http://img.ads.local/',
+
     render: function (data) {
 
         var ul = $('#search-result');
@@ -18,14 +20,15 @@ Search.prototype = {
 
         for (var i = 0, l = data.length; i < l; i += 1) {
 
-            var login = data[i].login,
-                email = data[i].email,
+            var desc = data[i].adsDesc,
+                price = data[i].adsPrice,
+                img = data[i].img,
                 li = $('<li>').attr('class', 'media'),
                 a = $('<a>').attr('class', 'media-left').attr('href', '#'),
-                img = $('<img>').attr('src', '/application/demoimg/preview/1.jpg'),
+                img = $('<img>').attr('src', Search.prototype.imgHost + img),
                 mbody = $('<div>').attr('class', 'media-body'),
-                heading = $('<h4>').attr('class', 'media-heading').text(login),
-                p = $('<p>').text(email);
+                heading = $('<h4>').attr('class', 'media-heading').text(desc),
+                p = $('<p>').text(price);
 
             mbody.append(p);
             mbody.append(heading);
@@ -48,6 +51,7 @@ Search.prototype = {
 
         $.post('/search/search', {q: query}, function (data) {
 
+            console.log(data);
             if (data) {
                 data = JSON.parse(data);
                 Search.prototype.render(data);

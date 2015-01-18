@@ -26,7 +26,7 @@ class Advertisement extends Model
             return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
                                   INNER JOIN categories c on a.categoryId=c.id
                                   INNER JOIN users u on a.userId=u.id
-                                  WHERE a.id='.$id)->fetchAll(PDO::FETCH_ASSOC);
+                                  WHERE a.id=' . $id)->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new DatabaseErrorException();
         }
@@ -66,5 +66,10 @@ GROUP BY id")->fetchAll(PDO::FETCH_ASSOC);
 FROM advertisements
   JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
 WHERE advertisements.id={$id}");
+    }
+
+    public function getFromCatalogById($id)
+    {
+        return $this->db->query("SELECT * FROM catalog WHERE adsId = {$id}")->fetch(PDO::FETCH_ASSOC);
     }
 }

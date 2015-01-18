@@ -4,6 +4,10 @@ return [
         'name' => 'Site',
         'emailAdmin' => 'test@example.com',
         'language' => 'en',
-        'imagePath' => '/application/demoimg/'
+        'imagePath' => '../ads_images/',
+        'imageLink' => 'http://img.ads.local/',
+        'tempImagePath' => '../ads_images/temp/',
+
+
     ]
 ];

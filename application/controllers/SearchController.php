@@ -9,7 +9,7 @@ class SearchController extends BaseController
 
         if (isset($_POST['q'])) {
             $query = $_POST['q'];
-            $user = new User();
+            $advertisement = new Advertisement();
             $result = [];
 
             $s = new SphinxClient();
@@ -30,7 +30,7 @@ class SearchController extends BaseController
                         $match = $matches[$i];
 
                         if (array_key_exists('id', $match)) {
-                            $result [] = $user->getBy('id', $match['id']);
+                            $result [] = $advertisement->getFromCatalogById($match['id']);
                         }
                     }
                     // return data to js
