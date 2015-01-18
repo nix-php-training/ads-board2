@@ -19,6 +19,8 @@ class SearchController extends BaseController
             $s->SetMatchMode(SPH_MATCH_ALL);
             $queryResult = $s->query($query);
 
+//            ChromePhp::log($queryResult);
+
             if ($queryResult) {
                 if (array_key_exists('matches', $queryResult)) {
 

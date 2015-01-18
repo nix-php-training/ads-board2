@@ -18,11 +18,11 @@ Search.prototype = {
 
         for (var i = 0, l = data.length; i < l; i += 1) {
 
-            var desc = data[i].adsDesc,
-                price = data[i].adsPrice,
+            var subj = data[i].subject,
+                price = data[i].price,
                 imgLink = data[i].img,
                 userId = data[i].userId,
-                adsId = data[i].adsId,
+                adsId = data[i].id,
                 li = $('<li>').attr('class', 'media'),
                 a = $('<a>').attr('class', 'media-left').attr('href', cnst.DETAIL_LINK + adsId),
                 img = $('<img>').attr('src',
@@ -31,7 +31,7 @@ Search.prototype = {
                     adsId + cnst.SEPARATOR +
                     cnst.PREVIEW + imgLink),
                 mbody = $('<div>').attr('class', 'media-body'),
-                heading = $('<h4>').attr('class', 'media-heading').text(desc),
+                heading = $('<h4>').attr('class', 'media-heading').text(subj),
                 p = $('<p>').text(price);
 
             mbody.append(heading);
@@ -55,7 +55,7 @@ Search.prototype = {
 
         $.post('/search/search', {q: query}, function (data) {
 
-            console.log(data);
+            //console.log(data);
             if (data) {
                 data = JSON.parse(data);
                 Search.prototype.render(data);
@@ -75,10 +75,12 @@ $(function () {
         search.search(search.input.val());
     });
 
+    // hide list if input focus out
     search.input.blur(function () {
         $('#search-result').slideUp(100);
     });
 
+    // show list if input focus in
     search.input.focus(function () {
         if (search.find) {
             $('#search-result').slideDown(200);
