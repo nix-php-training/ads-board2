@@ -67,4 +67,9 @@ FROM advertisements
   JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
 WHERE advertisements.id={$id}");
     }
+
+    public function getFromCatalogById($id)
+    {
+        return $this->db->query("SELECT * FROM catalog WHERE id = {$id}")->fetch(PDO::FETCH_ASSOC);
+    }
 }
