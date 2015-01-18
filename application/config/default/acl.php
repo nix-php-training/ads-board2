@@ -14,18 +14,26 @@ return [
         'user' => [
             'login' => ['all'],
             'registration' => ['guest'],
-            'logout' => ['user', 'admin'],
-            'plan' => ['all'],
-            'paypal' => ['all'],
+            'logout' => ['all'],
+            'plan' => ['user'],
+            'paypal' => ['user'],
+            'success' => ['user'],
+            'cancelled' => ['user'],
             'confirm' => ['all'],
             'restore' => ['guest'],
             'profile' => ['all'],
             'editprofile' => ['user', 'admin'],
+            'registrationmessage' => ['guest'],
+            'restoremessage' => ['guest']
         ],
         'error' => [
             'index' => ['all'],
             'error404' => ['all'],
             'error403' => ['all'],
+        ],
+        'profile' => [
+            'profile' => ['all'],
+            'editprofile' => ['user', 'admin'],
         ],
         'admin' => [
             'index' => ['admin'],

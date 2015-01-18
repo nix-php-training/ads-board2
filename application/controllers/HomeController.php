@@ -10,8 +10,11 @@ class HomeController extends BaseController
     function postListAction()
     {
         $data = array();
+
         $categories = (new Category())->getCategoriesBy(['id', 'title']);
+//        var_dump($categories[0]['id']);
         $ads = (new Advertisement())->getAllAdvertisements();
+//        $ads = (new Advertisement())->getAdvertisementsByCategory($categories[0]['id']);
 
         $data['categories'] = $categories;
 
@@ -36,6 +39,12 @@ class HomeController extends BaseController
         $this->view('content/postList', $data);
     }
 
+    function adsLoad()
+    {
+        $postParams = $this->getPost('value');
+        var_dump($postParams);
+    }
+
     function pricingAction()
     {
         $this->view('content/pricing');
@@ -46,8 +55,23 @@ class HomeController extends BaseController
         try {
             $data = array();
             $id = $this->getParams('adsId');
+
             $ads = (new Advertisement())->getAdvertisementById($id);
-            $data['ads'] = $ads;
+
+            $imagesArray = (new AdvertisementImages())->getImagesByAdsId($id);
+
+            if(!is_null($imagesArray)) {
+                $ads[0]['images'] = (new AdvertisementImages())->createImagePath($imagesArray, $_SESSION['userId'], $id);
+                $ads[0]['imagesPreview'] = (new AdvertisementImages())->createPreviewImagePath($imagesArray, $_SESSION['userId'], $id);
+
+            }
+            else {
+                $ads[0]['images'] = [];
+                $ads[0]['imagesPreview'] = [];
+            }
+
+            $data = $ads[0];
+
             $this->view('content/postDetail', $data);
         } catch (DatabaseErrorException $e) {
             $this->view('error/error', $data = array('message' => $e->getMessage()));
@@ -83,7 +107,7 @@ class HomeController extends BaseController
                 foreach ($tempImages as $image) {
                     $temp = explode('/', $image);
                     $imageName = end($temp);
-                    $targetImageName = $_SESSION['userId'] . '_' . $adsId . '_' . $imageName;
+                    $targetImageName = 'img_' . $_SESSION['userId'] . '_' . $adsId . '_' . $imageName;
                     $finalImageName = $userDir . '/' . $targetImageName;
 
                     $data = [
@@ -132,7 +156,7 @@ class HomeController extends BaseController
 
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
 
-        mkdir($tempUserDir, 0777, true);
+       if (!mkdir($tempUserDir, 0777, true))  ChromePhp::log("die");;
         $extension = explode('.', $_FILES['file']['name']);
 
         move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));
