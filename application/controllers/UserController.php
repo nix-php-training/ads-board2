@@ -93,8 +93,7 @@ class UserController extends BaseController
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $user = $this->getModel()->getBy('email',$email);
-            if ($this->getModel()->login($email, $password) and ($user->status == 'registered')) {
+            if ($this->getModel()->login($email, $password)) {
                 $this->redirect('/');
             } else {
 
