@@ -4,9 +4,9 @@ return [
         'name' => 'Site',
         'emailAdmin' => 'test@example.com',
         'language' => 'en',
-        'imagePath' => '../ads_images/',
+        'imagePath' => '../img-ads-board2/',
         'imageLink' => 'http://img.ads.local/',
-        'tempImagePath' => '../ads_images/temp/',
+        'tempImagePath' => '../img-ads-board2/temp/',
 
 
     ]
