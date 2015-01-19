@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `firstname` varchar(32),
   `lastname` varchar(32),
-  `birthdate`DATETIME,
+  `birthdate`DATE,
   `phone` varchar(32),
   `skype` VARCHAR(16),
   `userId` BIGINT NOT NULL,
@@ -117,6 +117,18 @@ CREATE TABLE IF NOT EXISTS `operations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE OR REPLACE VIEW catalog AS
+  SELECT
+    advertisements.id                                  AS id,
+    advertisements.subject                             AS subject,
+    advertisements.price                               AS price,
+    advertisements.creationDate                        AS cDate,
+    advertisements.userId                              AS userId,
+    advertisementsImages.imageName                     AS img
+  FROM advertisements
+    JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
+  GROUP BY id;
+
 ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
@@ -158,6 +170,12 @@ INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
 
 INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99.99','month','100'),('business','999.99','month','100000');
 
+/*Data for the table `profiles` */
+
+insert  into `profiles`(`id`,`firstname`,`lastname`,`birthdate`,`phone`,`skype`,`userId`)
+values (1,'Vasiliy','Lee','2000-01-21','+380505556677','Lee',1),
+  (4,'Vladimir','Den','2015-01-19','+80501112233','Denchik',2),
+  (7,'Nikolay','Popov','2008-01-11','+380679998877','PopovN',3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

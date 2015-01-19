@@ -21,21 +21,32 @@ return [
             'params' => array()
         ),
         'postdetail' => array(
-            'template' => '^\/postdetail\/(\w+)$',
+            'template' => '^\/postdetail\/(.*)$',
             'controller' => 'home', //static
             'action' => 'postdetail',//static
             'params' => array(
                 'adsId' => '[1]'
             )
         ),
+        'search' => array(
+            'template' => '^\/search\/(\w+)$',
+            'controller' => 'searching', //static
+            'action' => 'search',//static
+            'params' => array(
+                'q' => '[1]'
+            )
+        ),
+
         'static' => array(
             '/home' => '/',
+            '/livesearch' => '/searching/livesearch',
+            '/search' => '/searching/search',
             '/terms' => '/home/terms',
             '/about' => '/home/about',
             '/login' => '/user/login',
             '/logout' => '/user/logout',
-            '/profile' => '/user/profile',
-            '/edit' => '/user/editprofile',
+            '/profile' => '/profile/profile',
+            '/edit' => '/profile/editprofile',
             '/registration' => '/user/registration',
             '/confirm' => '/user/confirm',
             '/success' => '/user/success',
@@ -44,8 +55,7 @@ return [
             '/error404' => '/error/error404',
             '/error403' => '/error/error403',
             '/plan' => '/user/plan',
-            '/postlist' => '/home/postlist',
-            //   '/postdetail' => '/home/postdetail',
+            '/postlist'=>'/home/postlist',
             '/addpost' => '/home/addpost',
             '/imagedownload' => '/home/imagedownload',
             '/admin' => '/admin/index'
