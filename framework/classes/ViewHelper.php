@@ -12,18 +12,47 @@ trait ViewHelper
      * @param string $value html attribute "value="
      * @return string generated input
      */
-    public function generateInput($attributes, $value = "")
+//    public function generateInput($attributes, $value = "")
+//    {
+//        $tag = '<input ';
+//        foreach ($attributes as $attr => $val) {
+//            $tag .= $attr . '="' . $val . '" ';
+//        }
+//        if (!empty($value)) {
+//            $tag .= 'value=' . $value;
+//        }
+//        $tag .= ' data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here\'s some amazing content. It\'s very engaging. Right?"/>';
+//        return $tag;
+//    }
+
+    public function generateInput($attributes, $errorMessage = "", $value = "")
     {
-        $tag = '<input ';
+        $tagStart = "";
+        $tagEnd = "";
+
+
+        if (!empty($errorMessage)){
+            foreach($errorMessage as $k = > $v){
+                $error =
+            }
+            $tagStart .= "<div class='form-group has-warning'><label class='control-label' for='inputWarning1'>$error</label>";
+            $tagEnd .= "</div>";
+        } ;
+        $input = "<input ";
         foreach ($attributes as $attr => $val) {
-            $tag .= $attr . '="' . $val . '" ';
+            $input .= $attr . '="' . $val . '" ';
         }
         if (!empty($value)) {
-            $tag .= 'value=' . $value;
+            $input .= 'value=' . $value;
         }
-        $tag .= ' />';
-        return $tag;
+        $input .= ' data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here\'s some amazing content. It\'s very engaging. Right?"/>';
+        return $tagStart.$input.$tagEnd;
     }
+
+//
+//
+//<input type="text" class="form-control" id="inputWarning1">
+//</div>
 
     /**
      * Generate error message

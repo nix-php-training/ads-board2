@@ -15,7 +15,7 @@ class UserController extends BaseController
     private $emailInput = [
         'type' => 'email',
         'class' => 'form-control',
-        'id' => 'email',
+        'id' => 'inputWarning1',
         'name' => 'email',
         'placeholder' => 'Enter email',
         'required' => ''
@@ -24,7 +24,7 @@ class UserController extends BaseController
     private $passwordInput = [
         'type' => 'password',
         'class' => 'form-control',
-        'id' => 'password',
+        'id' => 'inputWarning1',
         'name' => 'password',
         'placeholder' => 'Enter password',
         'required' => ''
@@ -148,9 +148,8 @@ class UserController extends BaseController
 
                 $this->view('content/registrationmessage');
             } else {
-
                 $data = [
-                    'login' => $this->getView()->generateInput($this->loginInput, $login),
+                    'login' => $this->getView()->generateInput($this->loginInput, $valid['login'] ? $valid['login'] : "", $login),
                     'email' => $this->getView()->generateInput($this->emailInput, $email),
                     'password' => $this->getView()->generateInput($this->passwordInput, $password),
                     'message' => $this->getView()->generateMessage('Login/email is invalid or already taken.', 'danger')
