@@ -165,7 +165,8 @@ class UserController extends BaseController
 
     function planAction()
     {
-        $this->view('content/plan');//Отрисовуем страницу с формами для отправки данных на Paypal
+        $planData = $this->getModel()->checkCurrentPlan();
+        $this->view('content/plan', $planData);//Отрисовуем страницу с формами для отправки данных на Paypal
     }
 
     function successAction()
@@ -198,8 +199,8 @@ class UserController extends BaseController
 //        echo '<hr />';
 //        var_dump($response);
 //        echo '<pre>';
-        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
         $this->getModel()->changePlan($planType);
+        $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
     }
 
     function cancelledAction()

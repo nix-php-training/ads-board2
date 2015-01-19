@@ -117,6 +117,18 @@ CREATE TABLE IF NOT EXISTS `operations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE OR REPLACE VIEW catalog AS
+  SELECT
+    advertisements.id                                  AS id,
+    advertisements.subject                             AS subject,
+    advertisements.price                               AS price,
+    advertisements.creationDate                        AS cDate,
+    advertisements.userId                              AS userId,
+    advertisementsImages.imageName                     AS img
+  FROM advertisements
+    JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
+  GROUP BY id;
+
 ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
