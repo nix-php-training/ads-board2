@@ -551,3 +551,7 @@ table#plans td, th {
     background-color: #317589 !important;
 }
 
+/*glyphicon class*/
+.test-margin {
+    margin-left:2px;
+}
