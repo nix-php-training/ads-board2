@@ -17,7 +17,7 @@ class SearchingController extends BaseController
         $query = str_replace("_", " ", $this->getParams('q'));
 
         if (!empty($result = $this->prepareResult($query))) {
-            $this->view('content/search', ['searchResult' => $result]);
+            $this->view('content/search', ['searchResult' => $result, 'imgHost' => Config::get('site')['imageLink']]);
         } else {
             $this->view('content/search', ['notFound' => 'Nothing found by query: ' . $query . '']);
         }
@@ -57,9 +57,6 @@ class SearchingController extends BaseController
         $s->SetArrayResult(true);
         $s->SetMatchMode(SPH_MATCH_ALL);
         $queryResult = $s->query($query);
-
-        ChromePhp::log($s->GetLastError());
-        ChromePhp::log($s->GetLastWarning());
 
         if ($queryResult) {
             if (array_key_exists('matches', $queryResult)) {

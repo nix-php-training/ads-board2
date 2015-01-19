@@ -74,10 +74,8 @@ Search.prototype = {
         $.post('/livesearch', {q: query}, function (data) {
 
             if (data) {
-
-
-
                 data = JSON.parse(data);
+
                 Search.prototype.render(data);
             } else {
                 var posts = $('#posts'),

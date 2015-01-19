@@ -76,15 +76,23 @@ $(function () {
 
     // hide list if input focus out
     search.input.blur(function () {
-        $('#search-result').slideUp(100);
+        setTimeout(function () {
+            var focused = $(document.activeElement);
+            console.log(focused);
+            if (!focused.hasClass('media-list') || focused.parents('.media-list').length === 0) {
+                $('#search-result').slideUp(200);
+            }
+        }, 1);
     });
 
     // show list if input focus in
     search.input.focus(function () {
         if (search.find) {
-            $('#search-result').slideDown(200);
+            $('#search-result').slideDown(200).focus();
         }
     });
+
+
 
     search.button.click(function () {
         var path = (search.input.val() !== '') ? 'search' + cnst.SEPARATOR + processParameter(search.input.val()) : 'search';
