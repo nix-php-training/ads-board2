@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `firstname` varchar(32),
   `lastname` varchar(32),
-  `birthdate`DATETIME,
+  `birthdate`DATE,
   `phone` varchar(32),
   `skype` VARCHAR(16),
   `userId` BIGINT NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `paymentType` varchar(128) NOT NULL ,
   `endDate` DATETIME,
-  `price` DECIMAL NOT NULL ,
+  `price` DOUBLE(10,2) NOT NULL ,
   `planId` BIGINT NOT NULL,
   `userId` BIGINT NOT NULL,
   PRIMARY KEY (`id`)
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `advertisementsImages` (
 CREATE TABLE IF NOT EXISTS `plans` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL ,
-  `price` DECIMAL NOT NULL ,
+  `price` DOUBLE(10,2) NOT NULL ,
   `term` VARCHAR(32) NOT NULL,
   `posts` INT NOT NULL,
   PRIMARY KEY (`id`)
@@ -106,6 +106,29 @@ CREATE TABLE IF NOT EXISTS `confirmationLinks` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `operations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `date` DATETIME ,
+  `paymentType` VARCHAR(128) NOT NULL ,
+  `planName` VARCHAR(128) NOT NULL ,
+  `planCost` DOUBLE(10,2) NOT NULL ,
+  `transactionId` VARCHAR(128)  NOT NULL,
+  `userId` BIGINT NOT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE OR REPLACE VIEW catalog AS
+  SELECT
+    advertisements.id                                  AS id,
+    advertisements.subject                             AS subject,
+    advertisements.price                               AS price,
+    advertisements.creationDate                        AS cDate,
+    advertisements.userId                              AS userId,
+    advertisementsImages.imageName                     AS img
+  FROM advertisements
+    JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
+  GROUP BY id;
+
 ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
@@ -115,6 +138,7 @@ ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_statuses` FOREIGN KEY (statusId) REFERENCES statuses(id);
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (roleId) REFERENCES roles(id);
 ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE `operations` ADD CONSTRAINT `fk_operations_users` FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
 
 
 INSERT INTO `roles` (`name`) VALUES
@@ -136,11 +160,22 @@ INSERT INTO `categories` ( `title`, `description`) VALUES
   ('Toys', 'Description'),
   ('Furniture', 'Description');
 
+INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
+  ('somelink', 1),
+  ('somelink', 2),
+  ('somelink', 3);
+
 # INSERT INTO `profiles` ( `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`,) VALUES
 #   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
 
-INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99,99','month','100'),('business','999,99','month','100000');
+INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99.99','month','100'),('business','999.99','month','100000');
 
+/*Data for the table `profiles` */
+
+insert  into `profiles`(`id`,`firstname`,`lastname`,`birthdate`,`phone`,`skype`,`userId`)
+values (1,'Vasiliy','Lee','2000-01-21','+380505556677','Lee',1),
+  (4,'Vladimir','Den','2015-01-19','+80501112233','Denchik',2),
+  (7,'Nikolay','Popov','2008-01-11','+380679998877','PopovN',3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

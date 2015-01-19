@@ -15,7 +15,7 @@ class Category extends Model
 
     function addCategory($data)
     {
-        $this->db->insert($this->table,$data);
+        $this->db->insert($this->table, $data);
     }
 
 
