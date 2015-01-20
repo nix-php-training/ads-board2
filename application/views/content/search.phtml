@@ -11,9 +11,9 @@
     <?php foreach ($data['searchResult'] as $v) : ?>
         <div class="row post-list vertical-align" id="post-list">
             <div class="col-md-2 text-right date-time">
-                <h1><?= date("Y-m-d", $v['cDate']) ?></h1>
+                <h1><?= Tools::splitDatetime($v['cDate'], 'date') ?></h1>
 
-                <h2><?= date("H:m", $v['cDate']) ?></h2>
+                <h2><?= Tools::splitDatetime($v['cDate'], 'time') ?></h2>
             </div>
 
             <div class="col-md-2 images">
