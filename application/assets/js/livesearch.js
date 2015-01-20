@@ -2,6 +2,7 @@ var LiveSearch = function () {
     var self = this;
     self.input = $('#search');
     self.button = $('#do-search');
+    self.match = $('.high');
     return self;
 };
 
@@ -22,29 +23,29 @@ LiveSearch.prototype = {
                 imgLink = data[i].img,
                 userId = data[i].userId,
                 adsId = data[i].id,
-                li = $('<li>').attr('class', 'media'),
-                a = $('<a>').attr('class', 'media-left').attr('href', cnst.DETAIL_LINK + adsId),
+                li = $('<li>').attr('class', 'media-list-link'),
+                a = $('<a>').attr('href', cnst.DETAIL_LINK + adsId),
                 img = $('<img>').attr('src',
                     cnst.IMG_HOST + cnst.SEPARATOR +
                     userId + cnst.SEPARATOR +
                     adsId + cnst.SEPARATOR +
                     cnst.PREVIEW + imgLink),
-                mbody = $('<div>').attr('class', 'media-body'),
-                heading = $('<h4>').attr('class', 'media-heading').text(subj),
+                container = $('<span>'),
+                heading = $('<b>').attr('class', 'high').text(subj),
                 p = $('<p>').text('$' + price);
 
-            mbody.append(heading);
-            mbody.append(p);
+            container.append(heading);
+            container.append(p);
 
             a.append(img);
-            a.append(mbody);
+            a.append(container);
 
             li.append(a);
 
             ul.append(li);
         }
 
-        var more = $('<li>').attr('class', ''),
+        var more = $('<li>'),
             link = $('<a>').attr('href', '/search/' + processParameter(query)).attr('class', 'btn btn-default').text('See more');
         more.append(link);
         ul.append(more);
@@ -59,6 +60,7 @@ LiveSearch.prototype = {
 
                 LiveSearch.prototype.render(data, query);
                 LiveSearch.prototype.find = true;
+                $('.high').highlight(query);
             } else {
                 $('#search-result').slideUp(100).empty();
                 LiveSearch.prototype.find = false;
@@ -78,11 +80,18 @@ $(function () {
     search.input.blur(function () {
         setTimeout(function () {
             var focused = $(document.activeElement);
+<<<<<<< HEAD
             console.log(focused);
             if (!focused.hasClass('media-list') || focused.parents('.media-list').length === 0) {
                 $('#search-result').slideUp(200);
             }
         }, 1);
+=======
+            if (!focused.hasClass('media') && (focused.parents('.media-list').length === 0)) {
+                $('#search-result').slideUp(100);
+            }
+        }, 100);
+>>>>>>> dev
     });
 
     // show list if input focus in
