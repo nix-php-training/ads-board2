@@ -224,7 +224,7 @@ class UserController extends BaseController
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
                     'L_PAYMENTREQUEST_0_NAME0' => 'PRO-plan',
-                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subscribe for PRO-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
@@ -240,7 +240,7 @@ class UserController extends BaseController
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
                     'L_PAYMENTREQUEST_0_NAME0' => 'BUSINESS-plan',
-                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subscribe for BUSINESS-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '999.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
