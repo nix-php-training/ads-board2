@@ -544,7 +544,6 @@ table#plans td, th {
 .media-list a {
     display: inline-block;
     width: 100%;
-    position: relative;
 }
 
 .media-list li.media-list-link:hover, .media-list li.media-list-link:active {
