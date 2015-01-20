@@ -53,9 +53,7 @@ class SearchingController extends BaseController
 
         $s = new SphinxClient();
         $s->setServer("localhost", 3307);
-        $s->SetConnectTimeout(1);
         $s->SetArrayResult(true);
-        $s->SetMatchMode(SPH_MATCH_ALL);
         $queryResult = $s->query($query);
 
         if ($queryResult) {

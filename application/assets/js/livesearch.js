@@ -57,7 +57,6 @@ LiveSearch.prototype = {
 
             if (data) {
                 data = JSON.parse(data);
-
                 LiveSearch.prototype.render(data, query);
                 LiveSearch.prototype.find = true;
                 $('.high').highlight(query);
@@ -80,24 +79,16 @@ $(function () {
     search.input.blur(function () {
         setTimeout(function () {
             var focused = $(document.activeElement);
-<<<<<<< HEAD
-            console.log(focused);
-            if (!focused.hasClass('media-list') || focused.parents('.media-list').length === 0) {
-                $('#search-result').slideUp(200);
-            }
-        }, 1);
-=======
             if (!focused.hasClass('media') && (focused.parents('.media-list').length === 0)) {
                 $('#search-result').slideUp(100);
             }
         }, 100);
->>>>>>> dev
     });
 
     // show list if input focus in
     search.input.focus(function () {
         if (search.find) {
-            $('#search-result').slideDown(200).focus();
+            $('#search-result').slideDown(200);
         }
     });
 
@@ -106,7 +97,6 @@ $(function () {
     search.button.click(function () {
         var path = (search.input.val() !== '') ? 'search' + cnst.SEPARATOR + processParameter(search.input.val()) : 'search';
         window.location.href = cnst.HOST + path;
-        console.log(path);
         return false;
     });
 
