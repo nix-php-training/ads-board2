@@ -44,7 +44,7 @@ LiveSearch.prototype = {
             ul.append(li);
         }
 
-        var more = $('<li>').attr('class', ''),
+        var more = $('<li>'),
             link = $('<a>').attr('href', '/search/' + processParameter(query)).attr('class', 'btn btn-default').text('See more');
         more.append(link);
         ul.append(more);
@@ -76,7 +76,12 @@ $(function () {
 
     // hide list if input focus out
     search.input.blur(function () {
-        $('#search-result').slideUp(100);
+        setTimeout(function () {
+            var focused = $(document.activeElement);
+            if (!focused.hasClass('media') && (focused.parents('.media-list').length === 0)) {
+                $('#search-result').slideUp(100);
+            }
+        }, 100);
     });
 
     // show list if input focus in
