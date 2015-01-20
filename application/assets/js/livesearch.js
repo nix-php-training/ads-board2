@@ -2,6 +2,7 @@ var LiveSearch = function () {
     var self = this;
     self.input = $('#search');
     self.button = $('#do-search');
+    self.match = $('.high');
     return self;
 };
 
@@ -30,7 +31,7 @@ LiveSearch.prototype = {
                     adsId + cnst.SEPARATOR +
                     cnst.PREVIEW + imgLink),
                 container = $('<span>'),
-                heading = $('<b>').text(subj),
+                heading = $('<b>').attr('class', 'high').text(subj),
                 p = $('<p>').text('$' + price);
 
             container.append(heading);
@@ -59,6 +60,7 @@ LiveSearch.prototype = {
 
                 LiveSearch.prototype.render(data, query);
                 LiveSearch.prototype.find = true;
+                $('.high').highlight(query);
             } else {
                 $('#search-result').slideUp(100).empty();
                 LiveSearch.prototype.find = false;

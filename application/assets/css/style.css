@@ -555,3 +555,7 @@ table#plans td, th {
     float: left;
     margin: 5px 5px 5px 0;
 }
+
+.highlight {
+    color: #264348;
+}
