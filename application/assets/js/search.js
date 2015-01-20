@@ -76,8 +76,6 @@ Search.prototype = {
 
             if (data) {
 
-                console.log(data);
-
                 data = JSON.parse(data);
                 Search.prototype.render(data);
             } else {
