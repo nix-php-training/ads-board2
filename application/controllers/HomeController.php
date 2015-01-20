@@ -39,10 +39,33 @@ class HomeController extends BaseController
         $this->view('content/postList', $data);
     }
 
-    function adsLoad()
+    function adsLoadAction()
     {
-        $postParams = $this->getPost('value');
-        var_dump($postParams);
+        $catId = $_POST['catId'];
+
+        $ads = (new Advertisement())->getAdvertisementsByCategory($catId);
+//        ChromePhp::log($ads);
+
+
+        foreach ($ads as &$v) {
+            $temp = strtotime($v['creationDate']);
+            $v['creationDate'] = $temp;
+
+            //get images from DB
+            $imagesArray = (new AdvertisementImages())->getImagesByAdsId($v['id']);
+
+            if(!is_null($imagesArray)) {
+                $v['images'] = (new AdvertisementImages())->createImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+                $v['imagesPreview'] = (new AdvertisementImages())->createPreviewImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+            }
+            else {
+                $v['images'] = [];
+                $v['imagesPreview'] = [];
+            }
+        }
+        if (!empty($ads)) {
+            echo json_encode($ads);
+        }
     }
 
     function pricingAction()
@@ -182,4 +205,6 @@ class HomeController extends BaseController
             rmdir($dir);
         }
     }
+
+
 }
