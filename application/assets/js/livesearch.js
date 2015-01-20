@@ -22,22 +22,22 @@ LiveSearch.prototype = {
                 imgLink = data[i].img,
                 userId = data[i].userId,
                 adsId = data[i].id,
-                li = $('<li>').attr('class', 'media'),
-                a = $('<a>').attr('class', 'media-left').attr('href', cnst.DETAIL_LINK + adsId),
+                li = $('<li>').attr('class', 'media-list-link'),
+                a = $('<a>').attr('href', cnst.DETAIL_LINK + adsId),
                 img = $('<img>').attr('src',
                     cnst.IMG_HOST + cnst.SEPARATOR +
                     userId + cnst.SEPARATOR +
                     adsId + cnst.SEPARATOR +
                     cnst.PREVIEW + imgLink),
-                mbody = $('<div>').attr('class', 'media-body'),
-                heading = $('<h4>').attr('class', 'media-heading').text(subj),
+                container = $('<span>'),
+                heading = $('<b>').text(subj),
                 p = $('<p>').text('$' + price);
 
-            mbody.append(heading);
-            mbody.append(p);
+            container.append(heading);
+            container.append(p);
 
             a.append(img);
-            a.append(mbody);
+            a.append(container);
 
             li.append(a);
 
