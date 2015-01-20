@@ -21,7 +21,6 @@ USE `ads-board2`;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `login` varchar(32) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(64) NOT NULL,
   `confirmDate` datetime,
@@ -29,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `roleId` BIGINT NOT NULL,
   `hash` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`,`email`)
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `statuses` (
@@ -46,8 +45,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(32),
-  `lastname` varchar(32),
+  `fullname` varchar(32),
   `birthdate`DATE,
   `phone` varchar(32),
   `skype` VARCHAR(16),
@@ -138,10 +136,10 @@ INSERT INTO `statuses` (`name`) VALUES
   ('registered'),
   ('banned');
 
-INSERT INTO `users` ( `login`, `email`, `password`, `confirmDate`, `statusId`, `roleId`,`hash`) VALUES
-  ('Vasya', 'vasya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  2, NULL),
-  ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  1, NULL),
-  ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
+INSERT INTO `users` ( `email`, `password`, `confirmDate`, `statusId`, `roleId`,`hash`) VALUES
+  ('vasya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  2, NULL),
+  ('vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  1, NULL),
+  ('kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
 
 INSERT INTO `categories` ( `title`, `description`) VALUES
   ('Automobiles', 'Description'),
@@ -160,10 +158,10 @@ INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','mo
 
 /*Data for the table `profiles` */
 
-insert  into `profiles`(`id`,`firstname`,`lastname`,`birthdate`,`phone`,`skype`,`userId`)
-values (1,'Vasiliy','Lee','2000-01-21','+380505556677','Lee',1),
-  (4,'Vladimir','Den','2015-01-19','+80501112233','Denchik',2),
-  (7,'Nikolay','Popov','2008-01-11','+380679998877','PopovN',3);
+insert  into `profiles`(`id`,`fullname`, `birthdate`,`phone`,`skype`,`userId`)
+values (1,'Vasiliy Lee','2000-01-21','+380505556677','Lee',1),
+  (4,'Vladimir Den','2015-01-19','+80501112233','Denchik',2),
+  (7,'Nikolay Popov','2008-01-11','+380679998877','PopovN',3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

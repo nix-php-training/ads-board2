@@ -14,7 +14,8 @@ class Auth
                 $userId = $users->getIdByHash($_COOKIE['hash']);
                 if ($_COOKIE['id'] == $users->hashCoockie($userId)) {
                     $user = $users->getBy('id', $userId);
-                    $_SESSION['userLogin'] = $user['login'];
+                    $str = strpos($user['email'], "@");
+                    $_SESSION['userLogin'] = substr($user['email'], 0, $str);
                     $_SESSION['userId'] = $user['id'];
                     $_SESSION['userRole'] = $user['role'];
                     $_SESSION['userStatus'] = $user['status'];

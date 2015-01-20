@@ -273,7 +273,6 @@ class User extends Model
     {
         return $this->db->query("SELECT
   users.id      AS id,
-  users.login   AS login,
   users.email   AS email,
   roles.name    AS role,
   statuses.name AS status
