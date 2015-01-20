@@ -28,15 +28,16 @@
                     <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="slider1" class="thumbnail img-responsive" />
                 </a>
 
-                <?php endif; ?>
-
                 <div class="hidden">
 
                     <?php for ( $i = 1 ; $i < count($v['images']); $i++) : ?>
                     <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
                     <?php endfor; ?>
                 </div>
+
+                <?php endif; ?>
             </div>
+
 
             <div class="col-md-6 text">
                 <h1>
