@@ -10,7 +10,6 @@ Search.prototype = {
 
         var div = $('#posts');
         div.empty();
-        div.slideDown(200);
 
         for (var i = 0, l = data.length; i < l; i += 1) {
 
@@ -75,15 +74,12 @@ Search.prototype = {
         $.post('/livesearch', {q: query}, function (data) {
 
             if (data) {
-
-                console.log(data);
-
                 data = JSON.parse(data);
+
                 Search.prototype.render(data);
             } else {
                 var posts = $('#posts'),
                     notFound = $('<h5>').attr('class', 'text-danger text-center').text('Nothing found by query: ' + query);
-
                 posts.empty();
                 posts.append(notFound);
 
