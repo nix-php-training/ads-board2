@@ -78,6 +78,10 @@
 </div>
 
 <header>
+    <?php if (isset($_SESSION['profile']['lastUpdate']) && $_SESSION['profile']['lastUpdate'] == 0000-00-00) {
+        echo 'Please add your information in the profile';
+        }
+    ?>
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -96,7 +100,8 @@
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group search-only">
                         <i class="search-icon glyphicon glyphicon-search"></i>
-                        <input type="text" autocomplete="off" id="search" class="form-control search-query" placeholder="Search">
+                        <input type="text" autocomplete="off" id="search" class="form-control search-query"
+                               placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-info" data-type="last" id="do-search">Search</button>
                     <ul class="media-list" id="search-result"></ul>

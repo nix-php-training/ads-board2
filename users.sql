@@ -21,32 +21,34 @@ USE `ads-board2`;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `login` varchar(32) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(64) NOT NULL,
   `confirmDate` datetime,
-  `statusId` BIGINT NOT NULL,
-  `roleId` BIGINT NOT NULL,
+  `statusId` TINYINT(1) NOT NULL,
+  `roleId` TINYINT(1) NOT NULL,
   `hash` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `login` (`login`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `statuses` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` TINYINT(1) NOT NULL AUTO_INCREMENT,
   `name` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `roles` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` TINYINT(1) NOT NULL AUTO_INCREMENT,
   `name` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(32),
-  `birthdate`DATE,
+  `fullName` varchar(32),
+  `birthday` DATE DEFAULT '0000-00-00',
+  `lastUpdate` DATE DEFAULT '0000-00-00',
   `phone` varchar(32),
   `skype` VARCHAR(16),
   `userId` BIGINT NOT NULL,
@@ -115,6 +117,18 @@ CREATE TABLE IF NOT EXISTS `operations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE OR REPLACE VIEW catalog AS
+  SELECT
+    advertisements.id                                  AS id,
+    advertisements.subject                             AS subject,
+    advertisements.price                               AS price,
+    advertisements.creationDate                        AS cDate,
+    advertisements.userId                              AS userId,
+    advertisementsImages.imageName                     AS img
+  FROM advertisements
+    JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
+  GROUP BY id;
+
 ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
@@ -136,10 +150,10 @@ INSERT INTO `statuses` (`name`) VALUES
   ('registered'),
   ('banned');
 
-INSERT INTO `users` ( `email`, `password`, `confirmDate`, `statusId`, `roleId`,`hash`) VALUES
-  ('vasya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  2, NULL),
-  ('vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,  1, NULL),
-  ('kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
+INSERT INTO `users` (`login`, `email`, `password`, `confirmDate`, `statusId`, `roleId`,`hash`) VALUES
+  ('Vasya', 'vasya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL),
+  ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1, 1, NULL),
+  ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2, 2, NULL);
 
 INSERT INTO `categories` ( `title`, `description`) VALUES
   ('Automobiles', 'Description'),
@@ -158,10 +172,10 @@ INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','mo
 
 /*Data for the table `profiles` */
 
-insert  into `profiles`(`id`,`fullname`, `birthdate`,`phone`,`skype`,`userId`)
-values (1,'Vasiliy Lee','2000-01-21','+380505556677','Lee',1),
-  (4,'Vladimir Den','2015-01-19','+80501112233','Denchik',2),
-  (7,'Nikolay Popov','2008-01-11','+380679998877','PopovN',3);
+insert  into `profiles`(`id`,`fullName`, `birthday`,`lastUpdate`, `phone`,`skype`,`userId`)
+values (1,'Vasiliy Lee','2000-01-21', '2015-01-05', '+380505556677','Lee',1),
+  (4,'Vladimir Den','2015-01-19', '2015-01-05', '+80501112233','Denchik',2),
+  (7,'Nikolay Popov','2008-01-11', '2015-01-05', '+380679998877','PopovN',3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

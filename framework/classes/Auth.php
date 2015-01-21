@@ -14,8 +14,9 @@ class Auth
                 $userId = $users->getIdByHash($_COOKIE['hash']);
                 if ($_COOKIE['id'] == $users->hashCoockie($userId)) {
                     $user = $users->getBy('id', $userId);
-                    $str = strpos($user['email'], "@");
-                    $_SESSION['userLogin'] = substr($user['email'], 0, $str);
+                    $profile = $users->db->query("SELECT * FROM profiles WHERE userId={$user['id']}")->fetch(PDO::FETCH_ASSOC);
+                    $_SESSION['profile']=$profile;
+                    $_SESSION['userLogin'] = $user['login'];
                     $_SESSION['userId'] = $user['id'];
                     $_SESSION['userRole'] = $user['role'];
                     $_SESSION['userStatus'] = $user['status'];

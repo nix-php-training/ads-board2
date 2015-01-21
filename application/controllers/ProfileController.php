@@ -10,8 +10,10 @@ class ProfileController extends BaseController
         $userId = $this->getParams('user');
         if ($userId) {
             $this->userId = $userId;
-        } else {
+        } elseif (isset($_SESSION['userId'])){
             $this->userId = $_SESSION['userId'];
+        } else {
+            $this->redirect('/error404');
         }
         $data = $this->getModel()->getProfile($this->userId);
         $this->view('content/profile', $data);
@@ -20,18 +22,17 @@ class ProfileController extends BaseController
     public function editProfileAction()
     {
         $post['user'] = $this->getPost([
-                        'login',
-                        'email',
-                        'old-password',
-                        'new-password',
-                        ]);
+            'login',
+            'email',
+            'old-password',
+            'new-password',
+        ]);
 
         $post['profile'] = $this->getPost([
-                        'firstname',
-                        'lastname',
-                        'phone',
-                        'skype'
-                        ]);
+            'fullName',
+            'phone',
+            'skype'
+        ]);
 
 
         $this->userId = $_SESSION['userId'];
@@ -42,13 +43,13 @@ class ProfileController extends BaseController
         $data['user'] = $user;
         $data['profile'] = $profile;
 
-        if (!empty($post['user']) && !empty($post['profile'])){
+        if (!empty($post['user']) && !empty($post['profile'])) {
             $validateProfile = $this->getModel()->validate($post['profile']);
-            if ($validateProfile==true){
+            if (empty($validateProfile)) {
                 $userSave = $users->update($post['user']);
-                if ($userSave!==true){
+                if ($userSave !== true) {
                     var_dump($userSave);
-                } elseif ($userSave==true){
+                } elseif ($userSave == true) {
                     $this->getModel()->update($post['profile'], $data['profile']['id']);
                     echo 'Save changes';
                 }
@@ -57,7 +58,7 @@ class ProfileController extends BaseController
             }
         }
 
-        if ($post['user']==false || $post['profile']==false){
+        if ($post['user'] == false || $post['profile'] == false) {
             $this->view('content/editProfile', $data);
         }
     }

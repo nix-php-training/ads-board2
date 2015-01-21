@@ -149,7 +149,8 @@ class UserController extends BaseController
                 $this->view('content/registrationmessage');
             } else {
                 $data = [
-                    'login' => $this->getView()->generateInput($this->loginInput, $valid['login'] ? $valid['login'] : "", $login),
+                    'login' => $this->getView()->generateInput($this->loginInput,
+                        $valid['login'] ? $valid['login'] : "", $login),
                     'email' => $this->getView()->generateInput($this->emailInput, $email),
                     'password' => $this->getView()->generateInput($this->passwordInput, $password),
                     'message' => $this->getView()->generateMessage('Login/email is invalid or already taken.', 'danger')
@@ -334,6 +335,8 @@ class UserController extends BaseController
         } else {
             $this->getModel()->changeStatus($link);
             $this->getModel()->getFreePlan($link);
+            $profile = new Profile();
+            $profile->addProfile($link);
             $this->view('content/confirm');
         }
     }

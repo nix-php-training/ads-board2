@@ -54,11 +54,11 @@ class Validator
      * $rules = ['name'=>['required', 'min_length(3)'],'age'=>['numeric']];
      * @param array $inputs
      * @param array $rules
-     * @return array|bool
+     * @return array
      */
     public function validate($inputs, $rules)
     {
-        $errors = null;
+        $errors = [];
         foreach ($rules as $input => $input_rules) {
             if (is_array($input_rules)) {
                 foreach ($input_rules as $rule => $closure) {
@@ -87,7 +87,7 @@ class Validator
                 }
             }
         }
-        return (is_array($errors) ? $errors : true);
+        return $errors;
     }
 
     /**
@@ -172,5 +172,4 @@ class Validator
     }
 
 
-
-} 
+}
