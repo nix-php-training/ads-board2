@@ -29,10 +29,8 @@ class HomeController extends BaseController
                 $imagesArray = $this->advertisementImgModel->getImagesByAdsId($advertisement['id']);
 
                 if (!is_null($imagesArray)) {
-                    $advertisement['images'] = $this->advertisementImgModel->createImagePath($imagesArray, $_SESSION['userId'],
-                        $advertisement['id']);
-                    $advertisement['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray,
-                        $_SESSION['userId'], $advertisement['id']);
+                    $advertisement['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                    $advertisement['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
                 } else {
                     $advertisement['images'] = [];
                     $advertisement['imagesPreview'] = [];
@@ -61,8 +59,8 @@ class HomeController extends BaseController
             $imagesArray = $this->advertisementImgModel->getImagesByAdsId($v['id']);
 
             if(!is_null($imagesArray)) {
-                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray, $_SESSION['userId'], $v['id']);
-                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
             }
             else {
                 $v['images'] = [];
@@ -96,8 +94,8 @@ class HomeController extends BaseController
             $imagesArray = $this->advertisementImgModel->getImagesByAdsId($v['id']);
 
             if(!is_null($imagesArray)) {
-                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray, $_SESSION['userId'], $v['id']);
-                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
             }
             else {
                 $v['images'] = [];
@@ -124,8 +122,8 @@ class HomeController extends BaseController
             $imagesArray = $this->advertisementImgModel->getImagesByAdsId($id);
 
             if(!is_null($imagesArray)) {
-                $ads[0]['images'] = $this->advertisementImgModel->createImagePath($imagesArray, $_SESSION['userId'], $id);
-                $ads[0]['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray, $_SESSION['userId'], $id);
+                $ads[0]['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                $ads[0]['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
 
             }
             else {
