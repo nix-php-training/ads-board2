@@ -29,6 +29,11 @@ class AdvertisementImages extends Model
 
     }
 
+    /**
+     * @param $id
+     * @return Array
+     * @throws DatabaseErrorException
+     */
     public function getImagesByAdsId($id)
     {
         try {
@@ -51,11 +56,9 @@ class AdvertisementImages extends Model
         }
         return $images;
     }
-
     public function createPreviewImagePath($images)
     {
         $path = Config::get('site');
-
         $userId = explode('_', $images[0]['imageName'])[1];
         $adsId = explode('_', $images[0]['imageName'])[2];
         foreach ($images as &$image)
@@ -64,7 +67,6 @@ class AdvertisementImages extends Model
             $image['imageName'] = $imageTemp;
         }
         return $images;
-
     }
 
 }

@@ -18,17 +18,36 @@ class HomeController extends BaseController
 
     function indexAction()
     {
-        $this->view('content/index');
+        try {
+            // create list of last 10 posts
+            $advertisementList = $this->advertisementModel->getLastAdvertisement();
+
+            // attach images to list
+            foreach ($advertisementList as &$advertisement) {
+
+                //get images from DB
+                $imagesArray = $this->advertisementImgModel->getImagesByAdsId($advertisement['id']);
+
+                if (!is_null($imagesArray)) {
+                    $advertisement['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                    $advertisement['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
+                } else {
+                    $advertisement['images'] = [];
+                    $advertisement['imagesPreview'] = [];
+                }
+            }
+            $data = ['resentAds' => $advertisementList];
+            $this->view('content/index', $data);
+        } catch(DatabaseErrorException $e) {
+            $this->view('content/index', ['message' => 'Sorry, we have nothing to show.']);
+        }
     }
 
     function postListAction()
     {
         $data = array();
-
         $categories = $this->categoryModel->getCategoriesBy(['id', 'title']);
-//        var_dump($categories[0]['id']);
         $ads = $this->advertisementModel->getAllAdvertisements();
-
 
         $data['categories'] = $categories;
 
@@ -98,7 +117,6 @@ class HomeController extends BaseController
         try {
             $data = array();
             $id = $this->getParams('adsId');
-
             $ads = $this->advertisementModel->getAdvertisementById($id);
 
             $imagesArray = $this->advertisementImgModel->getImagesByAdsId($id);
@@ -142,7 +160,7 @@ class HomeController extends BaseController
 
                 $adsId = $this->advertisementModel->addAdvertisement($data);
                 $userDir = $arr['imagePath'] . $_SESSION['userId'] . '/' . $adsId;
-                $tempImages = glob($tempUserDir . '/*.{png,jpg}', GLOB_BRACE);
+                $tempImages = glob($tempUserDir . '/*.{png,jpg,gif}', GLOB_BRACE);
 
                 //create folder for images + folder for images preview
                 mkdir($userDir . '/preview', 0777, true);
@@ -199,7 +217,9 @@ class HomeController extends BaseController
 
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
 
-       if (!mkdir($tempUserDir, 0777, true))  ChromePhp::log("die");;
+        if (!mkdir($tempUserDir, 0777, true)) {
+            ChromePhp::log("die");
+        };
         $extension = explode('.', $_FILES['file']['name']);
 
         move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));
@@ -225,6 +245,4 @@ class HomeController extends BaseController
             rmdir($dir);
         }
     }
-
-
 }
