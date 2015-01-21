@@ -40,8 +40,8 @@ class HomeController extends BaseController
             $imagesArray = $this->advertisementImgModel->getImagesByAdsId($v['id']);
 
             if(!is_null($imagesArray)) {
-                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray, $_SESSION['userId'], $v['id']);
-                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
             }
             else {
                 $v['images'] = [];
@@ -67,9 +67,6 @@ class HomeController extends BaseController
         }
 
 
-//        ChromePhp::log($ads);
-
-
         foreach ($ads as &$v) {
 //            $temp = strtotime($v['creationDate']);
 //            $v['creationDate'] = $temp;
@@ -78,8 +75,8 @@ class HomeController extends BaseController
             $imagesArray = $this->advertisementImgModel->getImagesByAdsId($v['id']);
 
             if(!is_null($imagesArray)) {
-                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray, $_SESSION['userId'], $v['id']);
-                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray, $_SESSION['userId'], $v['id']);
+                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
             }
             else {
                 $v['images'] = [];
@@ -107,8 +104,8 @@ class HomeController extends BaseController
             $imagesArray = $this->advertisementImgModel->getImagesByAdsId($id);
 
             if(!is_null($imagesArray)) {
-                $ads[0]['images'] = $this->advertisementImgModel->createImagePath($imagesArray, $_SESSION['userId'], $id);
-                $ads[0]['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray, $_SESSION['userId'], $id);
+                $ads[0]['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
+                $ads[0]['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
 
             }
             else {
