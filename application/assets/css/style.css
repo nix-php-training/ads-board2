@@ -509,3 +509,53 @@ table#plans td, th {
 .admin .post-list td {
     vertical-align: middle;
 }
+
+/* Suggestion list for search
+-------------------------------------------------- */
+
+.media-list {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    min-width: 25%;
+    padding: 5px 0;
+    margin-top: 5px;
+    background-color: #707C8D;
+    border: 1px solid #707C8D;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    color: #89C4F4;
+}
+
+.media-list .btn-default {
+    color: #434A54 !important;
+    width: 100%;
+}
+
+.media-list li {
+    padding: 0 5px;
+}
+
+.media-list li:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.media-list a {
+    display: inline-block;
+    width: 100%;
+}
+
+.media-list li.media-list-link:hover, .media-list li.media-list-link:active {
+    background-color: #8598AF;
+}
+
+.media-list img {
+    width: 50px;
+    float: left;
+    margin: 5px 5px 5px 0;
+}
+
+.highlight {
+    color: #264348;
+}

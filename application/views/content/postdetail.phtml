@@ -18,7 +18,7 @@
     <div class="row body">
         <div class="col-md-8">
 
-            <?php if(!empty($v['images'])) : ?>
+            <?php if(!empty($data['images'])) : ?>
             <div class="post-thumbnail thumbnail">
                 <a href="<?= htmlspecialchars($data['images'][0]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][0]['id']) ?>">
                     <img src="<?= htmlspecialchars($data['images'][0]['imageName']) ?>" alt="slider1" class="img-responsive"/>
