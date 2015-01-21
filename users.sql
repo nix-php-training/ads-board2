@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `statusId` TINYINT(1) NOT NULL,
   `roleId` TINYINT(1) NOT NULL,
   `hash` varchar(64) DEFAULT NULL,
+  `postRemains` INT(6) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -47,8 +48,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `fullName` varchar(32),
-  `birthday` DATE DEFAULT '0000-00-00',
-  `lastUpdate` DATE DEFAULT '0000-00-00',
+  `birthday` DATE,
   `phone` varchar(32),
   `skype` VARCHAR(16),
   `userId` BIGINT NOT NULL,
@@ -172,10 +172,10 @@ INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','mo
 
 /*Data for the table `profiles` */
 
-insert  into `profiles`(`id`,`fullName`, `birthday`,`lastUpdate`, `phone`,`skype`,`userId`)
-values (1,'Vasiliy Lee','2000-01-21', '2015-01-05', '+380505556677','Lee',1),
-  (4,'Vladimir Den','2015-01-19', '2015-01-05', '+80501112233','Denchik',2),
-  (7,'Nikolay Popov','2008-01-11', '2015-01-05', '+380679998877','PopovN',3);
+insert  into `profiles`(`id`,`fullName`, `birthday`, `phone`,`skype`,`userId`)
+values (1,'Vasiliy Lee','2000-01-21', '+380505556677','Lee',1),
+  (4,'Vladimir Den','2015-01-19', '+80501112233','Denchik',2),
+  (7,'Nikolay Popov','2008-01-11', '+380679998877','PopovN',3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

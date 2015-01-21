@@ -16,7 +16,12 @@ class ProfileController extends BaseController
             $this->redirect('/error404');
         }
         $data = $this->getModel()->getProfile($this->userId);
-        $this->view('content/profile', $data);
+        if ($data){
+            $this->view('content/profile', $data);
+        } else {
+            $this->redirect('/error404');
+        }
+
     }
 
     public function editProfileAction()

@@ -19,8 +19,6 @@ class Profile extends Model
 
     public function update($input, $id)
     {
-        $input['lastUpdate'] = date('Y-m-d', time());
-        $_SESSION['profile']['lastUpdate'] = $input['lastUpdate'];
         $this->db->update($this->table, $input, ['userId' => $id]);
     }
 
