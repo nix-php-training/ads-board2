@@ -27,11 +27,20 @@
         <li>
             <div class="item">
                 <?php if (!empty($v['images'])) : ?>
-                    <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>" data-lightbox="image-1"
-                       data-title="My caption" id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
-                        <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="slider1"
-                             class="thumbnail img-responsive"/>
-                    </a>
+                    <?php if(!empty($v['images'])) : ?>
+
+                        <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>" data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>" data-title="<?php echo htmlspecialchars($v['subject']) ?>" id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
+                            <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="img<?php echo htmlspecialchars($v['id']) ?>" class="thumbnail img-responsive" />
+                        </a>
+
+                    <?php endif; ?>
+
+                    <div class="hidden">
+
+                        <?php for ( $i = 1 ; $i < count($v['images']); $i++) : ?>
+                            <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>" data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>" data-title="<?php echo htmlspecialchars($v['subject']) ?>" id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
+                        <?php endfor; ?>
+                    </div>
                 <?php endif; ?>
 
                 <h1><?= $v['subject'] ?></h1>
