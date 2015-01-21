@@ -261,6 +261,7 @@ class UserController extends BaseController
 
         if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
             $token = $response['TOKEN'];//получаем токен из ответа апи
+            echo "Ima here3";
             header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
         }
     }

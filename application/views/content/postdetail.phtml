@@ -26,13 +26,16 @@
 
                 <div class="photo-amount"><?= htmlspecialchars(count($data['images'])) ?> photo</div>
             </div>
+
+                <div class="hidden">
+                    <?php for( $i = 1 ; $i < count($data['images']); $i++) : ?>
+                        <a href="<?= htmlspecialchars($data['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][$i]['id']) ?>"></a>
+                    <?php endfor; ?>
+                </div>
+
             <?php endif; ?>
 
-            <div class="hidden">
-                <?php for( $i = 1 ; $i < count($data['images']); $i++) : ?>
-                <a href="<?= htmlspecialchars($data['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][$i]['id']) ?>"></a>
-                <?php endfor; ?>
-            </div>
+
 
             <p class="description">
                 <?php echo htmlspecialchars($data['description']) ?>
