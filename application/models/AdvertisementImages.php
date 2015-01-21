@@ -29,6 +29,11 @@ class AdvertisementImages extends Model
 
     }
 
+    /**
+     * @param $id
+     * @return Array
+     * @throws DatabaseErrorException
+     */
     public function getImagesByAdsId($id)
     {
         try {
