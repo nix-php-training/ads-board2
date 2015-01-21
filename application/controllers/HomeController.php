@@ -13,25 +13,31 @@ class HomeController extends BaseController
 
     function indexAction()
     {
-        $advertisementList = $this->advertisementModel->getLastAdvertisement();
+        try {
+            // create list of last 10 posts
+            $advertisementList = $this->advertisementModel->getLastAdvertisement();
 
-        foreach ($advertisementList as &$advertisement) {
+            // attach images to list
+            foreach ($advertisementList as &$advertisement) {
 
-            //get images from DB
-            $imagesArray = $this->adsImageModel->getImagesByAdsId($advertisement['id']);
+                //get images from DB
+                $imagesArray = $this->adsImageModel->getImagesByAdsId($advertisement['id']);
 
-            if (!is_null($imagesArray)) {
-                $advertisement['images'] = $this->adsImageModel->createImagePath($imagesArray, $_SESSION['userId'],
-                    $advertisement['id']);
-                $advertisement['imagesPreview'] = $this->adsImageModel->createPreviewImagePath($imagesArray,
-                    $_SESSION['userId'], $advertisement['id']);
-            } else {
-                $advertisement['images'] = [];
-                $advertisement['imagesPreview'] = [];
+                if (!is_null($imagesArray)) {
+                    $advertisement['images'] = $this->adsImageModel->createImagePath($imagesArray, $_SESSION['userId'],
+                        $advertisement['id']);
+                    $advertisement['imagesPreview'] = $this->adsImageModel->createPreviewImagePath($imagesArray,
+                        $_SESSION['userId'], $advertisement['id']);
+                } else {
+                    $advertisement['images'] = [];
+                    $advertisement['imagesPreview'] = [];
+                }
             }
+            $data = ['resentAds' => $advertisementList];
+            $this->view('content/index', $data);
+        } catch(DatabaseErrorException $e) {
+            $this->view('content/index', ['message' => 'Sorry, we have nothing to show.']);
         }
-        $data = ['resentAds' => $advertisementList];
-        $this->view('content/index', $data);
     }
 
     function postListAction()
@@ -117,7 +123,7 @@ class HomeController extends BaseController
 
                 $adsId = $this->advertisementModel->addAdvertisement($data);
                 $userDir = $arr['imagePath'] . $_SESSION['userId'] . '/' . $adsId;
-                $tempImages = glob($tempUserDir . '/*.{png,jpg}', GLOB_BRACE);
+                $tempImages = glob($tempUserDir . '/*.{png,jpg,gif}', GLOB_BRACE);
 
                 //create folder for images + folder for images preview
                 mkdir($userDir . '/preview', 0777, true);

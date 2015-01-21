@@ -83,13 +83,13 @@ WHERE advertisements.id={$id}");
     }
 
     /**
-     * Get last 10 (by default) advertisements
+     * Get last 12 (by default) advertisements
      *
      * @param int $limit = 10 by default
      * @return Array
      * @throws DatabaseErrorException
      */
-    public function getLastAdvertisement($limit = 10)
+    public function getLastAdvertisement($limit = 12)
     {
         try {
             return $this->db->query("SELECT id, subject, creationDate

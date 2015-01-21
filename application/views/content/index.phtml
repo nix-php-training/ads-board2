@@ -18,37 +18,38 @@
     <div class="clearfix"></div>
 
     <h3>Recent posts</h3>
+    <h3><?= $data['message'] ?></h3>
 </div>
 
 <ul class="grid effect-1" id="grid">
     <?php foreach ($data['resentAds'] as $v) : ?>
-        <?php ChromePhp::log($v); ?>
         <!--Element start-->
         <li>
             <div class="item">
                 <?php if (!empty($v['images'])) : ?>
-                    <?php if(!empty($v['images'])) : ?>
-
-                        <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>" data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>" data-title="<?php echo htmlspecialchars($v['subject']) ?>" id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
-                            <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>" alt="img<?php echo htmlspecialchars($v['id']) ?>" class="thumbnail img-responsive" />
-                        </a>
-
-                    <?php endif; ?>
-
+                    <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>"
+                       data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>"
+                       data-title="<?php echo htmlspecialchars($v['subject']) ?>"
+                       id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
+                        <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>"
+                             alt="img<?php echo htmlspecialchars($v['id']) ?>" class="thumbnail img-responsive"/>
+                    </a>
                     <div class="hidden">
-
-                        <?php for ( $i = 1 ; $i < count($v['images']); $i++) : ?>
-                            <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>" data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>" data-title="<?php echo htmlspecialchars($v['subject']) ?>" id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
+                        <?php for ($i = 1; $i < count($v['images']); $i++) : ?>
+                            <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>"
+                               data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>"
+                               data-title="<?php echo htmlspecialchars($v['subject']) ?>"
+                               id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
                         <?php endfor; ?>
                     </div>
                 <?php endif; ?>
 
-                <h1><?= $v['subject'] ?></h1>
+                <h1><?= htmlspecialchars($v['subject']) ?></h1>
 
                 <div id="textbox">
-                    <p class="pull-left"><?= $v['creationDate'] ?></p>
+                    <p class="pull-left"><?= htmlspecialchars($v['creationDate']) ?></p>
 
-                    <p class="pull-right"><a href="/postdetail/<?= $v['id'] ?>">See more <span
+                    <p class="pull-right"><a href="/postdetail/<?= htmlspecialchars($v['id']) ?>">See more <span
                                 class="glyphicon glyphicon-open"></span></a>
                     </p>
                 </div>
