@@ -71,7 +71,7 @@ class Advertisement extends Model
   advertisements.id         AS id,
   categories.title          AS category,
   users.login               AS userLogin,
-  advertisementsImages.link AS link
+  advertisementsImages.imageName AS link
 FROM advertisements
   JOIN categories ON categoryId = categories.id
   JOIN users ON userId = users.id
