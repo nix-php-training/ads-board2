@@ -2,16 +2,41 @@
 
 class HomeController extends BaseController
 {
+    function __construct($params, $model)
+    {
+        parent::__construct($params, $model);
+
+        $this->advertisementModel = new Advertisement();
+        $this->adsImageModel = new AdvertisementImages();
+        $this->categoryModel = new Category();
+    }
+
     function indexAction()
     {
+//        $advertisementList = $this->advertisementModel->getLastAdvertisement(2);
+//
+//        foreach ($advertisementList as $advertisement) {
+//            //get images from DB
+//            $imagesArray = $this->adsImageModel->getImagesByAdsId($advertisement['id']);
+//
+//            if (!is_null($imagesArray)) {
+//                $v['images'] = $this->adsImageModel->createImagePath($imagesArray, $_SESSION['userId'],
+//                    $advertisement['id']);
+//                $advertisement['imagesPreview'] = $this->adsImageModel->createPreviewImagePath($imagesArray,
+//                    $_SESSION['userId'], $v['id']);
+//            } else {
+//                $advertisement['images'] = [];
+//                $advertisement['imagesPreview'] = [];
+//            }
+//        }
         $this->view('content/index');
     }
 
     function postListAction()
     {
         $data = array();
-        $categories = (new Category())->getCategoriesBy(['id', 'title']);
-        $ads = (new Advertisement())->getAllAdvertisements();
+        $categories = $this->categoryModel->getCategoriesBy(['id', 'title']);
+        $ads = $this->advertisementModel->getAllAdvertisements();
 
         $data['categories'] = $categories;
 
@@ -20,13 +45,14 @@ class HomeController extends BaseController
             $v['creationDate'] = $temp;
 
             //get images from DB
-            $imagesArray = (new AdvertisementImages())->getImagesByAdsId($v['id']);
+            $imagesArray = $this->adsImageModel->getImagesByAdsId($v['id']);
 
-            if(!is_null($imagesArray)) {
-                $v['images'] = (new AdvertisementImages())->createImagePath($imagesArray, $_SESSION['userId'], $v['id']);
-                $v['imagesPreview'] = (new AdvertisementImages())->createPreviewImagePath($imagesArray, $_SESSION['userId'], $v['id']);
-            }
-            else {
+            if (!is_null($imagesArray)) {
+                $v['images'] = $this->adsImageModel->createImagePath($imagesArray, $_SESSION['userId'],
+                    $v['id']);
+                $v['imagesPreview'] = $this->adsImageModel->createPreviewImagePath($imagesArray,
+                    $_SESSION['userId'], $v['id']);
+            } else {
                 $v['images'] = [];
                 $v['imagesPreview'] = [];
             }
@@ -46,15 +72,16 @@ class HomeController extends BaseController
         try {
             $data = array();
             $id = $this->getParams('adsId');
-            $ads = (new Advertisement())->getAdvertisementById($id);
+            $ads = $this->advertisementModel->getAdvertisementById($id);
 
-            $imagesArray = (new AdvertisementImages())->getImagesByAdsId($id);
+            $imagesArray = $this->adsImageModel->getImagesByAdsId($id);
 
-            if(!is_null($imagesArray)) {
-                $ads[0]['images'] = (new AdvertisementImages())->createImagePath($imagesArray, $_SESSION['userId'], $id);
-                $ads[0]['imagesPreview'] = (new AdvertisementImages())->createPreviewImagePath($imagesArray, $_SESSION['userId'], $id);
-            }
-            else {
+            if (!is_null($imagesArray)) {
+                $ads[0]['images'] = $this->adsImageModel->createImagePath($imagesArray, $_SESSION['userId'],
+                    $id);
+                $ads[0]['imagesPreview'] = $this->adsImageModel->createPreviewImagePath($imagesArray,
+                    $_SESSION['userId'], $id);
+            } else {
                 $ads[0]['images'] = [];
                 $ads[0]['imagesPreview'] = [];
             }
@@ -86,7 +113,7 @@ class HomeController extends BaseController
 
             if (isset($subject) && isset($description) && isset($price) && isset($category)) {
 
-                $adsId = (new Advertisement())->addAdvertisement($data);
+                $adsId = $this->advertisementModel->addAdvertisement($data);
                 $userDir = $arr['imagePath'] . $_SESSION['userId'] . '/' . $adsId;
                 $tempImages = glob($tempUserDir . '/*.{png,jpg}', GLOB_BRACE);
 
@@ -103,10 +130,10 @@ class HomeController extends BaseController
                         'imageName' => $targetImageName,
                         'advertisementId' => $adsId,
                     ];
-                    (new AdvertisementImages())->saveAdsImages($data);
+                    $this->adsImageModel->saveAdsImages($data);
 
                     rename($image, $finalImageName);
-                    (new AdvertisementImages())->makeThumb($finalImageName);
+                    $this->adsImageModel->makeThumb($finalImageName);
                 }
 
                 rmdir($tempUserDir);
@@ -120,7 +147,7 @@ class HomeController extends BaseController
             if (is_dir($tempUserDir)) {
                 $this->rrmdir($tempUserDir);
             }
-            $categories = (new Category())->getCategoriesBy(['id', 'title']);
+            $categories = $this->categoryModel->getCategoriesBy(['id', 'title']);
             $data['categories'] = $categories;
             $this->view('content/addPost', $data);
 
@@ -145,7 +172,9 @@ class HomeController extends BaseController
 
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
 
-       if (!mkdir($tempUserDir, 0777, true))  ChromePhp::log("die");;
+        if (!mkdir($tempUserDir, 0777, true)) {
+            ChromePhp::log("die");
+        };
         $extension = explode('.', $_FILES['file']['name']);
 
         move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));

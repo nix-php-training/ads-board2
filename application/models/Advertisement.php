@@ -9,6 +9,10 @@ class Advertisement extends Model
         return $this->db->insert($this->table, $data);
     }
 
+    /**
+     * @return Array
+     * @throws DatabaseErrorException
+     */
     public function getAllAdvertisements()
     {
         try {
@@ -20,6 +24,11 @@ class Advertisement extends Model
         }
     }
 
+    /**
+     * @param $id
+     * @return Array
+     * @throws DatabaseErrorException
+     */
     public function getAdvertisementById($id)
     {
         try {
@@ -71,5 +80,13 @@ WHERE advertisements.id={$id}");
     public function getFromCatalogById($id)
     {
         return $this->db->query("SELECT * FROM catalog WHERE id = {$id}")->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getLastAdvertisement($limit)
+    {
+        return $this->db->query("SELECT id, subject, creationDate
+FROM advertisements
+ORDER BY creationDate DESC
+LIMIT {$limit}")->fetch(PDO::FETCH_ASSOC);
     }
 }
