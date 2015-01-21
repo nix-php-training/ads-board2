@@ -5,6 +5,8 @@ app.controller('adsCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.rowCollection = [];
     $scope.displayedCollection = [];
     $scope.editingData = [];
+    $scope.imgHost = cnst.IMG_HOST;
+    $scope.imgPreview = cnst.PREVIEW;
 
     $scope.displayedCollection = [].concat($scope.rowCollection);
 
@@ -14,6 +16,8 @@ app.controller('adsCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get('/admin/getadvertisements').success(function (data) {
 
         $scope.hideError = true;
+
+        console.log(data);
 
         $scope.rowCollection = data.sort(byId);
         $scope.displayedCollection = [].concat($scope.rowCollection);
