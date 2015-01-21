@@ -13,8 +13,15 @@ var byId = function (a, b) {
     return 0;
 };
 
-function createAdsDom(data)
-{
+//function mysqlTimeStampToDate(timestamp) {
+////function parses mysql datetime string and returns javascript Date object
+////input has to be in this format: 2007-06-05 15:26:02
+//    var regex=/^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?$/;
+//    var parts=timestamp.replace(regex,"$1 $2 $3 $4 $5 $6").split(' ');
+//    return new Date(parts[0],parts[1]-1,parts[2],parts[3],parts[4],parts[5]);
+//}
+
+function createAdsDom(data) {
     var div = $('#posts');
     div.empty();
     div.slideDown(200);
@@ -24,12 +31,13 @@ function createAdsDom(data)
         var postList = $('<div>').attr('id', 'post-list').attr('class', 'row post-list vertical-align');
 
         var subj = data[i].subject,
-            desc = data[i].decstiption,
+            desc = data[i].description,
             price = data[i].price,
-            imgLink = data[i].img,
+            imgLink = data[i].images[0].imageName,
+            imgPreview = data[i].imagesPreview[0].imageName,
             userId = data[i].userId,
-            userName = data[i].userName,
-            cDate = data[i].cDate,
+            userName = data[i].login,
+            cDate = data[i].creationDate,
             adsId = data[i].id;
 
         var dateTime = $('<div>').attr('class', 'col-md-2 text-right date-time'),
@@ -37,18 +45,11 @@ function createAdsDom(data)
         dateTime.append(h1);
 
         var images = $('<div>').attr('class', 'col-md-2 images'),
-            lightbox = $('<a>').attr('href',
-                cnst.IMG_HOST + cnst.SEPARATOR +
-                userId + cnst.SEPARATOR +
-                adsId + cnst.SEPARATOR + imgLink).
+            lightbox = $('<a>').attr('href', imgLink).
                 attr('data-lightbox', 'image-' + adsId).
                 attr('data-title', subj),
 
-            img = $('<img>').attr('src',
-                cnst.IMG_HOST + cnst.SEPARATOR +
-                userId + cnst.SEPARATOR +
-                adsId + cnst.SEPARATOR +
-                cnst.PREVIEW + imgLink).
+            img = $('<img>').attr('src', imgPreview).
                 attr('class', 'thumbnail img-responsive');
 
         lightbox.append(img);
@@ -77,17 +78,22 @@ function createAdsDom(data)
     }
 }
 
-$(function() {
+$(function () {
     var select = $('#categories');
-    select.change(function(){
-        //alert(select.val());
-        $.post('home/adsload',{ catId: select.val()}, function(data){
-                //alert('success');
+    select.change(function () {
 
-                data = JSON.parse(data);
+        $.post('home/adsload', {catId: select.val()}, function (data) {
+                if (data) {
+                    data = JSON.parse(data);
+                    createAdsDom(data);
+                }
+                else {
+                    var posts = $('#posts'),
+                        notFound = $('<h5>').attr('class', 'text-danger text-center').text('There are no advertisements in the selected category.');
+                    posts.empty();
+                    posts.append(notFound);
 
-                createAdsDom(data);
-                //$.each(createAdsDom(data));
+                }
             }
         );
         //$.ajax({
@@ -100,7 +106,6 @@ $(function() {
         //    alert('success');
         //    data = JSON.parse(data);
         //    createAdsDom(data);
-        //    //$.each(createAdsDom(data));
         //}
         //});
     });
