@@ -32,6 +32,30 @@ class Advertisement extends Model
         }
     }
 
+    public function getAdvertisementsByCategory($id)
+    {
+        try {
+            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
+                                  INNER JOIN categories c on a.categoryId=c.id
+                                  INNER JOIN users u on a.userId=u.id
+                                  WHERE a.categoryId=' . $id)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
+
+    public function getAdvertisementsByUser($userId)
+    {
+        try {
+            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
+                                  INNER JOIN categories c on a.categoryId=c.id
+                                  INNER JOIN users u on a.userId=u.id
+                                  WHERE a.userId=' . $userId)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
+
     /**
      * Extract all posts from db with link at image
      *
@@ -47,7 +71,7 @@ class Advertisement extends Model
   advertisements.id         AS id,
   categories.title          AS category,
   users.login               AS userLogin,
-  advertisementsImages.link AS link
+  advertisementsImages.imageName AS link
 FROM advertisements
   JOIN categories ON categoryId = categories.id
   JOIN users ON userId = users.id

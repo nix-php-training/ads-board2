@@ -21,12 +21,15 @@ Search.prototype = {
                 imgLink = data[i].img,
                 userId = data[i].userId,
                 userName = data[i].userName,
-                cDate = data[i].cDate,
+                cDate = data[i].cDate.split(' ')[0], // get date
+                cTime = data[i].cDate.split(' ')[1], // get time
                 adsId = data[i].id;
 
             var dateTime = $('<div>').attr('class', 'col-md-2 text-right date-time'),
-                h1 = $('<h1>').text(cDate);
-            dateTime.append(h1);
+                date = $('<h1>').text(cDate),
+                time = $('<h2>').text(cTime);
+            dateTime.append(date);
+            dateTime.append(time);
 
             var images = $('<div>').attr('class', 'col-md-2 images'),
                 lightbox = $('<a>').attr('href',
