@@ -39,9 +39,11 @@ class AdvertisementImages extends Model
         }
     }
 
-    public function createImagePath($images, $userId, $adsId)
+    public function createImagePath($images)
     {
         $path = Config::get('site');
+        $userId = explode('_', $images[0]['imageName'])[1];
+        $adsId = explode('_', $images[0]['imageName'])[2];
         foreach ($images as &$image)
         {
             $imageTemp = $path['imageLink'].$userId.'/'.$adsId.'/'.$image['imageName'];
@@ -50,9 +52,12 @@ class AdvertisementImages extends Model
         return $images;
     }
 
-    public function createPreviewImagePath($images, $userId, $adsId)
+    public function createPreviewImagePath($images)
     {
         $path = Config::get('site');
+
+        $userId = explode('_', $images[0]['imageName'])[1];
+        $adsId = explode('_', $images[0]['imageName'])[2];
         foreach ($images as &$image)
         {
             $imageTemp = $path['imageLink'].$userId.'/'.$adsId.'/preview/thumb_'.$image['imageName'];
