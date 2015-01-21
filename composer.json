@@ -1,19 +1,19 @@
 {
-  "autoload": {
-    "psr-4": {
-      "": [
-        "framework/classes",
-        "framework/core/",
-        "application/controllers",
-        "application/models"
-      ]
+    "autoload": {
+        "psr-4": {
+            "": [
+                "framework/classes",
+                "framework/core/",
+                "application/controllers",
+                "application/models"
+            ]
+        }
+    },
+    "require": {
+        "ext-imagick": "*",
+        "ext-mysql": "*",
+        "phpmailer/phpmailer": "5.2.9"
     }
-  },
-  "require": {
-    "ext-imagick": "*",
-    "ext-mysql": "*",
-    "phpmailer/phpmailer": "5.2.9"
-  }
 }
 
    
