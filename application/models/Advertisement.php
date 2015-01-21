@@ -82,11 +82,22 @@ WHERE advertisements.id={$id}");
         return $this->db->query("SELECT * FROM catalog WHERE id = {$id}")->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getLastAdvertisement($limit)
+    /**
+     * Get last 10 (by default) advertisements
+     *
+     * @param int $limit = 10 by default
+     * @return Array
+     * @throws DatabaseErrorException
+     */
+    public function getLastAdvertisement($limit = 10)
     {
-        return $this->db->query("SELECT id, subject, creationDate
+        try {
+            return $this->db->query("SELECT id, subject, creationDate
 FROM advertisements
 ORDER BY creationDate DESC
-LIMIT {$limit}")->fetch(PDO::FETCH_ASSOC);
+LIMIT {$limit}")->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
     }
 }

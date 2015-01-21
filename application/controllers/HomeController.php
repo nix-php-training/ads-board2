@@ -13,23 +13,25 @@ class HomeController extends BaseController
 
     function indexAction()
     {
-//        $advertisementList = $this->advertisementModel->getLastAdvertisement(2);
-//
-//        foreach ($advertisementList as $advertisement) {
-//            //get images from DB
-//            $imagesArray = $this->adsImageModel->getImagesByAdsId($advertisement['id']);
-//
-//            if (!is_null($imagesArray)) {
-//                $v['images'] = $this->adsImageModel->createImagePath($imagesArray, $_SESSION['userId'],
-//                    $advertisement['id']);
-//                $advertisement['imagesPreview'] = $this->adsImageModel->createPreviewImagePath($imagesArray,
-//                    $_SESSION['userId'], $v['id']);
-//            } else {
-//                $advertisement['images'] = [];
-//                $advertisement['imagesPreview'] = [];
-//            }
-//        }
-        $this->view('content/index');
+        $advertisementList = $this->advertisementModel->getLastAdvertisement();
+
+        foreach ($advertisementList as &$advertisement) {
+
+            //get images from DB
+            $imagesArray = $this->adsImageModel->getImagesByAdsId($advertisement['id']);
+
+            if (!is_null($imagesArray)) {
+                $advertisement['images'] = $this->adsImageModel->createImagePath($imagesArray, $_SESSION['userId'],
+                    $advertisement['id']);
+                $advertisement['imagesPreview'] = $this->adsImageModel->createPreviewImagePath($imagesArray,
+                    $_SESSION['userId'], $advertisement['id']);
+            } else {
+                $advertisement['images'] = [];
+                $advertisement['imagesPreview'] = [];
+            }
+        }
+        $data = ['resentAds' => $advertisementList];
+        $this->view('content/index', $data);
     }
 
     function postListAction()
