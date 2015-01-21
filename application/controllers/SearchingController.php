@@ -24,23 +24,6 @@ class SearchingController extends BaseController
     }
 
     /**
-     * Do search while user typing search query
-     */
-    public function liveSearchAction()
-    {
-        if (isset($_POST['q'])) {
-
-            $query = $_POST['q'];
-
-            $result = $this->prepareResult($query);
-
-            if (!empty($result)) {
-                echo json_encode($result);
-            }
-        }
-    }
-
-    /**
      * Find ads-info in db by query
      *
      * @param $query
@@ -56,23 +39,38 @@ class SearchingController extends BaseController
         $s->SetArrayResult(true);
         $queryResult = $s->query($query);
 
-        if ($queryResult) {
-            if (array_key_exists('matches', $queryResult)) {
+        if (array_key_exists('matches', $queryResult)) {
 
-                $matches = $queryResult['matches'];
+            $matches = $queryResult['matches'];
 
-                $l = (count($matches) <= $this->_limit) ? count($matches) : $this->_limit;
+            $l = (count($matches) <= $this->_limit) ? count($matches) : $this->_limit;
 
-                for ($i = 0; $i < $l; $i += 1) {
-                    $match = $matches[$i];
+            for ($i = 0; $i < $l; $i += 1) {
+                $match = $matches[$i];
 
-                    if (array_key_exists('id', $match)) {
-                        $result [] = $advertisement->getFromCatalogById($match['id']);
-                    }
+                if (array_key_exists('id', $match)) {
+                    $result [] = $advertisement->getFromCatalogById($match['id']);
                 }
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Do search while user typing search query
+     */
+    public function liveSearchAction()
+    {
+        if (isset($_POST['q'])) {
+
+            $query = $_POST['q'];
+
+            $result = $this->prepareResult($query);
+
+            if (!empty($result)) {
+                echo json_encode($result);
+            }
+        }
     }
 }
