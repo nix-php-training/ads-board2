@@ -5,6 +5,7 @@ class HomeController extends BaseController
     private $advertisementImgModel;
     private $advertisementModel;
     private $categoryModel;
+    private $userModel;
 
 
     function __construct($params, $model)
@@ -14,6 +15,7 @@ class HomeController extends BaseController
         $this->advertisementImgModel = new AdvertisementImages();
         $this->advertisementModel = new Advertisement();
         $this->categoryModel = new Category();
+        $this->userModel = new User();
     }
 
     function indexAction()
@@ -142,6 +144,8 @@ class HomeController extends BaseController
 
     function addPostAction()
     {
+        $this->userModel->checkCurrentPlan();/*check current plan if payments.endDate expired - reset plan to free*/
+
         $arr = Config::get('site');
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'];
 
