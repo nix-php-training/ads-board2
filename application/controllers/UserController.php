@@ -194,11 +194,6 @@ class UserController extends BaseController
             }
         }
         $planType = $_SESSION['planType'];
-//        echo '<pre>';
-//        var_dump($planType);
-//        echo '<hr />';
-//        var_dump($response);
-//        echo '<pre>';
         $this->getModel()->changePlan($planType);
         $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
     }
@@ -262,6 +257,11 @@ class UserController extends BaseController
             $token = $response['TOKEN'];//получаем токен из ответа апи
             header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
         }
+    }
+
+    function resetAction()
+    {
+
     }
 
     function restoreAction()

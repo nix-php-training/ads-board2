@@ -564,3 +564,8 @@ table#plans td, th {
 .highlight {
     color: #264348;
 }
+
+span.plan-name, span.plan-end-date {
+    color: #3bafda;
+    font-style: oblique;
+}
