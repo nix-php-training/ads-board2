@@ -22,7 +22,7 @@ $planData = $this->_data;
                 </ul>
             </div>
             <div class="price-foot">
-                <a href="/user/reset"><button type="button" class="btn btn-primary <?php echo $planData['disableFree'];?>">RESET</button></a>
+                <a> <!--href="/user/reset"--><button type="button" id="resetplan" class="btn btn-primary <?php echo $planData['disableFree'];?>">RESET</button></a>
             </div>
         </li>
         <li class="unit price-success active">
@@ -54,4 +54,7 @@ $planData = $this->_data;
             </div>
         </li>
     </ul>
+</div>
+<div id="resetdialog" title="Confirmation">
+    <p>You will reset your plan to FREE<b>OK</b><b>CANCEL</b></p>
 </div>

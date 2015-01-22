@@ -569,3 +569,7 @@ span.plan-name, span.plan-end-date {
     color: #3bafda;
     font-style: oblique;
 }
+
+#resetdialog {
+    display: none;
+}
