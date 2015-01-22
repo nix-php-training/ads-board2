@@ -232,16 +232,16 @@ class UserController extends BaseController
                 break;
             case 'business':
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '999.9',
+                    'PAYMENTREQUEST_0_AMT' => '199.9',
                     //цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'
+                    'PAYMENTREQUEST_0_ITEMAMT' => '199.9'
                     //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
                     'L_PAYMENTREQUEST_0_NAME0' => 'BUSINESS-plan',
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subscribe for BUSINESS-plan on ads-board2.zone',
-                    'L_PAYMENTREQUEST_0_AMT0' => '999.9',
+                    'L_PAYMENTREQUEST_0_AMT0' => '199.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
                 $_SESSION['planType'] = 'business';
