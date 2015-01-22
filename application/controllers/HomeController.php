@@ -14,6 +14,7 @@ class HomeController extends BaseController
         $this->advertisementImgModel = new AdvertisementImages();
         $this->advertisementModel = new Advertisement();
         $this->categoryModel = new Category();
+        $this->profileModel = new Profile();
     }
 
     function indexAction()
@@ -132,6 +133,7 @@ class HomeController extends BaseController
             }
 
             $data = $ads[0];
+            $data['profile'] = $this->profileModel->getProfile($data['userId']);
 
             $this->view('content/postDetail', $data);
         } catch (DatabaseErrorException $e) {
