@@ -254,7 +254,6 @@ class UserController extends BaseController
             'CANCELURL' => Config::get('site')['host'] . 'user/cancelled'
             //user will return to this page when payment cancelled
         );
-
         $paypal = new Paypal();
 
         $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);

@@ -26,20 +26,23 @@
 
                 <div class="photo-amount"><?= htmlspecialchars(count($data['images'])) ?> photo</div>
             </div>
+
+                <div class="hidden">
+                    <?php for( $i = 1 ; $i < count($data['images']); $i++) : ?>
+                        <a href="<?= htmlspecialchars($data['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][$i]['id']) ?>"></a>
+                    <?php endfor; ?>
+                </div>
+
             <?php endif; ?>
 
-            <div class="hidden">
-                <?php for( $i = 1 ; $i < count($data['images']); $i++) : ?>
-                <a href="<?= htmlspecialchars($data['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][$i]['id']) ?>"></a>
-                <?php endfor; ?>
-            </div>
+
 
             <p class="description">
                 <?php echo htmlspecialchars($data['description']) ?>
             </p>
         </div>
         <div class="col-md-4">
-            <div class="price"><h3><?php echo htmlspecialchars($data['price']) ?>$</h3></div>
+            <div class="price"><h3>$<?php echo htmlspecialchars($data['price']) ?></h3></div>
             <div class="author">
                 <p>CONTACT THE AUTHOR OF THE ADVERTISEMENT</p>
 

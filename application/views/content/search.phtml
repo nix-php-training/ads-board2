@@ -11,15 +11,15 @@
     <?php foreach ($data['searchResult'] as $v) : ?>
         <div class="row post-list vertical-align" id="post-list">
             <div class="col-md-2 text-right date-time">
-                <h1><?= date("Y-m-d", $v['cDate']) ?></h1>
+                <h1><?= Tools::splitDatetime($v['cDate'], 'date') ?></h1>
 
-                <h2><?= date("H:m", $v['cDate']) ?></h2>
+                <h2><?= Tools::splitDatetime($v['cDate'], 'time') ?></h2>
             </div>
 
             <div class="col-md-2 images">
-                <a href="http://img.ads-board2/<?= $v['userId'] ?>/<?= $v['id'] ?>/<?= $v['img'] ?>"
+                <a href="<?= $data['imgHost'] ?><?= $v['userId'] ?>/<?= $v['id'] ?>/<?= $v['img'] ?>"
                    data-lightbox="image-1" data-title="My caption">
-                    <img src="http://img.ads-board2/<?= $v['userId'] ?>/<?= $v['id'] ?>/preview/thumb_<?= $v['img'] ?>"
+                    <img src="<?= $data['imgHost'] ?><?= $v['userId'] ?>/<?= $v['id'] ?>/preview/thumb_<?= $v['img'] ?>"
                          alt="slider1" class="thumbnail img-responsive"/>
                 </a>
 
@@ -30,7 +30,7 @@
                     <a href="/postdetail/<?= htmlspecialchars($v['id']) ?>"><?php echo htmlspecialchars($v['subject']) ?></a>
                 </h1>
 
-                <a href="/profile"><?= htmlspecialchars($v['login']) ?></a>
+                <a href="/profile/<?= $v['userId'] ?>"><?= htmlspecialchars($v['login']) ?></a>
 
             </div>
             <div class="col-md-2 text-right post-price">

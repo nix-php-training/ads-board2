@@ -71,4 +71,31 @@ class Tools
         $unique = substr(str_shuffle($chars), 0, $length);
         return $unique;
     }
+
+    /**
+     * Split row (YYYY-MM-DD HH:MM) by space
+     *
+     * @param $datetime
+     * @param $resultType = 'date' or 'time'
+     * @return string
+     */
+    public static function splitDatetime($datetime, $resultType)
+    {
+        $result = explode(' ', $datetime);
+
+        if (is_array($result)) {
+
+            switch ($resultType) {
+                case 'date':
+                    return $result[0];
+                case 'time':
+                    return $result[1];
+                default:
+                    return $datetime;
+            }
+
+        }
+
+        return 'Incorrect datetime row.';
+    }
 }
