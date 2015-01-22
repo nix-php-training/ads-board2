@@ -251,8 +251,7 @@ class User extends Model
         /*Start reset-block: resets plan to free if payments.endDate expired*/
         $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);//getting expiration date of plan
         if(strtotime($endDate) < time()) {
-            $this->db->query("UPDATE payments SET paymentType ='free', endDate = NULL, price = '0.0', planId = '1', userId = {$user['id']} WHERE userId = {$user['id']}");//reset to free if plan is no more available
-        } elseif(empty($endDate)) {//if free plan
+            $this->resetPlan($user['id']);//reset to free if plan is no more available
             $endDate = 'Termless';
         }
         /*end reset-block*/
@@ -269,13 +268,14 @@ class User extends Model
                 $disableBusiness = 'disabled';break;
         }
         $currentPlan = $this->db->fetchOne('plans','name',['id' => $currentPlan]);
+        $currentPlan = strtoupper($currentPlan);
         $planData = ['currentPlan' => $currentPlan, 'disableFree' => $disableFree, 'disablePro' =>  $disablePro, 'disableBusiness' => $disableBusiness, 'endDate' => $endDate];
         return $planData;
     }
 
-    function resetPlan()
+    function resetPlan($userId)//reset user plan to free by userId
     {
-
+        $this->db->query("UPDATE payments SET paymentType ='free', endDate = NULL, price = '0.0', planId = '1', userId = {$userId} WHERE userId = {$userId}");
     }
 
 
