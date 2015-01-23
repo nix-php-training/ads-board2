@@ -572,4 +572,11 @@ span.plan-name, span.plan-end-date {
 
 #resetdialog {
     display: none;
+    background-color: #434A54;
+    color: #fff;
+}
+
+div.ui-widget-header {
+    background-color: #434A54 !important;
+
 }
