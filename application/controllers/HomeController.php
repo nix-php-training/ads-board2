@@ -23,23 +23,12 @@ class HomeController extends BaseController
             // create list of last 10 posts
             $advertisementList = $this->advertisementModel->getLastAdvertisement();
 
-            // attach images to list
-            foreach ($advertisementList as &$advertisement) {
+            // attach images to advertisement list
+            $this->advertisementImgModel->attachImagesToAdsList($advertisementList);
 
-                //get images from DB
-                $imagesArray = $this->advertisementImgModel->getImagesByAdsId($advertisement['id']);
-
-                if (!is_null($imagesArray)) {
-                    $advertisement['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
-                    $advertisement['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
-                } else {
-                    $advertisement['images'] = [];
-                    $advertisement['imagesPreview'] = [];
-                }
-            }
             $data = ['resentAds' => $advertisementList];
             $this->view('content/index', $data);
-        } catch(DatabaseErrorException $e) {
+        } catch (DatabaseErrorException $e) {
             $this->view('content/index', ['message' => 'Sorry, we have nothing to show.']);
         }
     }
@@ -52,22 +41,8 @@ class HomeController extends BaseController
 
         $data['categories'] = $categories;
 
-        foreach ($ads as &$v) {
-            $temp = strtotime($v['creationDate']);
-            $v['creationDate'] = $temp;
-
-            //get images from DB
-            $imagesArray = $this->advertisementImgModel->getImagesByAdsId($v['id']);
-
-            if(!is_null($imagesArray)) {
-                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
-                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
-            }
-            else {
-                $v['images'] = [];
-                $v['imagesPreview'] = [];
-            }
-        }
+        // attach images to advertisement list
+        $this->advertisementImgModel->attachImagesToAdsList($ads);
 
         $data['advertisements'] = $ads;
         $this->view('content/postList', $data);
@@ -78,31 +53,15 @@ class HomeController extends BaseController
         $catId = $_POST['catId'];
         $ads = array();
 
-        if ($catId == 0)
-        {
+        if ($catId == 0) {
             $ads = $this->advertisementModel->getAllAdvertisements();
-        } else
-        {
+        } else {
             $ads = $this->advertisementModel->getAdvertisementsByCategory($catId);
         }
 
+        // attach images to advertisement list
+        $this->advertisementImgModel->attachImagesToAdsList($ads);
 
-        foreach ($ads as &$v) {
-//            $temp = strtotime($v['creationDate']);
-//            $v['creationDate'] = $temp;
-
-            //get images from DB
-            $imagesArray = $this->advertisementImgModel->getImagesByAdsId($v['id']);
-
-            if(!is_null($imagesArray)) {
-                $v['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
-                $v['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
-            }
-            else {
-                $v['images'] = [];
-                $v['imagesPreview'] = [];
-            }
-        }
         if (!empty($ads)) {
             echo json_encode($ads);
         }
@@ -120,17 +79,8 @@ class HomeController extends BaseController
             $id = $this->getParams('adsId');
             $ads = $this->advertisementModel->getAdvertisementById($id);
 
-            $imagesArray = $this->advertisementImgModel->getImagesByAdsId($id);
-
-            if(!is_null($imagesArray)) {
-                $ads[0]['images'] = $this->advertisementImgModel->createImagePath($imagesArray);
-                $ads[0]['imagesPreview'] = $this->advertisementImgModel->createPreviewImagePath($imagesArray);
-
-            }
-            else {
-                $ads[0]['images'] = [];
-                $ads[0]['imagesPreview'] = [];
-            }
+            // attach images to advertisement list
+            $this->advertisementImgModel->attachImagesToAdsList($ads);
 
             $data = $ads[0];
             $data['profile'] = $this->profileModel->getProfile($data['userId']);
@@ -201,35 +151,6 @@ class HomeController extends BaseController
         }
     }
 
-    function termsAction()
-    {
-        $this->view('content/terms');
-    }
-
-    function aboutAction()
-    {
-        $this->view('content/about');
-    }
-
-    // for image download example
-    // will be moved to correct controller
-    function imageDownloadAction()
-    {
-        $arr = Config::get('site');
-
-        $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
-
-        if (!mkdir($tempUserDir, 0777, true)) {
-            ChromePhp::log("die");
-        };
-        $extension = explode('.', $_FILES['file']['name']);
-
-        move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));
-
-        ChromePhp::log($_FILES);
-
-    }
-
     function rrmdir($dir)
     {
         if (is_dir($dir)) {
@@ -246,5 +167,32 @@ class HomeController extends BaseController
             reset($objects);
             rmdir($dir);
         }
+    }
+
+    function termsAction()
+    {
+        $this->view('content/terms');
+    }
+
+    function aboutAction()
+    {
+        $this->view('content/about');
+    }
+
+    function imageDownloadAction()
+    {
+        $arr = Config::get('site');
+
+        $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
+
+        if (!mkdir($tempUserDir, 0777, true)) {
+            ChromePhp::log("die");
+        };
+        $extension = explode('.', $_FILES['file']['name']);
+
+        move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));
+
+        ChromePhp::log($_FILES);
+
     }
 }
