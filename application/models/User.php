@@ -219,8 +219,11 @@ class User extends Model
     {
         $user = $this->getBy('link', $link,
             'confirmationLinks');//getting object with user data by confirmation link from email
-        $this->db->query("INSERT INTO currentPlan (price,planId,userId)
-                            VALUES ('0,0','1',{$user['id']})");
+        $planName = $this->db->fetchOne('plans','id',['name' => 'free']);
+        $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'free']);
+        $price = $this->db->fetchOne('plans','price',['name' => 'free']);
+        $this->db->query("INSERT INTO currentPlan (price,adsCounter,planId,userId)
+                            VALUES ({$price},{$adsTotal},{$planName},{$user['id']})");
     }
 
     function changePlan($planType)
@@ -228,17 +231,19 @@ class User extends Model
         switch ($planType) {
             case 'pro':
                 $price = $this->db->fetchOne('plans','price',['name' => 'pro']);
+                $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'pro']);
                 $planId = '2';//table plans : 2-pro-Plan(1- Free Plan, user got it by default when confirmed his acc)
                 break;
             case 'business':
                 $price = $this->db->fetchOne('plans','price',['name' => 'business']);
+                $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'business']);
                 $planId = '3';//table plans : 3- business plan
                 break;
         }
         $transactionId = $_SESSION['transactionId'];
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash', $hash);
-        $this->db->query("UPDATE currentPlan SET endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = {$user['id']}");
+        $this->db->query("UPDATE currentPlan SET endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', adsCounter = '{$adsTotal}', planId = '{$planId}' WHERE userId = {$user['id']}");
         $endDate = $this->db->fetchOne('currentPlan','endDate',['userId' => $user['id']]);
         $this->db->query("INSERT INTO payments(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH), 'paypal', '{$planType}','{$price}','{$transactionId}',{$user['id']})");
     }
@@ -276,7 +281,10 @@ class User extends Model
 
     function resetPlan($userId)//reset user plan to free by userId
     {
-        $this->db->query("UPDATE currentPlan SET endDate = NULL, price = '0.0', planId = '1', userId = {$userId} WHERE userId = {$userId}");
+        $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'free']);
+        $price = $this->db->fetchOne('plans','price',['name' => 'free']);
+        $planId = $this->db->fetchOne('plans','id',['name' => 'free']);
+        $this->db->query("UPDATE currentPlan SET endDate = NULL, adsCounter = {$adsTotal}, price = {$price}, planId = {$planId}, userId = {$userId} WHERE userId = {$userId}");
     }
 
 
