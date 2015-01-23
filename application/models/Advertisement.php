@@ -75,7 +75,7 @@ class Advertisement extends Model
      *
      * @return mixed Array('id', 'subject', 'price', 'creationDate', 'userId', 'category', 'userLogin', 'link')
      */
-    public function getAds()
+    public function getAllAdvertisementsWithImages()
     {
         return $this->db->query("SELECT
   subject,

@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `advertisements` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `subject` varchar(256) NOT NULL ,
   `description` varchar(256),
-  `price` DECIMAL NOT NULL ,
+  `price` DECIMAL(10,2) NOT NULL ,
   `creationDate` DATETIME NOT NULL ,
   `categoryId` BIGINT,
   `userId` BIGINT NOT NULL,

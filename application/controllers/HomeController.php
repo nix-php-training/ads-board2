@@ -103,7 +103,7 @@ class HomeController extends BaseController
                 'subject' => $subject = $_POST['subject'],
                 'description' => $description = $_POST['description'],
                 'price' => $price = floatval($_POST['price']),
-                'creationDate' => date('Y-m-d H:m:s'),
+                'creationDate' => date('Y-m-d H:i:s'),
                 'categoryId' => $category = intval($_POST['category']),
                 'userId' => intval($_SESSION['userId'])
             ];
@@ -112,7 +112,7 @@ class HomeController extends BaseController
 
                 $adsId = $this->advertisementModel->addAdvertisement($data);
                 $userDir = $arr['imagePath'] . $_SESSION['userId'] . '/' . $adsId;
-                $tempImages = glob($tempUserDir . '/*.{png,jpg,gif}', GLOB_BRACE);
+                $tempImages = glob($tempUserDir . '/*.{png,jpg,gif,jpeg}', GLOB_BRACE);
 
                 //create folder for images + folder for images preview
                 mkdir($userDir . '/preview', 0777, true);
@@ -186,13 +186,9 @@ class HomeController extends BaseController
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'] . '/';
 
         if (!mkdir($tempUserDir, 0777, true)) {
-            ChromePhp::log("die");
         };
         $extension = explode('.', $_FILES['file']['name']);
 
         move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));
-
-        ChromePhp::log($_FILES);
-
     }
 }

@@ -62,9 +62,12 @@ class UserController extends BaseController
                 // get user id
                 $userId = $_SESSION['userId'];
 
+                ChromePhp::log($userId);
+
                 // if link from email equals to generated
                 if ($regLink === $mailLink) {
 
+                    ChromePhp::log('match');
                     // change password
                     $this->getModel()->changePassword($userId, $regPassword);
 
@@ -291,7 +294,7 @@ class UserController extends BaseController
 
 
                 // memorize user id
-                $_SESSION['userId'] = $valid->id;
+                $_SESSION['userId'] = $valid['id'];
 
                 // show message
                 $this->view('content/restoremessage');
