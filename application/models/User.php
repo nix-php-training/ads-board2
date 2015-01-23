@@ -219,8 +219,8 @@ class User extends Model
     {
         $user = $this->getBy('link', $link,
             'confirmationLinks');//getting object with user data by confirmation link from email
-        $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
-                            VALUES ('free','0,0','1',{$user['id']})");
+        $this->db->query("INSERT INTO currentPlan (price,planId,userId)
+                            VALUES ('0,0','1',{$user['id']})");
     }
 
     function changePlan($planType)
@@ -238,19 +238,19 @@ class User extends Model
         $transactionId = $_SESSION['transactionId'];
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash', $hash);
-        $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = {$user['id']}");
-        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);
-        $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),'paypal','{$planType}','{$price}','{$transactionId}',{$user['id']})");
+        $this->db->query("UPDATE currentPlan SET endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = {$user['id']}");
+        $endDate = $this->db->fetchOne('currentPlan','endDate',['userId' => $user['id']]);
+        $this->db->query("INSERT INTO payments(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH), 'paypal', '{$planType}','{$price}','{$transactionId}',{$user['id']})");
     }
 
     function checkCurrentPlan()
     {
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash',$hash);
-        $currentPlan = $this->db->fetchOne('payments','planId',['userId' => $user['id']]);
+        $currentPlan = $this->db->fetchOne('currentPlan','planId',['userId' => $user['id']]);
 
-        /*Start reset-block: resets plan to free if payments.endDate expired*/
-        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);//getting expiration date of plan
+        /*Start reset-block: resets plan to free if currentPlan.endDate expired*/
+        $endDate = $this->db->fetchOne('currentPlan','endDate',['userId' => $user['id']]);//getting expiration date of plan
         if(strtotime($endDate) < time()) {
             $this->resetPlan($user['id']);//reset to free if plan is no more available
             $endDate = 'Termless';
@@ -276,7 +276,7 @@ class User extends Model
 
     function resetPlan($userId)//reset user plan to free by userId
     {
-        $this->db->query("UPDATE payments SET paymentType ='free', endDate = NULL, price = '0.0', planId = '1', userId = {$userId} WHERE userId = {$userId}");
+        $this->db->query("UPDATE currentPlan SET endDate = NULL, price = '0.0', planId = '1', userId = {$userId} WHERE userId = {$userId}");
     }
 
 
