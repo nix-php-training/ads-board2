@@ -37,12 +37,15 @@ function createAdsDom(data) {
             imgPreview = data[i].imagesPreview[0].imageName,
             userId = data[i].userId,
             userName = data[i].login,
-            cDate = data[i].creationDate,
+            cDate = data[i].creationDate.split(' ')[0],
+            cTime = data[i].creationDate.split(' ')[1],
             adsId = data[i].id;
 
         var dateTime = $('<div>').attr('class', 'col-md-2 text-right date-time'),
-            h1 = $('<h1>').text(cDate);
+            h1 = $('<h1>').text(cDate),
+            h2 = $('<h2>').text(cTime);
         dateTime.append(h1);
+        dateTime.append(h2);
 
         var images = $('<div>').attr('class', 'col-md-2 images'),
             lightbox = $('<a>').attr('href', imgLink).

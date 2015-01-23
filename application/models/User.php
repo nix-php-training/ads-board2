@@ -230,7 +230,7 @@ class User extends Model
                 $planId = '2';//table plans : 2-pro-Plan(1- Free Plan, user got it by default when confirmed his acc)
                 break;
             case 'business':
-                $price = '999.9';
+                $price = '199.9';
                 $planId = '3';//table plans : 3- business plan
                 break;
         }
@@ -238,7 +238,7 @@ class User extends Model
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash', $hash);
         $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = {$user['id']}");
-        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user->id]);
+        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);
         $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),'paypal','{$planType}','{$price}','{$transactionId}',{$user['id']})");
     }
 
@@ -247,10 +247,19 @@ class User extends Model
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash',$hash);
         $currentPlan = $this->db->fetchOne('payments','planId',['userId' => $user['id']]);
+
+        /*Start reset-block: resets plan to free if payments.endDate expired*/
+        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);//getting expiration date of plan
+        if(strtotime($endDate) < time()) {
+            $this->resetPlan($user['id']);//reset to free if plan is no more available
+            $endDate = 'Termless';
+        }
+        /*end reset-block*/
+
         $disableFree = '';
         $disableBusiness = '';
         $disablePro = '';
-        switch($currentPlan){
+        switch($currentPlan) {
             case '1':
                 $disableFree = 'disabled';break;
             case '2';
@@ -259,13 +268,14 @@ class User extends Model
                 $disableBusiness = 'disabled';break;
         }
         $currentPlan = $this->db->fetchOne('plans','name',['id' => $currentPlan]);
-        $planData = ['currentPlan' => $currentPlan, 'disableFree' => $disableFree, 'disablePro' =>  $disablePro, 'disableBusiness' => $disableBusiness];
+        $currentPlan = strtoupper($currentPlan);
+        $planData = ['currentPlan' => $currentPlan, 'disableFree' => $disableFree, 'disablePro' =>  $disablePro, 'disableBusiness' => $disableBusiness, 'endDate' => $endDate];
         return $planData;
     }
 
-    function resetPlan()
+    function resetPlan($userId)//reset user plan to free by userId
     {
-
+        $this->db->query("UPDATE payments SET paymentType ='free', endDate = NULL, price = '0.0', planId = '1', userId = {$userId} WHERE userId = {$userId}");
     }
 
 

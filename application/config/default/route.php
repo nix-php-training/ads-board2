@@ -58,7 +58,8 @@ return [
             '/postlist'=>'/home/postlist',
             '/addpost' => '/home/addpost',
             '/imagedownload' => '/home/imagedownload',
-            '/admin' => '/admin/index'
+            '/admin' => '/admin/index',
+            '/reset' => '/user/reset',
         )
     ]
 ];

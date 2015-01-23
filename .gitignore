@@ -6,5 +6,4 @@ application/config/dev
 cacert.pem
 sphinx.conf
 info.sphinx.conf
-
 application/assets/js/constants.js
