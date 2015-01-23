@@ -400,6 +400,13 @@ table#plans td, th {
     font-size: 1.3em;
 }
 
+.post-list .as-link {
+    border: 0;
+    background: none;
+    text-align: left;
+}
+
+
 /* Post-detail
 -------------------------------------------------- */
 
