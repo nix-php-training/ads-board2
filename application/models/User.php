@@ -57,8 +57,9 @@ class User extends Model
         return $this->newHash($id . $_SERVER['HTTP_USER_AGENT']);
     }
 
-    function getIdByHash($hash)
+    function getIdByHash()
     {
+        $hash = $_COOKIE['hash'];
         return $this->db->fetchOne($this->table, 'id', ['hash' => $hash]);
     }
 
@@ -218,38 +219,43 @@ class User extends Model
     {
         $user = $this->getBy('link', $link,
             'confirmationLinks');//getting object with user data by confirmation link from email
-        $this->db->query("INSERT INTO payments (paymentType,price,planId,userId)
-                            VALUES ('free','0,0','1',{$user['id']})");
+        $planName = $this->db->fetchOne('plans','id',['name' => 'free']);
+        $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'free']);
+        $price = $this->db->fetchOne('plans','price',['name' => 'free']);
+        $this->db->query("INSERT INTO currentPlan (price,adsCounter,planId,userId)
+                            VALUES ({$price},{$adsTotal},{$planName},{$user['id']})");
     }
 
     function changePlan($planType)
     {
         switch ($planType) {
             case 'pro':
-                $price = '99.99';
+                $price = $this->db->fetchOne('plans','price',['name' => 'pro']);
+                $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'pro']);
                 $planId = '2';//table plans : 2-pro-Plan(1- Free Plan, user got it by default when confirmed his acc)
                 break;
             case 'business':
-                $price = '199.9';
+                $price = $this->db->fetchOne('plans','price',['name' => 'business']);
+                $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'business']);
                 $planId = '3';//table plans : 3- business plan
                 break;
         }
         $transactionId = $_SESSION['transactionId'];
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash', $hash);
-        $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = {$user['id']}");
-        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);
-        $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),'paypal','{$planType}','{$price}','{$transactionId}',{$user['id']})");
+        $this->db->query("UPDATE currentPlan SET endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', adsCounter = '{$adsTotal}', planId = '{$planId}' WHERE userId = {$user['id']}");
+        $endDate = $this->db->fetchOne('currentPlan','endDate',['userId' => $user['id']]);
+        $this->db->query("INSERT INTO payments(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH), 'paypal', '{$planType}','{$price}','{$transactionId}',{$user['id']})");
     }
 
     function checkCurrentPlan()
     {
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash',$hash);
-        $currentPlan = $this->db->fetchOne('payments','planId',['userId' => $user['id']]);
+        $currentPlan = $this->db->fetchOne('currentPlan','planId',['userId' => $user['id']]);
 
-        /*Start reset-block: resets plan to free if payments.endDate expired*/
-        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);//getting expiration date of plan
+        /*Start reset-block: resets plan to free if currentPlan.endDate expired*/
+        $endDate = $this->db->fetchOne('currentPlan','endDate',['userId' => $user['id']]);//getting expiration date of plan
         if(strtotime($endDate) < time()) {
             $this->resetPlan($user['id']);//reset to free if plan is no more available
             $endDate = 'Termless';
@@ -275,7 +281,10 @@ class User extends Model
 
     function resetPlan($userId)//reset user plan to free by userId
     {
-        $this->db->query("UPDATE payments SET paymentType ='free', endDate = NULL, price = '0.0', planId = '1', userId = {$userId} WHERE userId = {$userId}");
+        $adsTotal = $this->db->fetchOne('plans','posts',['name' => 'free']);
+        $price = $this->db->fetchOne('plans','price',['name' => 'free']);
+        $planId = $this->db->fetchOne('plans','id',['name' => 'free']);
+        $this->db->query("UPDATE currentPlan SET endDate = NULL, adsCounter = {$adsTotal}, price = {$price}, planId = {$planId}, userId = {$userId} WHERE userId = {$userId}");
     }
 
 
