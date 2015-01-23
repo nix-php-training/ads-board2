@@ -49,24 +49,51 @@ class AdvertisementImages extends Model
         $path = Config::get('site');
         $userId = explode('_', $images[0]['imageName'])[1];
         $adsId = explode('_', $images[0]['imageName'])[2];
-        foreach ($images as &$image)
-        {
-            $imageTemp = $path['imageLink'].$userId.'/'.$adsId.'/'.$image['imageName'];
+        foreach ($images as &$image) {
+            $imageTemp = $path['imageLink'] . $userId . '/' . $adsId . '/' . $image['imageName'];
             $image['imageName'] = $imageTemp;
         }
         return $images;
     }
+
     public function createPreviewImagePath($images)
     {
         $path = Config::get('site');
         $userId = explode('_', $images[0]['imageName'])[1];
         $adsId = explode('_', $images[0]['imageName'])[2];
-        foreach ($images as &$image)
-        {
-            $imageTemp = $path['imageLink'].$userId.'/'.$adsId.'/preview/thumb_'.$image['imageName'];
+        foreach ($images as &$image) {
+            $imageTemp = $path['imageLink'] . $userId . '/' . $adsId . '/preview/thumb_' . $image['imageName'];
             $image['imageName'] = $imageTemp;
         }
         return $images;
+    }
+
+    /**
+     * Attach images with previews to advertisement list
+     *
+     * @param $advertisementList
+     * @throws DatabaseErrorException
+     */
+    public function attachImagesToAdsList(&$advertisementList)
+    {
+        // attach images to list
+        foreach ($advertisementList as &$advertisement) {
+
+            $advertisement['unconvertedDate'] = $advertisement['creationDate'];
+            $convertedDate = strtotime($advertisement['creationDate']);
+            $advertisement['creationDate'] = $convertedDate;
+
+            //get images from DB
+            $imagesArray = $this->getImagesByAdsId($advertisement['id']);
+
+            if (!is_null($imagesArray)) {
+                $advertisement['images'] = $this->createImagePath($imagesArray);
+                $advertisement['imagesPreview'] = $this->createPreviewImagePath($imagesArray);
+            } else {
+                $advertisement['images'] = [];
+                $advertisement['imagesPreview'] = [];
+            }
+        }
     }
 
 }
