@@ -261,10 +261,9 @@ class UserController extends BaseController
 
     function resetAction()
     {
-        $hash = $_COOKIE['hash'];
-        $userId = $this->getModel()->getIdByHash($hash);
+        $userId = $this->getModel()->getIdByHash();
         $this->getModel()->resetPlan($userId);
-        header('Location:' . Config::get('site')['host'] . 'user/plan');
+        $this->redirect('/plan');
     }
 
     function restoreAction()

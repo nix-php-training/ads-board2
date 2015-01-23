@@ -57,8 +57,9 @@ class User extends Model
         return $this->newHash($id . $_SERVER['HTTP_USER_AGENT']);
     }
 
-    function getIdByHash($hash)
+    function getIdByHash()
     {
+        $hash = $_COOKIE['hash'];
         return $this->db->fetchOne($this->table, 'id', ['hash' => $hash]);
     }
 

@@ -11,7 +11,7 @@ class Auth
         session_start();
         if (empty($_SESSION['userId'])) {
             if (isset($_COOKIE['hash']) && isset($_COOKIE['id'])) {
-                $userId = $users->getIdByHash($_COOKIE['hash']);
+                $userId = $users->getIdByHash();
                 if ($_COOKIE['id'] == $users->hashCoockie($userId)) {
                     $user = $users->getBy('id', $userId);
                     $_SESSION['userLogin'] = $user['login'];
