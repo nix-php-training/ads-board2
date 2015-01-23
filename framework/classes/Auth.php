@@ -18,6 +18,11 @@ class Auth
                 $_SESSION['userRole'] = $user['role'];
                 $_SESSION['userStatus'] = $user['status'];
                 $_SESSION['postRemains'] = $user['postRemains'];
+                Registry::set('userLogin', $user['login']);
+                Registry::set('userId', $user['id']);
+                Registry::set('userRole', $user['role']);
+                Registry::set('userStatus', $user['status']);
+                Registry::set('postRemains', $user['postRemains']);
             }
         }
     }

@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `statusId` TINYINT(1) NOT NULL,
   `roleId` TINYINT(1) NOT NULL,
   `hash` varchar(64) DEFAULT NULL,
-  `postRemains` INT(6) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -130,7 +130,7 @@ class User extends Model
     {
         $user = $this->getBy('id', $_SESSION['userId']);
         $error = [];
-        $validate = true;
+        $validate = [];
 
         if (isset($fields['login']) && $fields['login'] !== $user['login']) {
             $loginExists = $this->inputExists('login', $fields['login']);
@@ -165,9 +165,8 @@ class User extends Model
             $validate = $this->validator->validate($input, $rules);
         }
 
-        if (!empty($validate)) {
-            $error = array_merge_recursive($error, $validate);
-        }
+        $error = array_merge_recursive($error, $validate);
+
         if (empty($error) && !empty($input)) {
             $this->db->update($this->table, $input, ['id' => $user['id']]);
             return true;

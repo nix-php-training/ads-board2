@@ -292,7 +292,7 @@ class UserController extends BaseController
 
 
                 // memorize user id
-                $_SESSION['userId'] = $valid->id;
+                $_SESSION['userId'] = $valid['id'];
 
                 // show message
                 $this->view('content/restoremessage');

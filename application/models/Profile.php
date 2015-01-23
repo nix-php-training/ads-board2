@@ -7,8 +7,8 @@ class Profile extends Model
 
     protected $rules = [
         'fullName' => ['min_length(3)', 'max_length(32)'],
-        'birthday' => ['date', 'min_length(3)', 'max_length(32)'],
-        'phone' => ['numeric', 'exact_length(13)'],
+        'birthday' => ['date'],
+        'phone' => ['numeric', 'min_length(10)'],
         'skype' => ['min_length(3)', 'max_length(32)']
     ];
 

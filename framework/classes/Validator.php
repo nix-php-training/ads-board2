@@ -15,7 +15,7 @@ class Validator
         'min_length' => ':attribute must be minimum :params character long',
         'exact_length' => ':attribute field must :params character long',
         'login' => ':attribute can contain only letters, numbers, hyphens (-), and underscores (_)',
-        'date' => ':attribute must be date in format YYYY-MM-DD'
+        'date' => ':attribute must be date in format YYYY-MM-DD',
     ];
 
     private function getErrorMessage($error, $attribute, $params = '')
@@ -72,7 +72,7 @@ class Validator
                         if (!isset($errors[$input])) {
                             $errors[$input][] = $this->getErrorMessage('required', $input);
                         }
-                    } else {
+                    } elseif ($input_value) {
                         if (is_numeric($rule)) {
                             $rule = $closure;
                         }

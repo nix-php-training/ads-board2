@@ -36,7 +36,8 @@ class ProfileController extends BaseController
         $post['profile'] = $this->getPost([
             'fullName',
             'phone',
-            'skype'
+            'skype',
+            'birthday'
         ]);
 
 
