@@ -227,11 +227,11 @@ class User extends Model
     {
         switch ($planType) {
             case 'pro':
-                $price = '99.99';
+                $price = $this->db->fetchOne('plans','price',['name' => 'pro']);
                 $planId = '2';//table plans : 2-pro-Plan(1- Free Plan, user got it by default when confirmed his acc)
                 break;
             case 'business':
-                $price = '199.9';
+                $price = $this->db->fetchOne('plans','price',['name' => 'business']);
                 $planId = '3';//table plans : 3- business plan
                 break;
         }
