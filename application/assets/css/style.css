@@ -556,6 +556,27 @@ table#plans td, th {
     margin: 5px 5px 5px 0;
 }
 
+/*glyphicon class*/
+.test-margin {
+    margin-left:2px;
+}
+
 .highlight {
     color: #264348;
+}
+
+span.plan-name, span.plan-end-date {
+    color: #3bafda;
+    font-style: oblique;
+}
+
+#resetdialog {
+    display: none;
+    background-color: #434A54;
+    color: #fff;
+}
+
+div.ui-widget-header {
+    background-color: #434A54 !important;
+
 }
