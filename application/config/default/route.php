@@ -57,7 +57,7 @@ return [
             '/plan' => '/user/plan',
             '/postlist'=>'/home/postlist',
             '/addpost' => '/home/addpost',
-            '/imagedownload' => '/home/imagedownload',
+            '/imageupload' => '/home/imageupload',
             '/admin' => '/admin/index',
             '/reset' => '/user/reset',
         )
