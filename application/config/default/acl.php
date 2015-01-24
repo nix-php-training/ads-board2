@@ -9,7 +9,7 @@ return [
             'about' => ['all'],
             'postdetail' => ['all'],
             'addpost' => ['user', 'admin'],
-            'imagedownload' => ['user', 'admin'],
+            'imageupdload' => ['user', 'admin'],
             'adsload' => ['all']
         ],
         'user' => [

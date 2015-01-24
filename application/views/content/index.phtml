@@ -48,7 +48,7 @@
                 <h1><?= htmlspecialchars($v['subject']) ?></h1>
 
                 <div id="textbox">
-                    <p class="pull-left"><?= htmlspecialchars($v['creationDate']) ?></p>
+                    <p class="pull-left"><?= date("Y-m-d H:i:s", $v['creationDate']) ?></p>
 
                     <p class="pull-right"><a href="/postdetail/<?= htmlspecialchars($v['id']) ?>">See more <span
                                 class="glyphicon glyphicon-open"></span></a>
