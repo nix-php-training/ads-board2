@@ -376,8 +376,7 @@ FROM users
 VALUES ('{$link}', '{$newPassword}', '{$userId}')");
             }
         } catch (PDOException $e) {
-//            throw new DatabaseErrorException();
-            throw new PDOException();
+            throw new DatabaseErrorException();
         }
     }
 
