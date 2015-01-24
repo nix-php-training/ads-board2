@@ -168,7 +168,7 @@ INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
 # INSERT INTO `profiles` ( `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`,) VALUES
 #   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
 
-INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99.99','month','100'),('business','999.99','month','100000');
+INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0,0','month','1'),('pro','99.99','month','1000'),('business','199.99','month','-1');
 
 /*Data for the table `profiles` */
 

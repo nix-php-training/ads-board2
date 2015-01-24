@@ -197,11 +197,6 @@ class UserController extends BaseController
             }
         }
         $planType = $_SESSION['planType'];
-//        echo '<pre>';
-//        var_dump($planType);
-//        echo '<hr />';
-//        var_dump($response);
-//        echo '<pre>';
         $this->getModel()->changePlan($planType);
         $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
     }
@@ -227,7 +222,7 @@ class UserController extends BaseController
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
                     'L_PAYMENTREQUEST_0_NAME0' => 'PRO-plan',
-                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for PRO-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subscribe for PRO-plan on ads-board2.zone',
                     'L_PAYMENTREQUEST_0_AMT0' => '99.99',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
@@ -235,16 +230,16 @@ class UserController extends BaseController
                 break;
             case 'business':
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '999.9',
+                    'PAYMENTREQUEST_0_AMT' => '199.9',
                     //цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '999.9'
+                    'PAYMENTREQUEST_0_ITEMAMT' => '199.9'
                     //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
                     'L_PAYMENTREQUEST_0_NAME0' => 'BUSINESS-plan',
-                    'L_PAYMENTREQUEST_0_DESC0' => 'Subcribe for BUSINESS-plan on ads-board2.zone',
-                    'L_PAYMENTREQUEST_0_AMT0' => '999.9',
+                    'L_PAYMENTREQUEST_0_DESC0' => 'Subscribe for BUSINESS-plan on ads-board2.zone',
+                    'L_PAYMENTREQUEST_0_AMT0' => '199.9',
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
                 $_SESSION['planType'] = 'business';
@@ -265,6 +260,14 @@ class UserController extends BaseController
             $token = $response['TOKEN'];//получаем токен из ответа апи
             header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
         }
+    }
+
+    function resetAction()
+    {
+        $hash = $_COOKIE['hash'];
+        $userId = $this->getModel()->getIdByHash($hash);
+        $this->getModel()->resetPlan($userId);
+        header('Location:' . Config::get('site')['host'] . 'user/plan');
     }
 
     function restoreAction()
