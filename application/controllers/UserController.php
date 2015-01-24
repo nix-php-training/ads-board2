@@ -50,7 +50,7 @@ class UserController extends BaseController
             // get restore link from email
             $mailLink = $_GET['link'];
 
-            $restore = $this->getModel()->getRestoreInfo($mailLink);
+            $restore = $this->getModel()->getRestoreInfoByLink($mailLink);
 
             // if restoreInfoLink match mailLink
             if ($restore) {
