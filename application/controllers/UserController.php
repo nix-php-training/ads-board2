@@ -50,41 +50,38 @@ class UserController extends BaseController
             // get restore link from email
             $mailLink = $_GET['link'];
 
-            // if session variables not empty
-            if (isset($_SESSION['restoreLink']) && isset($_SESSION['restoredPassword']) && isset($_SESSION['userId'])) {
+            $restore = $this->getModel()->getRestoreInfoByLink($mailLink);
 
-                // get generated link
-                $regLink = $_SESSION['restoreLink'];
+            // if restoreInfoLink match mailLink
+            if ($restore) {
 
                 // get generated password
-                $regPassword = $_SESSION['restoredPassword'];
+                $newPassword = $restore['newPassword'];
 
                 // get user id
-                $userId = $_SESSION['userId'];
+                $userId = $restore['userId'];
 
-                ChromePhp::log($userId);
+                // get restore info id
+                $restoreInfoId = $restore['id'];
 
-                // if link from email equals to generated
-                if ($regLink === $mailLink) {
 
-                    ChromePhp::log('match');
-                    // change password
-                    $this->getModel()->changePassword($userId, $regPassword);
+                // change password
+                $this->getModel()->changePassword($userId, $newPassword);
 
-                    // delete used variables
-                    unset($_SESSION['restoreLink']);
-                    unset($_SESSION['restoredPassword']);
-                    unset($_SESSION['userId']);
+                // delete info
+                $this->getModel()->deleteRestoreInfo($restoreInfoId);
 
-                    $data['message'] = $this->getView()->generateMessage('Password was successfully changed.',
-                        'success');
+                // delete used variable
+                unset($restore);
 
-                    // show login page
-                    $this->view('content/login', $data);
-                    exit();
-                }
+                $data['message'] = $this->getView()->generateMessage('Password was successfully changed.',
+                    'success');
+
+                // show login page
+                $this->view('content/login', $data);
+                exit();
             } else { // if session variables empty
-                $data['message'] = $this->getView()->generateMessage('Password already has been changed. Sign in, please.',
+                $data['message'] = $this->getView()->generateMessage('Password was changed before. Please, check your mailbox.',
                     'danger');
 
                 // show login page
@@ -275,32 +272,34 @@ class UserController extends BaseController
         if (isset($_POST['email'])) {
             $email = $_POST['email'];
 
-            // search user by email
-            $valid = $this->getModel()->getBy('email', $email);
-
-            if ($valid) {
-                // if found
+            // check if user exist by email
+            if ($this->getModel()->isUserExist($email)) { // if found
 
                 // generate password
                 $newPassword = Tools::generateUniqueString();
 
-                /*mail section*/
-                $letter = new RestoreEmail($email, $newPassword); //Creating object EmailSender
-                $letter->send();
-                /*end of mail section*/
+                try {
+                    //Creating EmailSender instance
+                    $letter = new RestoreEmail($email, $newPassword);
 
-                // memorize new password
-                $_SESSION['restoredPassword'] = $newPassword;
+                    // save email, newPasswrod and unique link
+                    $this->getModel()->saveRestoreInfo($email, $newPassword, $letter->getUnique());
 
-                // memorize unique link
-                $_SESSION['restoreLink'] = $letter->getUnique();
+                    // send letter
+                    $letter->send();
 
 
-                // memorize user id
-                $_SESSION['userId'] = $valid['id'];
+                    // show message
+                    $this->view('content/restoremessage');
 
-                // show message
-                $this->view('content/restoremessage');
+                } catch (DatabaseErrorException $e) {
+                    $this->view('error/error', ['message' => $e->getMessage()]);
+                } catch (phpmailerException $e) {
+                    $this->view('error/error', ['message' => $e->getMessage()]);
+                } catch (PDOException $e) {
+                    $this->view('error/error', ['message' => $e->getMessage()]);
+                }
+
             } else {
 
                 $data = [

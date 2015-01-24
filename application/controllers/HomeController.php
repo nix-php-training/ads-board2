@@ -19,7 +19,7 @@ class HomeController extends BaseController
         $this->profileModel = new Profile();
     }
 
-    function indexAction()
+    public function indexAction()
     {
         try {
             // create list of last 10 posts
@@ -35,7 +35,7 @@ class HomeController extends BaseController
         }
     }
 
-    function postListAction()
+    public function postListAction()
     {
         $data = array();
         $categories = $this->categoryModel->getCategoriesBy(['id', 'title']);
@@ -50,10 +50,9 @@ class HomeController extends BaseController
         $this->view('content/postList', $data);
     }
 
-    function adsLoadAction()
+    public function adsLoadAction()
     {
         $catId = $_POST['catId'];
-        $ads = array();
 
         if ($catId == 0) {
             $ads = $this->advertisementModel->getAllAdvertisements();
@@ -69,15 +68,14 @@ class HomeController extends BaseController
         }
     }
 
-    function pricingAction()
+    public function pricingAction()
     {
         $this->view('content/pricing');
     }
 
-    function postDetailAction()
+    public function postDetailAction()
     {
         try {
-            $data = array();
             $id = $this->getParams('adsId');
             $ads = $this->advertisementModel->getAdvertisementById($id);
 
@@ -89,12 +87,12 @@ class HomeController extends BaseController
 
             $this->view('content/postDetail', $data);
         } catch (DatabaseErrorException $e) {
-            $this->view('error/error', $data = array('message' => $e->getMessage()));
+            $this->view('error/error', ['message' => $e->getMessage()]);
         }
 
     }
 
-    function addPostAction()
+    public function addPostAction()
     {
         $this->userModel->checkCurrentPlan();/*check current plan if payments.endDate expired - reset plan to free*/
 
@@ -155,7 +153,7 @@ class HomeController extends BaseController
         }
     }
 
-    function rrmdir($dir)
+    private function rrmdir($dir)
     {
         if (is_dir($dir)) {
             $objects = scandir($dir);
@@ -173,17 +171,17 @@ class HomeController extends BaseController
         }
     }
 
-    function termsAction()
+    public function termsAction()
     {
         $this->view('content/terms');
     }
 
-    function aboutAction()
+    public function aboutAction()
     {
         $this->view('content/about');
     }
 
-    function imageDownloadAction()
+    public function imageUploadAction()
     {
         $arr = Config::get('site');
 
