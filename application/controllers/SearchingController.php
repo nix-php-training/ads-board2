@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class SearchingController
+ *
+ * Provides functions for works with search:
+ * - retrieve data from db by text-type query;
+ * - render query-result as page;
+ * - return query-result as json-data.
+ */
 class SearchingController extends BaseController
 {
     /**
@@ -8,7 +16,6 @@ class SearchingController extends BaseController
      * @var int
      */
     private $_limit = 5;
-
     /**
      * Do search when user clicked `see more` at drop-down list or button search at header
      */
@@ -26,6 +33,8 @@ class SearchingController extends BaseController
     /**
      * Find ads-info in db by query
      *
+     * @uses SearchingController::searchAction
+     * @uses SearchingController::liveSearchAction
      * @param $query
      * @return array
      */
@@ -39,6 +48,7 @@ class SearchingController extends BaseController
         $s->SetArrayResult(true);
         $queryResult = $s->query($query);
 
+        // expects $result['matches']
         if (array_key_exists('matches', $queryResult)) {
 
             $matches = $queryResult['matches'];
@@ -59,6 +69,8 @@ class SearchingController extends BaseController
 
     /**
      * Do search while user typing search query
+     *
+     * Data sends to jQuery script
      */
     public function liveSearchAction()
     {

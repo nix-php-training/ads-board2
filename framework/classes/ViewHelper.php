@@ -38,5 +38,4 @@ trait ViewHelper
         $type = (in_array($type, $alerts)) ? $type : 'info';
         return '<div class="alert alert-' . $type . '" role="alert">' . $text . '</div>';
     }
-
 }

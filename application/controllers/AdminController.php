@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * Class AdminController
+ *
+ * Provides functions for works admin-panel.
+ *
+ * User's functions:
+ * - retrieve data about users;
+ * - change user's status (banned/unbanned).
+ *
+ * Plan's functions:
+ * - retrieve/create/update/delete plans.
+ *
+ * Category's functions:
+ * - retrieve/create/update/delete categories.
+ *
+ * Advertisement's functions:
+ * - retrieve/delete advertisements.
+ */
 class AdminController extends BaseController
 {
     /**
@@ -169,7 +187,7 @@ class AdminController extends BaseController
      */
     public function getAdvertisementsAction()
     {
-        echo json_encode($this->advertisementModel->getAds());
+        echo json_encode($this->advertisementModel->getAllAdvertisementsWithImages());
     }
 
     /**
