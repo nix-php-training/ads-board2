@@ -37,6 +37,15 @@ return [
             )
         ),
 
+        'profile' => array(
+            'template' => '\/profile\/(\d+)$',
+            'controller' => 'profile', //static
+            'action' => 'profile',//static
+            'params' => array(
+                'user' => '[1]'
+            )
+        ),
+
         'static' => array(
             '/home' => '/',
             '/livesearch' => '/searching/livesearch',

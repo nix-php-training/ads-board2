@@ -38,4 +38,16 @@ trait ViewHelper
         $type = (in_array($type, $alerts)) ? $type : 'info';
         return '<div class="alert alert-' . $type . '" role="alert">' . $text . '</div>';
     }
+
+    public function errorToMessage($validate)
+    {
+        $messages='';
+        foreach ($validate as $input){
+            foreach ($input as $valid){
+                $messages.=$valid.'<br>';
+            }
+        }
+        return $messages;
+    }
+
 }
