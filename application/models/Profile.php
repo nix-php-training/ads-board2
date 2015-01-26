@@ -25,7 +25,7 @@ class Profile extends Model
     public function validate($input)
     {
         $rules = $this->getCutRules($input, $this->rules);
-        return $this->validator->validate($input, $rules);
+        return $this->validator->validate($input, $rules, $this->table);
     }
 
     public function addProfile($link)

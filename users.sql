@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `fullName` varchar(32),
-  `birthday` DATE,
+  `birthday` DATE DEFAULT '0000-00-00',
   `phone` varchar(32),
   `skype` VARCHAR(16),
   `userId` BIGINT NOT NULL,

@@ -39,4 +39,15 @@ trait ViewHelper
         return '<div class="alert alert-' . $type . '" role="alert">' . $text . '</div>';
     }
 
+    public function simplifyValidate($validate)
+    {
+        $messages='';
+        foreach ($validate as $input){
+            foreach ($input as $valid){
+                $messages.=$valid.'<br>';
+            }
+        }
+        return $messages;
+    }
+
 }

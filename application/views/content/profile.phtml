@@ -1,7 +1,15 @@
 <div class="profile">
     <div class="row">
-        <h3>some_dude_login
+        <?php
+        $saveChanges = $_SESSION['saveChanges'];
+        if ($saveChanges){
+            unset ($_SESSION['saveChanges']);
+            echo '<h4 class="text-success"><ins>Save changes</ins></h4>';
+        }
+        ?>
+        <h3>
             <?php
+            echo htmlspecialchars($data['login']).' ';
             if ($_SESSION['userId'] == $data['userId']) {
                 echo '<small><a href="/edit">[edit]</a></small>';
             } else {

@@ -5,9 +5,9 @@ class User extends Model
     protected $table = 'users';
     protected $linksTable = 'confirmationLinks';
     protected $rules = [
-        'login' => ['login', 'min_length(3)', 'max_length(32)'],
-        'email' => ['email'],
-        'password' => ['min_length(3)', 'max_length(32)']
+        'login' => ['login', 'min_length(3)', 'max_length(32)', 'required', 'unique'],
+        'email' => ['email', 'required', 'unique'],
+        'password' => ['min_length(3)', 'max_length(32)', 'required']
     ];
 
     function getBy($field, $value, $table = 'users')
@@ -97,19 +97,8 @@ class User extends Model
             'email' => $email,
             'password' => $password
         ];
-        $result = $this->validator->validate($input, $this->rules);
-        if ($result !== true) {
-            $error = $result;
-        }
+        $error = $this->validator->validate($input, $this->rules, $this->table);
 
-        $loginExists = $this->inputExists('login', $input['login']);
-        $emailExists = $this->inputExists('email', $input['email']);
-        if ($loginExists !== false) {
-            $error['login'] = $input['login'] . ' is already exists';
-        }
-        if ($emailExists !== false) {
-            $error['email'] = $input['email'] . ' is already exists';
-        }
         if (empty($error)) {
             $data = [
                 'login' => $input['login'],
@@ -126,30 +115,16 @@ class User extends Model
         }
     }
 
-    public function update($fields = [])
+    public function update($fields)
     {
         $user = $this->getBy('id', $_SESSION['userId']);
         $error = [];
         $validate = [];
 
-        if (isset($fields['login']) && $fields['login'] !== $user['login']) {
-            $loginExists = $this->inputExists('login', $fields['login']);
-            if ($loginExists !== false) {
-                $error['login'] = $fields['login'] . ' is already exists';
-            } else {
-                $input ['login'] = $fields['login'];
-            }
-        }
-
-        if (isset($fields['email']) && $fields['email'] !== $user['email']) {
-            $emailExists = $this->inputExists('email', $fields['email']);
-            if ($emailExists !== false) {
-                $error['email'] = $fields['email'] . ' is already exists';
-            } else {
-                $input ['email'] = $fields['email'];
-            }
-        }
-
+        if ($fields['login']!==$user['login'])
+            $input['login'] = $fields['login'];
+        if ($fields['email']!==$user['email'])
+            $input['email'] = $fields['email'];
 
         if (!empty($fields['old-password'])) {
             if (password_verify($fields['old-password'], $user['password'])) {
@@ -162,12 +137,14 @@ class User extends Model
         }
         if (isset($input)) {
             $rules = $this->getCutRules($input, $this->rules);
-            $validate = $this->validator->validate($input, $rules);
+            $validate = $this->validator->validate($input, $rules, $this->table);
         }
 
         $error = array_merge_recursive($error, $validate);
 
         if (empty($error) && !empty($input)) {
+            if (isset($input ['password']))
+                $input ['password'] = password_hash($input ['password'], PASSWORD_DEFAULT);
             $this->db->update($this->table, $input, ['id' => $user['id']]);
             return true;
         } elseif (empty($error)) {
