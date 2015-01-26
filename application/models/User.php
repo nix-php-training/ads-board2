@@ -296,6 +296,24 @@ class User extends Model
         $this->db->query("UPDATE currentPlan SET endDate = NULL, adsCounter = {$adsTotal}, price = {$price}, planId = {$planId}, userId = {$userId} WHERE userId = {$userId}");
     }
 
+    function adsCounter($adsCheck)
+    {
+        if($adsCheck) {
+            $userId = $this->getIdByHash();
+            $this->db->query("UPDATE currentPlan SET adsCounter = adsCounter - 1 WHERE userId = {$userId}");
+        }
+    }
+
+    function checkAdsCounter()
+    {
+        $userId = $this->getIdByHash();
+        $adsCounter = $this->db->fetchOne('currentPlan','adsCounter',['userId' => $userId]);
+        if ($adsCounter == 0) {
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * Extract all users from db

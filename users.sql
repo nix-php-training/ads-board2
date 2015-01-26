@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `advertisements` (
 CREATE TABLE IF NOT EXISTS `currentPlan` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `endDate` DATETIME,
-  `adsCounter` INT,
+  `adsCounter` BIGINT,
   `price` DOUBLE(10,2),
   `planId` BIGINT,
   `userId` BIGINT,

@@ -191,10 +191,10 @@ class UserController extends BaseController
                 /* Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете*/
                 $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
                 $_SESSION['transactionId'] = $transactionId;
+                $planType = $_SESSION['planType'];
+                $this->getModel()->changePlan($planType);
             }
         }
-        $planType = $_SESSION['planType'];
-        $this->getModel()->changePlan($planType);
         $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
     }
 

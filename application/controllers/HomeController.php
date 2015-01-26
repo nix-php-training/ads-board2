@@ -95,6 +95,11 @@ class HomeController extends BaseController
     public function addPostAction()
     {
         $this->userModel->checkCurrentPlan();/*check current plan if payments.endDate expired - reset plan to free*/
+        $adsCheck = $this->userModel->checkAdsCounter();
+        if (!$adsCheck) {
+            $this->redirect('/');
+            die();
+        }
 
         $arr = Config::get('site');
         $tempUserDir = $arr['tempImagePath'] . $_SESSION['userId'];
@@ -136,6 +141,8 @@ class HomeController extends BaseController
                 }
 
                 rmdir($tempUserDir);
+
+                $this->userModel->adsCounter($adsCheck);
 
                 $this->redirect('/postlist');
             } else {
