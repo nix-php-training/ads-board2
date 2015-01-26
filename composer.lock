@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c932a533171862c44c3fea9c60535da",
+    "hash": "b1b9107eebcc28b5b7aea24209d404c0",
     "packages": [
         {
             "name": "phpmailer/phpmailer",
@@ -58,47 +58,12 @@
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "time": "2014-09-26 18:33:30"
-        },
-        {
-            "name": "phstc/jquery-dateformat",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phstc/jquery-dateFormat.git",
-                "reference": "0e4255fde4eeb529771cc8867cf8d15a3b1edceb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phstc/jquery-dateFormat/zipball/0e4255fde4eeb529771cc8867cf8d15a3b1edceb",
-                "reference": "0e4255fde4eeb529771cc8867cf8d15a3b1edceb",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pablo Cantero",
-                    "email": "pablo@pablocantero.com",
-                    "homepage": "http://pablocantero.com/"
-                }
-            ],
-            "description": "jQuery Plugin to format Date outputs using JavaScript.",
-            "homepage": "https://github.com/phstc/jquery-dateFormat",
-            "keywords": [
-                "dateformat"
-            ],
-            "time": "2015-01-18 16:06:08"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phstc/jquery-dateformat": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
