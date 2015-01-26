@@ -25,11 +25,15 @@
         rel='stylesheet' type='text/css'>
 
     <script src="/application/assets/js/jquery-1.10.1.min.js"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="/application/assets/js/bootstrap.min.js"></script>
     <script src="/application/assets/js/goToTop.js"></script>
     <script src="/application/assets/js/livesearch.js"></script>
     <script src="/application/assets/js/constants.js"></script>
     <script src="/application/assets/js/tools.js"></script>
+    <script src="/application/assets/js/highlight.js"></script>
+    <script src="/application/assets/js/resetPlan.js"></script>
 
 </head>
 
@@ -96,7 +100,8 @@
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group search-only">
                         <i class="search-icon glyphicon glyphicon-search"></i>
-                        <input type="text" autocomplete="off" id="search" class="form-control search-query" placeholder="Search">
+                        <input type="text" autocomplete="off" id="search" class="form-control search-query"
+                               placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-info" data-type="last" id="do-search">Search</button>
                     <ul class="media-list" id="search-result"></ul>
@@ -118,6 +123,8 @@
                                     class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="/profile"><i class="icon-widget"></i> Profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/plan"><i class="glyphicon glyphicon-credit-card"><span class="test-margin">Payments</span></i></a>
                                 <li class="divider"></li>
                                 <li><a href="/logout"><i class="icon-sign-out"></i> Logout</a></li>
                             </ul>

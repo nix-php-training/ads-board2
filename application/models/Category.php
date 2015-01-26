@@ -13,6 +13,16 @@ class Category extends Model
         return $this->db->fetchAll($this->table, ['*']);
     }
 
+    public function getCategoryByTitle($title)
+    {
+        try {
+            return $this->db->query('select id from '.$this->table.' WHERE title="' . $title .'"')->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+
+    }
+
     function addCategory($data)
     {
         $this->db->insert($this->table, $data);

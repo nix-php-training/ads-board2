@@ -9,22 +9,24 @@ return [
             'about' => ['all'],
             'postdetail' => ['all'],
             'addpost' => ['user', 'admin'],
-            'imagedownload' => ['user', 'admin']
+            'imageupload' => ['user', 'admin'],
+            'adsload' => ['all']
         ],
         'user' => [
             'login' => ['all'],
             'registration' => ['guest'],
             'logout' => ['all'],
-            'plan' => ['user'],
-            'paypal' => ['user'],
-            'success' => ['user'],
-            'cancelled' => ['user'],
-            'confirm' => ['all'],
+            'plan' => ['user', 'admin'],
+            'paypal' => ['user', 'admin'],
+            'success' => ['user', 'admin'],
+            'cancelled' => ['user', 'admin'],
+            'confirm' => ['all', 'admin'],
             'restore' => ['guest'],
             'profile' => ['all'],
             'editprofile' => ['user', 'admin'],
             'registrationmessage' => ['guest'],
-            'restoremessage' => ['guest']
+            'restoremessage' => ['guest'],
+            'reset' => ['user', 'admin'],
         ],
         'error' => [
             'index' => ['all'],

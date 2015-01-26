@@ -9,6 +9,10 @@ class Advertisement extends Model
         return $this->db->insert($this->table, $data);
     }
 
+    /**
+     * @return Array
+     * @throws DatabaseErrorException
+     */
     public function getAllAdvertisements()
     {
         try {
@@ -20,13 +24,47 @@ class Advertisement extends Model
         }
     }
 
+    /**
+     * @param $id
+     * @return Array
+     * @throws DatabaseErrorException
+     */
     public function getAdvertisementById($id)
+    {
+        try {
+            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, a.userId, c.title, u.login from advertisements a
+                                  INNER JOIN categories c on a.categoryId=c.id
+                                  INNER JOIN users u on a.userId=u.id
+                                  WHERE a.id=' . $id)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
+
+    /**
+     * @param $id
+     * @return Array
+     * @throws DatabaseErrorException
+     */
+    public function getAdvertisementsByCategory($id)
     {
         try {
             return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
                                   INNER JOIN categories c on a.categoryId=c.id
                                   INNER JOIN users u on a.userId=u.id
-                                  WHERE a.id=' . $id)->fetchAll(PDO::FETCH_ASSOC);
+                                  WHERE a.categoryId=' . $id)->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
+
+    public function getAdvertisementsByUser($userId)
+    {
+        try {
+            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
+                                  INNER JOIN categories c on a.categoryId=c.id
+                                  INNER JOIN users u on a.userId=u.id
+                                  WHERE a.userId=' . $userId)->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new DatabaseErrorException();
         }
@@ -37,7 +75,7 @@ class Advertisement extends Model
      *
      * @return mixed Array('id', 'subject', 'price', 'creationDate', 'userId', 'category', 'userLogin', 'link')
      */
-    public function getAds()
+    public function getAllAdvertisementsWithImages()
     {
         return $this->db->query("SELECT
   subject,
@@ -47,7 +85,7 @@ class Advertisement extends Model
   advertisements.id         AS id,
   categories.title          AS category,
   users.login               AS userLogin,
-  advertisementsImages.link AS link
+  advertisementsImages.imageName AS link
 FROM advertisements
   JOIN categories ON categoryId = categories.id
   JOIN users ON userId = users.id
@@ -71,5 +109,24 @@ WHERE advertisements.id={$id}");
     public function getFromCatalogById($id)
     {
         return $this->db->query("SELECT * FROM catalog WHERE id = {$id}")->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get last 12 (by default) advertisements
+     *
+     * @param int $limit = 10 by default
+     * @return Array
+     * @throws DatabaseErrorException
+     */
+    public function getLastAdvertisement($limit = 12)
+    {
+        try {
+            return $this->db->query("SELECT id, subject, creationDate
+FROM advertisements
+ORDER BY creationDate DESC
+LIMIT {$limit}")->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
     }
 }

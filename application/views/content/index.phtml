@@ -18,164 +18,47 @@
     <div class="clearfix"></div>
 
     <h3>Recent posts</h3>
+
+    <h3><?= $data['message'] ?></h3>
 </div>
 
 <ul class="grid effect-1" id="grid">
+    <?php foreach ($data['resentAds'] as $v) : ?>
+        <!--Element start-->
+        <li>
+            <div class="item">
+                <?php if (!empty($v['images'])) : ?>
+                    <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>"
+                       data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>"
+                       data-title="<?php echo htmlspecialchars($v['subject']) ?>"
+                       id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
+                        <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>"
+                             alt="img<?php echo htmlspecialchars($v['id']) ?>" class="thumbnail img-responsive"/>
+                    </a>
+                    <div class="hidden">
+                        <?php for ($i = 1; $i < count($v['images']); $i++) : ?>
+                            <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>"
+                               data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>"
+                               data-title="<?php echo htmlspecialchars($v['subject']) ?>"
+                               id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
+                        <?php endfor; ?>
+                    </div>
+                <?php endif; ?>
 
-    <!--Element start-->
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/1.jpg" data-lightbox="image-1" data-title="My caption">
-                <img src="/application/demoimg/1.jpg" alt="slider1"/>
-            </a>
+                <h1><?= htmlspecialchars($v['subject']) ?></h1>
 
-            <h1>Header</h1>
+                <div id="textbox">
+                    <p class="pull-left"><?= date("Y-m-d H:i:s", $v['creationDate']) ?></p>
 
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
+                    <p class="pull-right"><a href="/postdetail/<?= htmlspecialchars($v['id']) ?>">See more <span
+                                class="glyphicon glyphicon-open"></span></a>
+                    </p>
+                </div>
             </div>
-        </div>
-    </li>
-    <!--Element end-->
+        </li>
+        <!--Element end-->
+    <?php endforeach; ?>
 
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/2.jpg" data-lightbox="image-2" data-title="My caption">
-                <img src="/application/demoimg/2.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/3.jpg" data-lightbox="image-3" data-title="My caption">
-                <img src="/application/demoimg/3.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/4.jpg" data-lightbox="image-4" data-title="My caption">
-                <img src="/application/demoimg/4.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/2.jpg" data-lightbox="image-5" data-title="My caption">
-                <img src="/application/demoimg/2.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/3.jpg" data-lightbox="image-6" data-title="My caption">
-                <img src="/application/demoimg/3.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/4.jpg" data-lightbox="image-7" data-title="My caption">
-                <img src="/application/demoimg/4.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/2.jpg" data-lightbox="image-8" data-title="My caption">
-                <img src="/application/demoimg/2.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/3.jpg" data-lightbox="image-9" data-title="My caption">
-                <img src="/application/demoimg/3.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="item">
-            <a href="/application/demoimg/4.jpg" data-lightbox="image-10" data-title="My caption">
-                <img src="/application/demoimg/4.jpg" alt="slider1"/>
-            </a>
-
-            <h1>Header</h1>
-
-            <div id="textbox">
-                <p class="pull-left">2014-12-27</p>
-
-                <p class="pull-right"><a href="#">See more <span class="glyphicon glyphicon-open"></span></a></p>
-            </div>
-        </div>
-    </li>
 </ul>
 
 <!-- Need for tiles start-->

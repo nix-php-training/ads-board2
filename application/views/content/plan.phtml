@@ -3,9 +3,11 @@ $planData = $this->_data;
 ?>
 <div class="pricing text-center margin-t7p">
     <h3>
-        Greetings, you now on <i><?php echo $planData['currentPlan']?></i> plan.
+        Current Plan: <span class="plan-name"><?php echo $planData['currentPlan']?></span>
         <br />
-        You can change your subscribe by available buttons below.
+        Expiration Date of The Plan: <span class="plan-end-date"><?php echo $planData['endDate']?></span>
+        <br />
+        Change your subscription by available buttons below.
     </h3>
     <ul>
         <li class="unit price-primary">
@@ -20,7 +22,7 @@ $planData = $this->_data;
                 </ul>
             </div>
             <div class="price-foot">
-                <button type="button" class="btn btn-primary <?php echo $planData['disableFree'];?>">Try Now</button>
+                <a> <!--href="/user/reset"--><button type="button" id="resetplan" class="btn btn-primary <?php echo $planData['disableFree'];?>">RESET</button></a>
             </div>
         </li>
         <li class="unit price-success active">
@@ -52,4 +54,7 @@ $planData = $this->_data;
             </div>
         </li>
     </ul>
+</div>
+<div id="resetdialog" title="Confirmation">
+    <p>You will reset your plan to FREE</p>
 </div>

@@ -1,7 +1,7 @@
 <div class="post-detail">
     <div class="row">
         <div class="col-md-12">
-            <h3><?php echo htmlspecialchars($data['subject']) ?></h3>
+            <h3><?php echo htmlspecialchars($data['title']) ?></h3>
 
             <p><a href="/postlist" class="pull-left"><i class="glyphicon glyphicon-arrow-left"></i> Back to
                     list</a></p>
@@ -11,14 +11,13 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <h4>Fly wihtout life, and we won’t control a species. Ancient starlight travels lead to the collision
-                course.</h4>
+            <h4><?php echo htmlspecialchars($data['subject']) ?></h4>
         </div>
     </div>
     <div class="row body">
         <div class="col-md-8">
 
-            <?php if(!empty($v['images'])) : ?>
+            <?php if(!empty($data['images'])) : ?>
             <div class="post-thumbnail thumbnail">
                 <a href="<?= htmlspecialchars($data['images'][0]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][0]['id']) ?>">
                     <img src="<?= htmlspecialchars($data['images'][0]['imageName']) ?>" alt="slider1" class="img-responsive"/>
@@ -26,20 +25,23 @@
 
                 <div class="photo-amount"><?= htmlspecialchars(count($data['images'])) ?> photo</div>
             </div>
+
+                <div class="hidden">
+                    <?php for( $i = 1 ; $i < count($data['images']); $i++) : ?>
+                        <a href="<?= htmlspecialchars($data['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][$i]['id']) ?>"></a>
+                    <?php endfor; ?>
+                </div>
+
             <?php endif; ?>
 
-            <div class="hidden">
-                <?php for( $i = 1 ; $i < count($data['images']); $i++) : ?>
-                <a href="<?= htmlspecialchars($data['images'][$i]['imageName']) ?>" data-lightbox="image-1" data-title="My caption" id="<?= htmlspecialchars($data['images'][$i]['id']) ?>"></a>
-                <?php endfor; ?>
-            </div>
+
 
             <p class="description">
                 <?php echo htmlspecialchars($data['description']) ?>
             </p>
         </div>
         <div class="col-md-4">
-            <div class="price"><h3><?php echo htmlspecialchars($data['price']) ?>$</h3></div>
+            <div class="price"><h3>$<?php echo htmlspecialchars($data['price']) ?></h3></div>
             <div class="author">
                 <p>CONTACT THE AUTHOR OF THE ADVERTISEMENT</p>
 
