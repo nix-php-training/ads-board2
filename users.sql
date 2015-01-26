@@ -1,3 +1,4 @@
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -24,8 +25,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email`       VARCHAR(255) NOT NULL,
   `password`    VARCHAR(64)  NOT NULL,
   `confirmDate` DATETIME,
-  `statusId`    BIGINT       NOT NULL,
-  `roleId`      BIGINT       NOT NULL,
+  `statusId`    TINYINT(1)   NOT NULL,
+  `roleId`      TINYINT(1)   NOT NULL,
   `hash`        VARCHAR(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`, `email`)
@@ -35,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   AUTO_INCREMENT =1;
 
 CREATE TABLE IF NOT EXISTS `statuses` (
-  `id`   BIGINT      NOT NULL AUTO_INCREMENT,
+  `id`   TINYINT(1)  NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`id`)
 )
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `statuses` (
   AUTO_INCREMENT =1;
 
 CREATE TABLE IF NOT EXISTS `roles` (
-  `id`   BIGINT      NOT NULL AUTO_INCREMENT,
+  `id`   TINYINT(1)  NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`id`)
 )
@@ -54,9 +55,8 @@ CREATE TABLE IF NOT EXISTS `roles` (
 
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id`        BIGINT NOT NULL AUTO_INCREMENT,
-  `firstname` VARCHAR(32),
-  `lastname`  VARCHAR(32),
-  `birthdate` DATE,
+  `fullName` VARCHAR(32),
+  `birthday` DATE DEFAULT '0000-00-00',
   `phone`     VARCHAR(32),
   `skype`     VARCHAR(16),
   `userId`    BIGINT NOT NULL,
@@ -221,14 +221,14 @@ INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
 #   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
 
 INSERT INTO `plans` (`name`, `price`, `term`, `posts`)
-VALUES ('free', '0,0', 'month', '1'), ('pro', '99.99', 'month', '1000'), ('business', '199.99', 'month', '-1');
+VALUES ('free', '0.0', 'month', '1'), ('pro', '99.99', 'month', '1000'), ('business', '199.99', 'month', '-1');
 
 /*Data for the table `profiles` */
 
-INSERT INTO `profiles` (`id`, `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`)
-VALUES (1, 'Vasiliy', 'Lee', '2000-01-21', '+380505556677', 'Lee', 1),
-  (4, 'Vladimir', 'Den', '2015-01-19', '+80501112233', 'Denchik', 2),
-  (7, 'Nikolay', 'Popov', '2008-01-11', '+380679998877', 'PopovN', 3);
+INSERT INTO `profiles` (`id`, `fullName`, `birthday`, `phone`, `skype`, `userId`)
+VALUES (1, 'Vasiliy Lee', '2000-01-21', '+380505556677', 'Lee', 1),
+  (4, 'Vladimir Den', '2015-01-19', '+80501112233', 'Denchik', 2),
+  (7, 'Nikolay Popov', '2008-01-11', '+380679998877', 'PopovN', 3);
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;

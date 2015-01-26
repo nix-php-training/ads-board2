@@ -20,6 +20,7 @@ class Model
     {
         $cutRule = [];
         foreach ($field as $k => $v) {
+            if (isset($rules[$k]))
             $cutRule[$k] = $rules[$k];
         }
         return $cutRule;
