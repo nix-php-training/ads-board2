@@ -296,9 +296,9 @@ class User extends Model
         $this->db->query("UPDATE currentPlan SET endDate = NULL, adsCounter = {$adsTotal}, price = {$price}, planId = {$planId}, userId = {$userId} WHERE userId = {$userId}");
     }
 
-    function adsCounter($adsCheck)
+    function adsCounter($adsCounter)
     {
-        if($adsCheck) {
+        if($adsCounter > 0) {
             $userId = $this->getIdByHash();
             $this->db->query("UPDATE currentPlan SET adsCounter = adsCounter - 1 WHERE userId = {$userId}");
         }
@@ -308,10 +308,7 @@ class User extends Model
     {
         $userId = $this->getIdByHash();
         $adsCounter = $this->db->fetchOne('currentPlan','adsCounter',['userId' => $userId]);
-        if ($adsCounter == 0) {
-            return false;
-        }
-        return true;
+        return $adsCounter;
     }
 
 
