@@ -336,6 +336,8 @@ class UserController extends BaseController
         if ($this->getModel()->checkStatus($link)) {
             header("Location: " . Config::get('site')['host'] . 'user/login');
         } else {
+            $profile = new Profile();
+            $profile->addProfile($link);
             $this->getModel()->changeStatus($link);
             $this->getModel()->getFreePlan($link);
             $this->view('content/confirm');

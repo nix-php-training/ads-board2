@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id`        BIGINT NOT NULL AUTO_INCREMENT,
   `fullName` VARCHAR(32),
-  `birthdate` DATE DEFAULT '0000-00-00',
+  `birthday` DATE DEFAULT '0000-00-00',
   `phone`     VARCHAR(32),
   `skype`     VARCHAR(16),
   `userId`    BIGINT NOT NULL,
@@ -225,10 +225,10 @@ VALUES ('free', '0.0', 'month', '1'), ('pro', '99.99', 'month', '1000'), ('busin
 
 /*Data for the table `profiles` */
 
-INSERT INTO `profiles` (`id`, `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`)
-VALUES (1, 'Vasiliy', 'Lee', '2000-01-21', '+380505556677', 'Lee', 1),
-  (4, 'Vladimir', 'Den', '2015-01-19', '+80501112233', 'Denchik', 2),
-  (7, 'Nikolay', 'Popov', '2008-01-11', '+380679998877', 'PopovN', 3);
+INSERT INTO `profiles` (`id`, `fullName`, `birthday`, `phone`, `skype`, `userId`)
+VALUES (1, 'Vasiliy Lee', '2000-01-21', '+380505556677', 'Lee', 1),
+  (4, 'Vladimir Den', '2015-01-19', '+80501112233', 'Denchik', 2),
+  (7, 'Nikolay Popov', '2008-01-11', '+380679998877', 'PopovN', 3);
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;
