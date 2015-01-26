@@ -256,7 +256,7 @@ class User extends Model
 
         /*Start reset-block: resets plan to free if currentPlan.endDate expired*/
         $endDate = $this->db->fetchOne('currentPlan','endDate',['userId' => $user['id']]);//getting expiration date of plan
-        if(strtotime($endDate) < time()) {
+        if(strtotime($endDate) < time() && $endDate != NULL) {
             $this->resetPlan($user['id']);//reset to free if plan is no more available
             $endDate = 'Termless';
         }

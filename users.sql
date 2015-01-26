@@ -202,7 +202,9 @@ INSERT INTO `users` (`login`, `email`, `password`, `confirmDate`, `statusId`, `r
   ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,
    1, NULL),
   ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2,
-   2, NULL);
+   2, NULL),
+  ('admin', 'admin@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2,
+  1, NULL);
 
 INSERT INTO `categories` (`title`, `description`) VALUES
   ('Automobiles', 'Description'),
