@@ -160,18 +160,18 @@ class User extends Model
                 $error['old-password'] = 'Old password password is not correctly';
             }
         }
-        if (isset($input)){
+        if (isset($input)) {
             $rules = $this->getCutRules($input, $this->rules);
             $validate = $this->validator->validate($input, $rules);
         }
 
-        if ($validate!==true){
+        if ($validate !== true) {
             $error = array_merge_recursive($error, $validate);
         }
-        if (empty($error) && !empty($input)){
-            $this->db->update($this->table, $input, ['id'=> $user['id']]);
+        if (empty($error) && !empty($input)) {
+            $this->db->update($this->table, $input, ['id' => $user['id']]);
             return true;
-        } elseif (empty($error)){
+        } elseif (empty($error)) {
             return true;
         } else {
             return $error;
@@ -238,19 +238,20 @@ class User extends Model
         $hash = $_COOKIE['hash'];
         $user = $this->getBy('hash', $hash);
         $this->db->query("UPDATE payments SET paymentType = 'paypal', endDate = DATE_ADD(NOW(), INTERVAL 1 MONTH ), price = '{$price}', planId = '{$planId}' WHERE userId = {$user['id']}");
-        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);
+        $endDate = $this->db->fetchOne('payments', 'endDate', ['userId' => $user['id']]);
         $this->db->query("INSERT INTO operations(date,paymentType,planName,planCost,transactionId,userId) VALUES (DATE_ADD('{$endDate}', INTERVAL -1 MONTH),'paypal','{$planType}','{$price}','{$transactionId}',{$user['id']})");
     }
 
     function checkCurrentPlan()
     {
         $hash = $_COOKIE['hash'];
-        $user = $this->getBy('hash',$hash);
-        $currentPlan = $this->db->fetchOne('payments','planId',['userId' => $user['id']]);
+        $user = $this->getBy('hash', $hash);
+        $currentPlan = $this->db->fetchOne('payments', 'planId', ['userId' => $user['id']]);
 
         /*Start reset-block: resets plan to free if payments.endDate expired*/
-        $endDate = $this->db->fetchOne('payments','endDate',['userId' => $user['id']]);//getting expiration date of plan
-        if(strtotime($endDate) < time()) {
+        $endDate = $this->db->fetchOne('payments', 'endDate',
+            ['userId' => $user['id']]);//getting expiration date of plan
+        if (strtotime($endDate) < time()) {
             $this->resetPlan($user['id']);//reset to free if plan is no more available
             $endDate = 'Termless';
         }
@@ -259,17 +260,26 @@ class User extends Model
         $disableFree = '';
         $disableBusiness = '';
         $disablePro = '';
-        switch($currentPlan) {
+        switch ($currentPlan) {
             case '1':
-                $disableFree = 'disabled';break;
+                $disableFree = 'disabled';
+                break;
             case '2';
-                $disablePro = 'disabled';break;
+                $disablePro = 'disabled';
+                break;
             case '3':
-                $disableBusiness = 'disabled';break;
+                $disableBusiness = 'disabled';
+                break;
         }
-        $currentPlan = $this->db->fetchOne('plans','name',['id' => $currentPlan]);
+        $currentPlan = $this->db->fetchOne('plans', 'name', ['id' => $currentPlan]);
         $currentPlan = strtoupper($currentPlan);
-        $planData = ['currentPlan' => $currentPlan, 'disableFree' => $disableFree, 'disablePro' =>  $disablePro, 'disableBusiness' => $disableBusiness, 'endDate' => $endDate];
+        $planData = [
+            'currentPlan' => $currentPlan,
+            'disableFree' => $disableFree,
+            'disablePro' => $disablePro,
+            'disableBusiness' => $disableBusiness,
+            'endDate' => $endDate
+        ];
         return $planData;
     }
 
@@ -328,5 +338,77 @@ FROM users
     {
         $password = password_hash($password, PASSWORD_DEFAULT);
         $this->db->update($this->table, ['password' => $password], ['id' => $id]);
+    }
+
+    /**
+     * Checks if user exist
+     *
+     * @param $email
+     * @return bool
+     */
+    public function isUserExist($email)
+    {
+        if ($this->getBy('email', $email)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Create or update restore info
+     *
+     * @param $email
+     * @param $newPassword
+     * @param $link
+     * @throws DatabaseErrorException
+     */
+    public function saveRestoreInfo($email, $newPassword, $link)
+    {
+        $userId = $this->db->query("SELECT id FROM users WHERE email='{$email}'")->fetch(PDO::FETCH_ASSOC)['id'];
+        $infoExist = $this->getRestoreInfoByUserId($userId);
+
+        try {
+            if ($infoExist) { // if info exist just update
+                $this->db->query("UPDATE restoreLinks SET link = '{$link}', newPassword = '{$newPassword}' WHERE userId='{$infoExist['userId']}'");
+
+            } else { // else create new row
+                $this->db->query("INSERT INTO restoreLinks (link, newPassword, userId)
+VALUES ('{$link}', '{$newPassword}', '{$userId}')");
+            }
+        } catch (PDOException $e) {
+            throw new DatabaseErrorException();
+        }
+    }
+
+    /**
+     * Delete restore info
+     *
+     * @param $id
+     */
+    public function deleteRestoreInfo($id)
+    {
+        $this->db->delete('restoreLinks', ['id' => $id]);
+    }
+
+    /**
+     * Retrieve restore info (id, userId, newPassword) by userId
+     *
+     * @param $userId
+     * @return array
+     */
+    public function getRestoreInfoByUserId($userId)
+    {
+        return $this->db->query("SELECT id, userId, newPassword FROM restoreLinks WHERE userId='{$userId}'")->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Retrieve restore info (id, userId, newPassword) by link
+     *
+     * @param $link
+     * @return array
+     */
+    public function getRestoreInfoByLink($link)
+    {
+        return $this->db->query("SELECT id, userId, newPassword FROM restoreLinks WHERE link='{$link}'")->fetch(PDO::FETCH_ASSOC);
     }
 }
