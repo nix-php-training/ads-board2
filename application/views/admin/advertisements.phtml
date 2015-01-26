@@ -41,7 +41,11 @@
             </td>
 
             <td>
-                <h2><a href="/postlist">{{row.category}}</a></h2>
+<!--                <h2><a href="/postlist">{{row.category}}</a></h2>-->
+                <form action="/postlist" method="POST">
+                    <input type="hidden" name="category-name" value="{{row.category}}" />
+                    <h2><button class="as-link">{{row.category}}</button></h2>
+                </form>
             </td>
             <td>
                 <h1><a href="/postdetail/{{row.id}}">{{row.subject}}</a></h1>
