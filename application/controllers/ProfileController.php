@@ -69,7 +69,7 @@ class ProfileController extends BaseController
         'class' => 'form-control',
         'id' => 'birthday',
         'name' => 'birthday',
-        'placeholder' => 'Enter skype nickname',
+        'placeholder' => 'Enter birthday',
     ];
 
     public function profileAction()
@@ -77,13 +77,15 @@ class ProfileController extends BaseController
         $userId = $this->getParams('user');
         if ($userId) {
             $this->userId = $userId;
-        } elseif (isset($_SESSION['userId'])){
+        } elseif (isset($_SESSION['userId'])) {
             $this->userId = $_SESSION['userId'];
         } else {
             $this->redirect('/error404');
         }
         $data = $this->getModel()->getProfile($this->userId);
-        if ($data){
+        if ($data['birthday'] == 0000-00-00)
+            $data['birthday'] = '';
+        if ($data) {
             $data['login'] = $this->getModel()->db->fetchOne('users', 'login', ['id' => $this->userId]);
             $this->view('content/profile', $data);
         } else {
@@ -114,22 +116,55 @@ class ProfileController extends BaseController
         $profile = $this->getModel()->getProfile($this->userId);
         $user = $users->getBy('id', $this->userId);
 
-        $data['user'] = $user;
-        $data['profile'] = $profile;
+        $base['user'] = $user;
+        $base['profile'] = $profile;
+        if ($base['profile']['birthday'] == 0000-00-00)
+            $base['profile']['birthday'] = '';
+
+        $data = [
+            'login' => $this->getView()->generateInput($this->loginInput, $base['user']['login']),
+            'email' => $this->getView()->generateInput($this->emailInput, $base['user']['email']),
+            'old-password' => $this->getView()->generateInput($this->oldPasswordInput),
+            'new-password' => $this->getView()->generateInput($this->newPasswordInput),
+            'fullName' => $this->getView()->generateInput($this->fullNameInput, $base['profile']['fullName']),
+            'phone' => $this->getView()->generateInput($this->telInput, $base['profile']['phone']),
+            'skype' => $this->getView()->generateInput($this->skypeInput, $base['profile']['skype']),
+            'birthday' => $this->getView()->generateInput($this->birthdayInput, $base['profile']['birthday']),
+        ];
 
         if (!empty($post['user']) && !empty($post['profile'])) {
-            $validateProfile = $this->getModel()->validate($post['profile']);
+
+            if ($post['user']['login'] !== $base['user']['login'])
+                $data['login'] = $this->getView()->generateInput($this->loginInput, $post['user']['login']);
+            if ($post['user']['email'] !== $base['user']['email'])
+                $data['email'] = $this->getView()->generateInput($this->emailInput, $post['user']['email']);
+            if ($post['profile']['fullName'] !== $base['profile']['fullName'])
+                $data['fullName'] = $this->getView()->generateInput($this->fullNameInput, $post['profile']['fullName']);
+            if ($post['profile']['phone'] !== $base['profile']['phone'])
+                $data['phone'] = $this->getView()->generateInput($this->telInput, $post['profile']['phone']);
+            if ($post['profile']['skype'] !== $base['profile']['skype'])
+                $data['skype'] = $this->getView()->generateInput($this->skypeInput, $post['profile']['skype']);
+            if ($post['profile']['birthday'] !== $base['profile']['birthday'])
+                $data['birthday'] = $this->getView()->generateInput($this->birthdayInput, $post['profile']['birthday']);
+
+
+
+                $validateProfile = $this->getModel()->validate($post['profile']);
             if (empty($validateProfile)) {
                 $userSave = $users->update($post['user']);
                 if ($userSave !== true) {
-                    var_dump($this->getView()->simplifyValidate($userSave));
+                    $error = $this->getView()->errorToMessage($userSave);
+                    $data['message'] = $this->getView()->generateMessage($error, 'danger');
+                    $this->view('content/editProfile', $data);
                 } elseif ($userSave == true) {
                     $this->getModel()->update($post['profile'], $this->userId);
                     $_SESSION['saveChanges'] = true;
                     $this->redirect('/profile');
                 }
             } else {
-                var_dump($this->getView()->simplifyValidate($validateProfile));
+                $error = $this->getView()->errorToMessage($validateProfile, 'danger');
+                $data['message'] = $this->getView()->generateMessage($error, 'danger');
+                $this->view('content/editProfile', $data);
             }
         }
 
