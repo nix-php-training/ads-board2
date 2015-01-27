@@ -17,10 +17,7 @@ class Auth
                 $_SESSION['userId'] = $user['id'];
                 $_SESSION['userRole'] = $user['role'];
                 $_SESSION['userStatus'] = $user['status'];
-                Registry::set('userLogin', $user['login']);
-                Registry::set('userId', $user['id']);
-                Registry::set('userRole', $user['role']);
-                Registry::set('userStatus', $user['status']);
+                $_SESSION['userAdsCounter'] = $users->db->fetchOne('currentPlan', 'adsCounter', ['userId'=>$userId]);
             }
         }
     }

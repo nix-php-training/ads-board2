@@ -87,6 +87,13 @@ class ProfileController extends BaseController
             $data['birthday'] = '';
         if ($data) {
             $data['login'] = $this->getModel()->db->fetchOne('users', 'login', ['id' => $this->userId]);
+            $advertisement = new Advertisement();
+            $ads = $advertisement->getAdvertisementsByUser($this->userId);
+            $AdvertisementImages = new AdvertisementImages();
+            $AdvertisementImages->attachImagesToAdsList($ads);
+
+            $data['advertisements'] = $ads;
+
             $this->view('content/profile', $data);
         } else {
             $this->redirect('/error404');
