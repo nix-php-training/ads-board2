@@ -32,7 +32,7 @@ class Advertisement extends Model
     public function getAdvertisementById($id)
     {
         try {
-            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, c.title, u.login from advertisements a
+            return $this->db->query('select a.id, a.subject, a.description, a.price, a.creationDate, a.userId, c.title, u.login from advertisements a
                                   INNER JOIN categories c on a.categoryId=c.id
                                   INNER JOIN users u on a.userId=u.id
                                   WHERE a.id=' . $id)->fetchAll(PDO::FETCH_ASSOC);
@@ -75,7 +75,7 @@ class Advertisement extends Model
      *
      * @return mixed Array('id', 'subject', 'price', 'creationDate', 'userId', 'category', 'userLogin', 'link')
      */
-    public function getAds()
+    public function getAllAdvertisementsWithImages()
     {
         return $this->db->query("SELECT
   subject,
