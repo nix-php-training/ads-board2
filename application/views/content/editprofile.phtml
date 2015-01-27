@@ -7,28 +7,26 @@
         </div>
         <div class="panel-body">
 
+            <?= $data['message']; ?>
+
                 <form action="/edit" method="post">
                     <div class="form-group">
                         <label for="login">Login</label>
-                        <input type="text" class="form-control" id="login" name="login" placeholder="Enter login"
-                               value="<?= htmlspecialchars($data['user']['login'])?>">
+                        <?= $data['login']; ?>
                     </div>
                     <div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"
-                               value="<?= htmlspecialchars($data['user']['email'])?>">
+                        <?= $data['email']; ?>
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="old-password">Old password</label>
-                                <input type="password" class="form-control" id="old-password" name="old-password"
-                                       placeholder="Password">
+                                <?= $data['old-password']; ?>
                             </div>
                             <div class="col-md-6">
                                 <label for="new-password">New password</label>
-                                <input type="password" class="form-control" id="new-password" name="new-password"
-                                       placeholder="Password">
+                                <?= $data['new-password']; ?>
                             </div>
                         </div>
                     </div>
@@ -36,27 +34,23 @@
                     <hr/>
 
                     <div class="form-group">
-                        <label for="fname">First name</label>
-                        <input type="text" class="form-control" id="fname" name="firstname" placeholder="Enter first name"
-                               value="<?= htmlspecialchars($data['profile']['firstname'])?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="lname">Last name</label>
-                        <input type="text" class="form-control" id="lname" name="lastname" placeholder="Enter last name"
-                               value="<?= htmlspecialchars($data['profile']['lastname']); ?>">
+                        <label for="fname">Full Name</label>
+                        <?= $data['fullName']; ?>
                     </div>
 
                     <div class="form-group">
                         <label for="phone">Phone</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter phone number"
-                               value="<?= htmlspecialchars($data['profile']['phone'])?>">
+                        <?= $data['phone']; ?>
                     </div>
 
                     <div class="form-group">
                         <label for="skype">Skype</label>
-                        <input type="text" class="form-control" id="skype" name="skype" placeholder="Enter skype nickname"
-                               value="<?= htmlspecialchars($data['profile']['skype'])?>">
+                        <?= $data['skype']; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthday">Birthday</label>
+                        <?= $data['birthday']; ?>
                     </div>
 
                 <input type="submit" class="btn btn-iris pull-right" value="Save">

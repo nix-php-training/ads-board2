@@ -39,7 +39,17 @@ class HomeController extends BaseController
     {
         $data = array();
         $categories = $this->categoryModel->getCategoriesBy(['id', 'title']);
-        $ads = $this->advertisementModel->getAllAdvertisements();
+
+
+        if(isset($_POST['category-name']))
+        {
+            $categorySelected =  $this->categoryModel->getCategoryByTitle($_POST['category-name']);
+            $ads = $this->advertisementModel->getAdvertisementsByCategory($categorySelected[0]['id']);
+            $data['categorySelected'] = $categorySelected[0]['id'];
+
+        }else {
+            $ads = $this->advertisementModel->getAllAdvertisements();
+        }
 
         $data['categories'] = $categories;
 
