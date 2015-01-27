@@ -37,8 +37,8 @@ function createAdsDom(data) {
             imgPreview = data[i].imagesPreview[0].imageName,
             userId = data[i].userId,
             userName = data[i].login,
-            cDate = data[i].creationDate.split(' ')[0],
-            cTime = data[i].creationDate.split(' ')[1],
+            cDate = data[i].unconvertedDate.split(' ')[0],
+            cTime = data[i].unconvertedDate.split(' ')[1],
             adsId = data[i].id;
 
         var dateTime = $('<div>').attr('class', 'col-md-2 text-right date-time'),

@@ -3,6 +3,9 @@
 class Validator
 {
 
+    private $table;
+    private $db;
+
     private $errorMessage = [
         'required' => ':attribute field is required',
         'integer' => ':attribute field must be an integer',
@@ -15,7 +18,8 @@ class Validator
         'min_length' => ':attribute must be minimum :params character long',
         'exact_length' => ':attribute field must :params character long',
         'login' => ':attribute can contain only letters, numbers, hyphens (-), and underscores (_)',
-        'date' => ':attribute must be date in format YYYY-MM-DD'
+        'date' => ':attribute must be date in format YYYY-MM-DD',
+        'unique'=> ':attribute is already exists',
     ];
 
     private function getErrorMessage($error, $attribute, $params = '')
@@ -54,11 +58,13 @@ class Validator
      * $rules = ['name'=>['required', 'min_length(3)'],'age'=>['numeric']];
      * @param array $inputs
      * @param array $rules
-     * @return array|bool
+     * @param string $table
+     * @return array
      */
-    public function validate($inputs, $rules)
+    public function validate($inputs, $rules, $table)
     {
-        $errors = null;
+        $errors = [];
+
         foreach ($rules as $input => $input_rules) {
             if (is_array($input_rules)) {
                 foreach ($input_rules as $rule => $closure) {
@@ -67,12 +73,17 @@ class Validator
                     } else {
                         $input_value = $inputs[(string)$input];
                     }
-                    if (!$input_value && $this->isRequired($rules[(string)$input])) {
+                    if ($closure == 'unique') {
+                        $result = $this->validateOne($input_value, $closure, $input, $input, $table);
+                        if ($result !== true) {
+                            $errors[$input][] = $result;
+                        }
+                    } elseif (!$input_value && $this->isRequired($rules[(string)$input])) {
 
                         if (!isset($errors[$input])) {
                             $errors[$input][] = $this->getErrorMessage('required', $input);
                         }
-                    } else {
+                    } elseif ($input_value) {
                         if (is_numeric($rule)) {
                             $rule = $closure;
                         }
@@ -87,7 +98,7 @@ class Validator
                 }
             }
         }
-        return (is_array($errors) ? $errors : true);
+        return $errors;
     }
 
     /**
@@ -95,10 +106,14 @@ class Validator
      * @param string $method
      * @param string $params
      * @param string $name
+     * @param string $table
      * @return bool|string
      */
-    public function validateOne($data, $method, $params = '', $name = 'data')
+    public function validateOne($data, $method, $params = '', $name = 'data', $table = '')
     {
+        $this->table = $table;
+        $this->db = new Database();
+
         if (method_exists($this, $method) && !empty($params)) {
             $result = $this->$method($data, $params);
         } elseif (method_exists($this, $method)) {
@@ -168,9 +183,21 @@ class Validator
 
     protected function date($input)
     {
-        return preg_match('/^[\d]{4}[-/][\d]{2}[-/][\d]{2}', $input);
+        if ( preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/", $input, $date)){
+            if ( checkdate($date[2],$date[3],$date[1]) ){
+                return true;
+            } else{
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
+    protected function unique($input, $field)
+    {
+        $result = $this->db->fetchOne($this->table, $field, [$field => $input]);
+        return $result ? false : true;
+    }
 
-
-} 
+}

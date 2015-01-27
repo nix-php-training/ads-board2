@@ -37,6 +37,15 @@ return [
             )
         ),
 
+        'profile' => array(
+            'template' => '\/profile\/(\d+)$',
+            'controller' => 'profile', //static
+            'action' => 'profile',//static
+            'params' => array(
+                'user' => '[1]'
+            )
+        ),
+
         'static' => array(
             '/home' => '/',
             '/livesearch' => '/searching/livesearch',
@@ -57,8 +66,9 @@ return [
             '/plan' => '/user/plan',
             '/postlist'=>'/home/postlist',
             '/addpost' => '/home/addpost',
-            '/imagedownload' => '/home/imagedownload',
-            '/admin' => '/admin/index'
+            '/imageupload' => '/home/imageupload',
+            '/admin' => '/admin/index',
+            '/reset' => '/user/reset',
         )
     ]
 ];
