@@ -190,10 +190,10 @@ class UserController extends BaseController
                 /* Здесь мы сохраняем ID транзакции, может пригодиться во внутреннем учете*/
                 $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
                 $_SESSION['transactionId'] = $transactionId;
+                $planType = $_SESSION['planType'];
+                $this->getModel()->changePlan($planType);
             }
         }
-        $planType = $_SESSION['planType'];
-        $this->getModel()->changePlan($planType);
         $this->view('content/success');//Отрисовуем страницу на которую прийдет пользователь в случае оплаты на Paypal
     }
 
@@ -209,33 +209,35 @@ class UserController extends BaseController
         $orderParams['PAYMENTREQUEST_0_CURRENCYCODE'] = 'USD';//валюта в трехбуквенном
         switch ($this->getParams('type')) {
             case 'pro':
+                $price = $this->getModel()->db->fetchOne('plans','price',['name' => 'pro']);
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '99.99',
+                    'PAYMENTREQUEST_0_AMT' => $price,
                     //цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '99.99'
+                    'PAYMENTREQUEST_0_ITEMAMT' => $price
                     //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
                     'L_PAYMENTREQUEST_0_NAME0' => 'PRO-plan',
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subscribe for PRO-plan on ads-board2.zone',
-                    'L_PAYMENTREQUEST_0_AMT0' => '99.99',
+                    'L_PAYMENTREQUEST_0_AMT0' => $price,
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
                 $_SESSION['planType'] = 'pro';
                 break;
             case 'business':
+                $price = $this->getModel()->db->fetchOne('plans','price',['name' => 'business']);
                 $orderParams = array(
-                    'PAYMENTREQUEST_0_AMT' => '199.9',
+                    'PAYMENTREQUEST_0_AMT' => $price,
                     //цена услуги
-                    'PAYMENTREQUEST_0_ITEMAMT' => '199.9'
+                    'PAYMENTREQUEST_0_ITEMAMT' => $price
                     //цена услуги без сопутствующих расходов, равна цене услуги если расходов нет
                 );
 
                 $item = array(//описание услуги, имя, описание, стоимость, количество
                     'L_PAYMENTREQUEST_0_NAME0' => 'BUSINESS-plan',
                     'L_PAYMENTREQUEST_0_DESC0' => 'Subscribe for BUSINESS-plan on ads-board2.zone',
-                    'L_PAYMENTREQUEST_0_AMT0' => '199.9',
+                    'L_PAYMENTREQUEST_0_AMT0' => $price,
                     'L_PAYMENTREQUEST_0_QTY0' => '1'
                 );
                 $_SESSION['planType'] = 'business';
@@ -254,16 +256,16 @@ class UserController extends BaseController
 
         if (is_array($response) && $response['ACK'] == 'Success') { // Если запрос прошел успешно
             $token = $response['TOKEN'];//получаем токен из ответа апи
+            echo "Ima here3";
             header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=' . urlencode($token));//отправляем юзверя на пейпал для проведения оплаты
         }
     }
 
     function resetAction()
     {
-        $hash = $_COOKIE['hash'];
-        $userId = $this->getModel()->getIdByHash($hash);
+        $userId = $this->getModel()->getIdByHash();
         $this->getModel()->resetPlan($userId);
-        header('Location:' . Config::get('site')['host'] . 'user/plan');
+        $this->redirect('/plan');
     }
 
     function restoreAction()

@@ -80,13 +80,13 @@ CREATE TABLE IF NOT EXISTS `advertisements` (
   DEFAULT CHARSET =utf8
   AUTO_INCREMENT =1;
 
-CREATE TABLE IF NOT EXISTS `payments` (
-  `id`          BIGINT        NOT NULL AUTO_INCREMENT,
-  `paymentType` VARCHAR(128)  NOT NULL,
-  `endDate`     DATETIME,
-  `price`       DOUBLE(10, 2) NOT NULL,
-  `planId`      BIGINT        NOT NULL,
-  `userId`      BIGINT        NOT NULL,
+CREATE TABLE IF NOT EXISTS `currentPlan` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `endDate` DATETIME,
+  `adsCounter` BIGINT,
+  `price` DOUBLE(10,2),
+  `planId` BIGINT,
+  `userId` BIGINT,
   PRIMARY KEY (`id`)
 )
   ENGINE =InnoDB
@@ -135,12 +135,12 @@ CREATE TABLE IF NOT EXISTS `confirmationLinks` (
   DEFAULT CHARSET =utf8
   AUTO_INCREMENT =1;
 
-CREATE TABLE IF NOT EXISTS `operations` (
-  `id`            BIGINT        NOT NULL AUTO_INCREMENT,
-  `date`          DATETIME,
-  `paymentType`   VARCHAR(128)  NOT NULL,
-  `planName`      VARCHAR(128)  NOT NULL,
-  `planCost`      DOUBLE(10, 2) NOT NULL,
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `date` DATETIME ,
+  `paymentType` VARCHAR(128) NOT NULL ,
+  `planName` VARCHAR(128) NOT NULL ,
+  `planCost` DOUBLE(10,2) NOT NULL ,
   `transactionId` VARCHAR(128)  NOT NULL,
   `userId`        BIGINT        NOT NULL,
   PRIMARY KEY (`id`)
@@ -175,19 +175,16 @@ CREATE OR REPLACE VIEW catalog AS
     JOIN advertisementsImages ON advertisements.id = advertisementsImages.advertisementId
   GROUP BY id;
 
-ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users (id);
-ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users (id);
-ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories (id);
-ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_users` FOREIGN KEY (userId) REFERENCES users (id);
-ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_plans` FOREIGN KEY (planId) REFERENCES plans (id);
-ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY (advertisementId) REFERENCES advertisements (id)
-  ON DELETE CASCADE;
-ALTER TABLE `users` ADD CONSTRAINT `fk_users_statuses` FOREIGN KEY (statusId) REFERENCES statuses (id);
-ALTER TABLE `users` ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (roleId) REFERENCES roles (id);
-ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users (id)
-  ON DELETE CASCADE;
-ALTER TABLE `operations` ADD CONSTRAINT `fk_operations_users` FOREIGN KEY (userId) REFERENCES users (id)
-  ON DELETE CASCADE;
+ALTER TABLE `profiles` ADD CONSTRAINT `fk_profiles_users` FOREIGN KEY (userId) REFERENCES users(id);
+ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_users` FOREIGN KEY (userId) REFERENCES users(id);
+ALTER TABLE `advertisements` ADD CONSTRAINT `fk_advertisements_categories` FOREIGN KEY (categoryId) REFERENCES categories(id);
+ALTER TABLE `currentPlan` ADD CONSTRAINT `fk_currentPlan_users` FOREIGN KEY (userId) REFERENCES users(id);
+ALTER TABLE `currentPlan` ADD CONSTRAINT `fk_currentPlan_plans` FOREIGN KEY (planId) REFERENCES plans(id);
+ALTER TABLE `advertisementsImages` ADD CONSTRAINT `fk_adsImages_ads` FOREIGN KEY (advertisementId) REFERENCES advertisements(id) ON DELETE CASCADE;
+ALTER TABLE `users` ADD CONSTRAINT `fk_users_statuses` FOREIGN KEY (statusId) REFERENCES statuses(id);
+ALTER TABLE `users` ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (roleId) REFERENCES roles(id);
+ALTER TABLE `confirmationLinks` ADD CONSTRAINT `fk_confLinks_users` FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_users` FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
 
 
 INSERT INTO `roles` (`name`) VALUES
@@ -205,7 +202,9 @@ INSERT INTO `users` (`login`, `email`, `password`, `confirmDate`, `statusId`, `r
   ('Vova', 'vova@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 1,
    1, NULL),
   ('Kolya', 'kolya@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2,
-   2, NULL);
+   2, NULL),
+  ('admin', 'admin@gmail.com', '$2y$10$ppdxfhYHhdnvAeti02XQOep8YrvlucbZnlpIyA36/gQUB2ocyYIRm', '0000-00-00 00:00:00', 2,
+  1, NULL);
 
 INSERT INTO `categories` (`title`, `description`) VALUES
   ('Automobiles', 'Description'),
@@ -220,8 +219,7 @@ INSERT INTO `confirmationLinks` (`link`, `userId`) VALUES
 # INSERT INTO `profiles` ( `firstname`, `lastname`, `birthdate`, `phone`, `skype`, `userId`,) VALUES
 #   ('vasya','ivanov,','0000-00-00 00:00:00','123456',null,1);
 
-INSERT INTO `plans` (`name`, `price`, `term`, `posts`)
-VALUES ('free', '0.0', 'month', '1'), ('pro', '99.99', 'month', '1000'), ('business', '199.99', 'month', '-1');
+INSERT INTO `plans` (`name`, `price`, `term` , `posts`) VALUES ('free','0.0','month','1'),('pro','99.99','month','1000'),('business','199.99','month','-1');
 
 /*Data for the table `profiles` */
 
