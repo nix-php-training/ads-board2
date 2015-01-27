@@ -71,7 +71,7 @@ class AdvertisementImages extends Model
             //get images from DB
             $imagesArray = $this->getImagesByAdsId($advertisement['id']);
 
-            if (!is_null($imagesArray)) {
+            if (!is_null($imagesArray) && !empty($imagesArray)) {
                 $advertisement['images'] = $this->createImagePath($imagesArray);
                 $advertisement['imagesPreview'] = $this->createPreviewImagePath($imagesArray);
             } else {
@@ -108,8 +108,9 @@ class AdvertisementImages extends Model
     public function createImagePath($images)
     {
         $path = Config::get('site');
-        $userId = explode('_', $images[0]['imageName'])[1];
-        $adsId = explode('_', $images[0]['imageName'])[2];
+        $explodeArr = explode('_', $images[0]['imageName']);
+        $userId = $explodeArr[1];
+        $adsId = $explodeArr[2];
         foreach ($images as &$image) {
             $imageTemp = $path['imageLink'] . $userId . '/' . $adsId . '/' . $image['imageName'];
             $image['imageName'] = $imageTemp;
