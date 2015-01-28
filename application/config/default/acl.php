@@ -10,7 +10,8 @@ return [
             'postdetail' => ['all'],
             'addpost' => ['user', 'admin'],
             'imageupload' => ['user', 'admin'],
-            'adsload' => ['all']
+            'adsload' => ['all'],
+            'contact' => ['all']
         ],
         'user' => [
             'login' => ['all'],

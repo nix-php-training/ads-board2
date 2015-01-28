@@ -52,30 +52,30 @@
             <div class="modal-body">
                 <p>Feel free to contact us for any issues you might have with our service.</p>
 
-                <form>
+                <form class="contact">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-xs-6">
                                 <label for="message-username">Name</label>
-                                <input type="text" id="message-username" required class="form-control"
+                                <input type="text" id="message-username" name="name" required class="form-control"
                                        placeholder="Name">
                             </div>
                             <div class="col-xs-6">
                                 <label for="message-email">Email</label>
-                                <input type="email" id="message-email" required class="form-control"
+                                <input type="email" id="message-email" name="email" required class="form-control"
                                        placeholder="Email">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="control-label">Message:</label>
-                        <textarea class="form-control" id="message-text" required rows="5"></textarea>
+                        <textarea class="form-control" id="message-text" name="message" required rows="5"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send</button>
+                <button type="button" class="btn btn-primary" id="submitContact">Send</button>
             </div>
         </div>
     </div>
