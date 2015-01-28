@@ -1,0 +1,179 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <?php echo $this->headTitle('ADS BOARD')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?php echo $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <!-- Le styles -->
+
+    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        ->prependStylesheet($this->basePath() . '/css/style.css')
+        ->prependStylesheet($this->basePath() . '/css/bootflat.css')
+        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+        ->prependStylesheet($this->basePath() . '/css/component.css')
+        ->prependStylesheet($this->basePath() . '/css/dropzone.css')
+        ->prependStylesheet($this->basePath() . '/css/lightbox.css')
+        ->prependStylesheet($this->basePath() . '/css/slick.css') ?>
+
+    <link
+        href='http://fonts.googleapis.com/css?family=Exo+2:400,300,300italic,400italic,700,700italic&subset=latin,cyrillic'
+        rel='stylesheet' type='text/css'>
+
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css" rel="stylesheet"
+          type="text/css"/>
+
+
+    <!-- Scripts -->
+
+    <?php echo $this->headScript()
+        ->prependFile($this->basePath() . '/js/livesearch.js')
+        ->prependFile($this->basePath() . '/js/resetPlan.js')
+        ->prependFile($this->basePath() . '/js/tools.js')
+        ->prependFile($this->basePath() . '/js/constants.js')
+        ->prependFile($this->basePath() . '/js/highlight.js')
+        ->prependFile($this->basePath() . '/js/goToTop.js')
+        ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+        ->prependFile($this->basePath() . '/js/jquery.min.js')
+        ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+        ->prependFile($this->basePath() . '/js/html5shiv.js', 'text/javascript', array('conditional' => 'lt IE 9',)); ?>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+
+</head>
+<body>
+
+<div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="contactUsLabel" aria-hidden="true"
+     data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&Cross;</span></button>
+                <h4 class="modal-title" id="contactUsLabel">Contact form</h4>
+            </div>
+            <div class="modal-body">
+                <p>Feel free to contact us for any issues you might have with our service.</p>
+
+                <form>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label for="message-username">Name</label>
+                                <input type="text" id="message-username" required class="form-control"
+                                       placeholder="Name">
+                            </div>
+                            <div class="col-xs-6">
+                                <label for="message-email">Email</label>
+                                <input type="email" id="message-email" required class="form-control"
+                                       placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Message:</label>
+                        <textarea class="form-control" id="message-text" required rows="5"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<header>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?= $this->url('home') ?>">ADS BOARD</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+
+                <!-- Search form-->
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group search-only">
+                        <i class="search-icon glyphicon glyphicon-search"></i>
+                        <input type="text" autocomplete="off" id="search" class="form-control search-query"
+                               placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-info" data-type="last" id="do-search">Search</button>
+                    <ul class="media-list" id="search-result"></ul>
+                </form>
+                <!-- Search form end-->
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/postlist"><i class="glyphicon glyphicon-eye-open"></i> Watch ads</a></li>
+                    <?php if ($_SESSION['userRole'] === 'guest') { ?>
+                        <li class="btn btn-xs btn-primary"><a href="/registration"><i class="icon-user-add"></i> Sing up</a>
+                        </li>
+                        <li class="btn btn-xs btn-success"><a href="/login"><i class="icon-sign-in"></i> Sing in</a>
+                        </li>
+                    <?php } else { ?>
+                        <li><a href="/addpost"><i class="glyphicon glyphicon-plus-sign"></i> Create new ads <span
+                                    class="badge">1</span></a></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                                aria-expanded="false"><?= $_SESSION["userLogin"] ?><span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/profile"><i class="icon-widget"></i> Profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/plan"><i class="glyphicon glyphicon-credit-card"><span
+                                                class="test-margin">Payments</span></i></a>
+                                <li class="divider"></li>
+                                <li><a href="/logout"><i class="icon-sign-out"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main role="main" class="container" id="home">
+
+    <?php echo $this->content; ?>
+
+</main>
+
+
+<footer>
+    <div class="container">
+        <p class="pull-left">Copyright&nbsp;&copy;&nbsp;
+            <?= date('Y') ?>
+            Ads Board. All rights reserved.
+        </p>
+
+        <p class="pull-right">
+            <a href="<?= $this->url('home') ?>">Home</a>&emsp;
+            <a href="/about">About</a>&emsp;
+            <a href="/home/pricing">Pricing</a>&emsp;
+            <a href="/terms">Terms</a>&emsp;
+            <a href="#" data-toggle="modal" data-target="#contactUs">Contact us</a>
+        </p>
+    </div>
+</footer>
+<div id="top-link">
+    <a href="#top"><span id="topicon"></span></a>
+</div>
+
+<!-- /container -->
+
+</body>
+</html>

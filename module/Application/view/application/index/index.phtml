@@ -1,0 +1,82 @@
+<div class="margin-rl7">
+
+    <div class="col-md-3">
+        <img src="<?= $this->basePath('img/ads-logo.svg') ?>" alt="Logo" class="logo"/>
+    </div>
+    <div class="col-md-9">
+        <div class="hello">
+            <div><h1>Sell smarter,<br/>not harder</h1></div>
+            <div><h1>Just sell it!</h1></div>
+            <div><h1>Sell different</h1></div>
+            <div><h1>Sells like a dream</h1></div>
+            <div><h1>Pss..., need some advertisements?</h1></div>
+            <div><h1>Sell 'em all!</h1></div>
+            <div><h1>The king of selling</h1></div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <h3>Recent posts</h3>
+
+    <h3><?= $data['message'] ?></h3>
+</div>
+
+<ul class="grid effect-1" id="grid">
+    <?php foreach ($data['resentAds'] as $v) : ?>
+        <!--Element start-->
+        <li>
+            <div class="item">
+                <?php if (!empty($v['images'])) : ?>
+                    <a href="<?= htmlspecialchars($v['images'][0]['imageName']) ?>"
+                       data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>"
+                       data-title="<?php echo htmlspecialchars($v['subject']) ?>"
+                       id="<?= htmlspecialchars($v['images'][0]['id']) ?>">
+                        <img src="<?= htmlspecialchars($v['imagesPreview'][0]['imageName']) ?>"
+                             alt="img<?php echo htmlspecialchars($v['id']) ?>" class="thumbnail img-responsive"/>
+                    </a>
+                    <div class="hidden">
+                        <?php for ($i = 1; $i < count($v['images']); $i++) : ?>
+                            <a href="<?= htmlspecialchars($v['images'][$i]['imageName']) ?>"
+                               data-lightbox="image-<?php echo htmlspecialchars($v['id']) ?>"
+                               data-title="<?php echo htmlspecialchars($v['subject']) ?>"
+                               id="<?= htmlspecialchars($v['images'][$i]['id']) ?>"></a>
+                        <?php endfor; ?>
+                    </div>
+                <?php endif; ?>
+
+                <h1><?= htmlspecialchars($v['subject']) ?></h1>
+
+                <div id="textbox">
+                    <p class="pull-left"><?= date("Y-m-d H:i:s", $v['creationDate']) ?></p>
+
+                    <p class="pull-right"><a href="/postdetail/<?= htmlspecialchars($v['id']) ?>">See more <span
+                                class="glyphicon glyphicon-open"></span></a>
+                    </p>
+                </div>
+            </div>
+        </li>
+        <!--Element end-->
+    <?php endforeach; ?>
+
+</ul>
+
+<!-- Need for tiles start-->
+<?php echo $this->inlineScript()
+    ->prependFile($this->basePath() . '/js/classie.js')
+    ->prependFile($this->basePath() . '/js/lightbox.min.js')
+    ->prependFile($this->basePath() . '/js/textCarousel.js')
+    ->prependFile($this->basePath() . '/js/slick.min.js')
+    ->prependFile($this->basePath() . '/js/AnimOnScroll.js')
+    ->prependFile($this->basePath() . '/js/imagesloaded.js')
+    ->prependFile($this->basePath() . '/js/modernizr.custom.js')
+    ->prependFile($this->basePath() . '/js/masonry.pkgd.min.js') ?>
+
+<!--<script>-->
+<!--    new AnimOnScroll(document.getElementById('grid'), {-->
+<!--        minDuration: 0.4,-->
+<!--        maxDuration: 0.7,-->
+<!--        viewportFactor: 0.2-->
+<!--    });-->
+<!--</script>-->
+<!-- Need for tiles start-->

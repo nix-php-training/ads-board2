@@ -1,0 +1,589 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+
+    font-family: 'Exo 2';
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 50px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 50px;
+    background-color: #707C8D;
+    padding: 1%;
+}
+
+.admin-footer {
+    background-color: #264348;
+}
+
+.st-sort-descent:before {
+    content: '▴ ';
+}
+
+.st-sort-ascent:before {
+    content: '▾ ';
+}
+
+a:link, a:visited {
+    color: #656D78;
+}
+
+a:hover, a:active {
+    color: #434A54;
+}
+
+footer a:link, footer a:visited {
+    color: #FFFCF3;
+}
+
+footer a:hover, footer a:active {
+    color: #FCF5DC;
+}
+
+footer p {
+    color: #FFFCF3;
+}
+
+nav a {
+    color: #ffffff !important;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 2%;
+    padding-top: 0;
+}
+
+input[type=submit] {
+    width: 20%;
+}
+
+@media (max-width: 992px) {
+    #top-link {
+        visibility: hidden;
+    }
+}
+
+#top-link {
+    cursor: pointer;
+    display: none;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    padding: 0;
+    z-index: 1;
+}
+
+#top-link:hover {
+    background: rgba(70, 77, 88, 0.2);
+}
+
+#top-link a {
+    display: block;
+    width: 45px; /* Width of image */
+    height: 45px; /* Height of image */
+    background: url('../img/top.png') no-repeat;
+    background-size: cover;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70); /* IE 5.5+*/
+    -moz-opacity: 0.5; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 0.5; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 0.5; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
+}
+
+#top-link:hover a {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100); /* IE 5.5+*/
+    -moz-opacity: 1; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 1; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 1; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
+}
+
+.hello {
+    padding: 8%;
+    text-align: center;
+}
+
+.hello h1 {
+    margin-top: 1%;
+    font-size: 4.5em;
+}
+
+.icheckbox_flat {
+    vertical-align: top;
+}
+
+.center-block img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    margin: 10% auto;
+    z-index: 1;
+}
+
+.error-img img {
+    margin: 5% auto !important;
+}
+
+.error-text {
+    font-size: 1.5em;
+}
+
+.about-img {
+    width: 20%;
+    float: left;
+    margin: 2% 2% 2% 0;
+}
+
+.panel-text-right {
+    display: inline-block;
+    float: right;
+}
+
+.panel-text-right a:link, .panel-text-right a:visited {
+    color: #FFFCF3;
+}
+
+.panel-text-right a:hover, .panel-text-right a:active {
+    color: #FCF5DC;
+}
+
+/* Ads style
+-------------------------------------------------- */
+
+#grid {
+    color: #FFFCF3;
+}
+
+img.logo {
+    width: 100%;
+}
+
+#home .item {
+    padding: 5% 5% 10% 5%;
+    background-color: #707C8D;
+}
+
+#home .item img {
+    width: 100%;
+}
+
+#home .item a:link, #home .item a:visited {
+    color: #FFFCF3;
+}
+
+#home .item a:hover, #home .item a:active {
+    color: #FCF5DC;
+}
+
+#home .item h1 {
+    font-size: 1.5em;
+}
+
+.margin-rl7 {
+    margin-right: 7px;
+    margin-left: 7px;
+}
+
+.margin-t7p {
+    margin-top: 7%;
+}
+
+.panel-wrap {
+    width: 60%;
+}
+
+@media screen and (max-width: 900px) {
+    .panel-wrap {
+        width: 100%;
+    }
+}
+
+#ad-list tr {
+    background-color: #EEEEEE;
+    margin-bottom: 10%;
+}
+
+td.ad-date {
+    vertical-align: middle;
+}
+
+.ad-img img {
+    width: 100%;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+/* No padding
+-------------------------------------------------- */
+
+.no-padding-all {
+    padding: 0;
+}
+
+.no-padding-rl {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.no-padding-l {
+    padding-left: 0;
+}
+
+.no-padding-r {
+    padding-right: 0;
+}
+
+.no-padding-tb {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.no-padding-t {
+    padding-top: 0;
+}
+
+.no-padding-b {
+    padding-bottom: 0;
+}
+
+/* No margin
+-------------------------------------------------- */
+
+.no-margin-all {
+    margin: 0;
+}
+
+.no-margin-rl {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.no-margin-tb {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.no-margin-t {
+    margin-top: 0;
+}
+
+.no-margin-b {
+    margin-bottom: 0;
+}
+
+/* Fontastic
+-------------------------------------------------- */
+
+@charset "UTF-8";
+
+@font-face {
+    font-family: "my-font";
+    src: url("../fonts/my-font.eot");
+    src: url("../fonts/my-font.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/my-font.woff") format("woff"),
+    url("../fonts/my-font.ttf") format("truetype"),
+    url("../fonts/my-font.svg#my-font") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+[data-icon]:before {
+    font-family: "my-font" !important;
+    content: attr(data-icon);
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: "my-font" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sign-in:before {
+    content: "d";
+}
+
+.icon-sign-out:before {
+    content: "i";
+}
+
+.icon-user-add:before {
+    content: "q";
+}
+
+.icon-widget:before {
+    content: "a";
+}
+
+.icon-skype:before {
+    content: "b";
+}
+
+/* Plan table styles
+-------------------------------------------------- */
+
+table#plans {
+    width: 100%;
+}
+
+table#plans td, th {
+    width: 33%;
+    text-align: center;
+}
+
+/* Post-list
+-------------------------------------------------- */
+
+.posts :last-child {
+    margin-bottom: 3%;
+}
+
+.post-list {
+    margin-top: 3%;
+    padding: 15px;
+    background-color: #D2D7D3;
+}
+
+.post-list img {
+    width: 150px;
+}
+
+.post-list a:link, .post-list a:visited {
+    color: #656D78;
+}
+
+.post-list a:hover, .post-list a:active {
+    color: #434A54;
+}
+
+.post-list h1 {
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.post-list h2 {
+    margin-top: 0;
+    font-size: 1.3em;
+}
+
+.post-list .as-link {
+    border: 0;
+    background: none;
+    text-align: left;
+}
+
+
+/* Post-detail
+-------------------------------------------------- */
+
+.post-detail {
+    /*background-color: #D2D7D3;*/
+}
+
+.post-detail .price {
+    width: 100%;
+    background-color: #F9690E;
+    color: white;
+    padding: 2%;
+    text-align: center;
+}
+
+.post-detail .body {
+    margin-top: 3%;
+}
+
+.post-detail .description {
+    margin: 3% 0 7% 0;
+}
+
+.post-detail .author {
+    padding: 5%;
+}
+
+.post-detail .photo-amount {
+    z-index: 9999;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #F9690E;
+    color: white;
+    padding: 1% 2%;
+    text-align: center;
+}
+
+.post-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.post-thumbnail img {
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    height: 100%;
+    width: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+/* Post add
+-------------------------------------------------- */
+
+.post-add {
+
+}
+
+/* Edit profile
+-------------------------------------------------- */
+.edit-profile {
+
+}
+
+.edit-profile .panel-heading {
+    background-color: #763568;
+    border-bottom: 1px solid #763568;
+}
+
+.btn-iris, .btn-iris:active {
+    background-color: #763568;
+    border: 1px solid #763568;
+}
+
+.btn-iris:hover, .btn-iris:focus {
+    background-color: #8D608C;
+    border: 1px solid #8D608C;
+}
+
+/* Edit profile
+-------------------------------------------------- */
+
+.admin {
+    margin-bottom: 5%;
+}
+
+.admin th {
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin button {
+    width: 100%;
+    margin: 1px;
+}
+
+.admin .post-list {
+    background-color: #F9F9F9;
+
+}
+
+.admin .post-list td {
+    vertical-align: middle;
+}
+
+/* Suggestion list for search
+-------------------------------------------------- */
+
+.media-list {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    min-width: 25%;
+    padding: 5px 0;
+    margin-top: 5px;
+    background-color: #707C8D;
+    border: 1px solid #707C8D;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    color: #89C4F4;
+}
+
+.media-list .btn-default {
+    color: #434A54 !important;
+    width: 100%;
+}
+
+.media-list li {
+    padding: 0 5px;
+}
+
+.media-list li:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.media-list a {
+    display: inline-block;
+    width: 100%;
+}
+
+.media-list li.media-list-link:hover, .media-list li.media-list-link:active {
+    background-color: #8598AF;
+}
+
+.media-list img {
+    width: 50px;
+    float: left;
+    margin: 5px 5px 5px 0;
+}
+
+/*glyphicon class*/
+.test-margin {
+    margin-left:2px;
+}
+
+.highlight {
+    color: #264348;
+}
+
+span.plan-name, span.plan-end-date {
+    color: #3bafda;
+    font-style: oblique;
+}
+
+#resetdialog {
+    display: none;
+    background-color: #434A54;
+    color: #fff;
+}
+
+div.ui-widget-header {
+    background-color: #434A54 !important;
+
+}
