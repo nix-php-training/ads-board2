@@ -142,3 +142,21 @@ class RestoreEmail extends EmailSender
 <p>If you didn\'t do request for change your password, just ignore this message.</p>';
     }
 }
+
+
+/**
+ * Sends mail for form Contact us.
+ *
+ **/
+
+class SendContactEmail extends EmailSender
+{
+    public function __construct($to, $name, $email, $body)
+    {
+        parent::__construct($to);
+
+        $this->subject = 'Message from ' . $name . '. Contact Us';
+
+        $this->content = "<h2>$email</h2><p>$body</p>";
+    }
+}

@@ -52,6 +52,7 @@ return [
             '/search' => '/searching/search',
             '/terms' => '/home/terms',
             '/about' => '/home/about',
+            '/contact' => '/home/contact',
             '/login' => '/user/login',
             '/logout' => '/user/logout',
             '/profile' => '/profile/profile',
