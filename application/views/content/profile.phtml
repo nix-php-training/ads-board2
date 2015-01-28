@@ -1,10 +1,10 @@
 <div class="profile">
     <div class="row">
         <?php
-        $saveChanges = $_SESSION['saveChanges'];
-        if ($saveChanges){
-            unset ($_SESSION['saveChanges']);
-            echo '<h4 class="text-success"><ins>Save changes</ins></h4>';
+        $changesSaved = $_SESSION['$changesSaved'];
+        if ($changesSaved){
+            unset ($_SESSION['$changesSaved']);
+            echo '<h4 class="text-success"><ins>Changes saved</ins></h4>';
         }
         ?>
         <h3>

@@ -19,5 +19,26 @@ $(function() {
     $("#resetplan").click(function(){
         $("#resetdialog").dialog("open");
     });
+
     $("#birthday").datepicker({dateFormat:"yy-mm-dd"});
+
+    $("button#submitContact").click(function(){
+        $.ajax({
+            beforeSend: function(){
+                $("#contactLoading").show();
+                $("#submitContact").hide();
+            },
+            type: "POST",
+            url: "/contact",
+            data: $('form.contact').serialize(),
+            success: function(){
+                $("#contactUs").modal('hide');
+            },
+            error: function(){
+                alert("failure");
+            }
+        });
+    });
+
+
 });

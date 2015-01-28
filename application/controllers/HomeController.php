@@ -41,13 +41,12 @@ class HomeController extends BaseController
         $categories = $this->categoryModel->getCategoriesBy(['id', 'title']);
 
 
-        if(isset($_POST['category-name']))
-        {
-            $categorySelected =  $this->categoryModel->getCategoryByTitle($_POST['category-name']);
+        if (isset($_POST['category-name'])) {
+            $categorySelected = $this->categoryModel->getCategoryByTitle($_POST['category-name']);
             $ads = $this->advertisementModel->getAdvertisementsByCategory($categorySelected[0]['id']);
             $data['categorySelected'] = $categorySelected[0]['id'];
 
-        }else {
+        } else {
             $ads = $this->advertisementModel->getAllAdvertisements();
         }
 
@@ -209,5 +208,19 @@ class HomeController extends BaseController
         $extension = explode('.', $_FILES['file']['name']);
 
         move_uploaded_file($_FILES['file']['tmp_name'], $tempUserDir . '/' . microtime(true) . '.' . end($extension));
+    }
+
+
+    public function contactAction()
+    {
+        $headers = apache_request_headers();
+        if ($headers['X-Requested-With'] == 'XMLHttpRequest' && isset($_POST['name'])){
+            $name = strip_tags($_POST['name']);
+            $email = strip_tags($_POST['email']);
+            $message = strip_tags($_POST['message']);
+            $to = Config::get('site', 'emailAdmin');
+            $mailer = new SendContactEmail($to, $name, $email, $message);
+            $mailer->send();
+        } else $this->redirect('/error404');
     }
 }

@@ -165,7 +165,7 @@ class ProfileController extends BaseController
                     $this->view('content/editProfile', $data);
                 } elseif ($userSave == true) {
                     $this->getModel()->update($post['profile'], $this->userId);
-                    $_SESSION['saveChanges'] = true;
+                    $_SESSION['$changesSaved'] = true;
                     $this->redirect('/profile');
                 }
             } else {

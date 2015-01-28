@@ -563,7 +563,11 @@ table#plans td, th {
     margin: 5px 5px 5px 0;
 }
 
+
+
 /*glyphicon class*/
+
+
 .test-margin {
     margin-left:2px;
 }
@@ -586,4 +590,12 @@ span.plan-name, span.plan-end-date {
 div.ui-widget-header {
     background-color: #434A54 !important;
 
+}
+
+/* Modal Contact
+-------------------------------------------------- */
+
+#contactLoading {
+    display: none;
+    margin-left: 10px;
 }
