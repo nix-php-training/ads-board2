@@ -220,7 +220,7 @@ class HomeController extends BaseController
             $message = strip_tags($_POST['message']);
             $to = Config::get('site', 'emailAdmin');
             $mailer = new SendContactEmail($to, $name, $email, $message);
-//            $mailer->send();
+            $mailer->send();
         } else $this->redirect('/error404');
     }
 }

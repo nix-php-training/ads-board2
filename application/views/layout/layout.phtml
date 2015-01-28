@@ -76,6 +76,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="submitContact">Send</button>
+                <img id='contactLoading' src="/application/assets/img/loading.gif">
             </div>
         </div>
     </div>
@@ -117,7 +118,8 @@
                         </li>
                     <?php } else { ?>
                         <li><a href="/addpost"><i class="glyphicon glyphicon-plus-sign"></i> Create new ads <span
-                                    class="badge"><?= $_SESSION['userAdsCounter']?></span></a></li>
+                                    class="badge"><?php if ($_SESSION['userAdsCounter'] == -1) echo '&#8734;';
+                                    else echo $_SESSION['userAdsCounter']?></span></a></li>
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                                 aria-expanded="false"><?= $_SESSION["userLogin"] ?><span
                                     class="caret"></span></a>

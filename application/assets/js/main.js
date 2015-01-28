@@ -24,15 +24,21 @@ $(function() {
 
     $("button#submitContact").click(function(){
         $.ajax({
+            beforeSend: function(){
+                $("#contactLoading").show();
+                $("#submitContact").hide();
+            },
             type: "POST",
-            url: "/contact", //process to mail
+            url: "/contact",
             data: $('form.contact').serialize(),
             success: function(){
-                $("#contactUs").modal('hide'); //hide popup
+                $("#contactUs").modal('hide');
             },
             error: function(){
                 alert("failure");
             }
         });
     });
+
+
 });
