@@ -19,4 +19,5 @@ $(function() {
     $("#resetplan").click(function(){
         $("#resetdialog").dialog("open");
     });
+    $("#birthday").datepicker({dateFormat:"yy-mm-dd"});
 });

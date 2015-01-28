@@ -19,7 +19,7 @@ trait ViewHelper
             $tag .= $attr . '="' . $val . '" ';
         }
         if (!empty($value)) {
-            $tag .= 'value=' . $value;
+            $tag .= 'value=' . htmlspecialchars($value);
         }
         $tag .= ' />';
         return $tag;
@@ -39,6 +39,12 @@ trait ViewHelper
         return '<div class="alert alert-' . $type . '" role="alert">' . $text . '</div>';
     }
 
+    /**
+     * Convert validation error to string
+     *
+     * @param array $validate
+     * @return string
+     */
     public function errorToMessage($validate)
     {
         $messages='';
